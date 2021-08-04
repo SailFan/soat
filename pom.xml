@@ -72,6 +72,21 @@
         </dependency>
 
 
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.webjars/layui -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>layui</artifactId>
+            <version>2.5.6</version>
+        </dependency>
+<!--        http://127.0.0.1:8082/webjars/layui/2.5.6/css/layui.css-->
 
 
         <!--        http://localhost:8082/webjars/jquery/3.5.1/jquery.js-->
