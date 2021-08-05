@@ -36,12 +36,12 @@
                 ,page: true
                 ,cols: [[
                     {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                    ,{field: '测试集', title: '用户名', width:80}
-                    ,{field: '创建时间', title: '性别', width:80, sort: true}
-                    ,{field: '修改时间', title: '城市', width:80}
-                    ,{field: '创建人', title: '签名', width: 177}
-                    ,{field: '修改人', title: '积分', width: 80, sort: true}
-                    ,{field: 'BaseUrl', title: '评分', width: 80, sort: true}
+                    ,{field: 'name', title: '测试集', width:80}
+                    ,{field: 'createTime', title: '创建时间', width:80, sort: true}
+                    ,{field: 'updateTime', title: '修改时间', width:80}
+                    ,{field: 'creater', title: '创建人', width: 177}
+                    ,{field: 'updater', title: '修改人', width: 80, sort: true}
+                    ,{field: 'baseUrl', title: 'BaseUrl', width: 80, sort: true}
                 ]]
                 ,parseData: function(res){
                     return {
