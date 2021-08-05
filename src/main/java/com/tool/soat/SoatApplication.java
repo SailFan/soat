@@ -14,10 +14,4 @@ public class SoatApplication {
     public static void main(String[] args) {
         SpringApplication.run(SoatApplication.class, args);
     }
-
-    @PostConstruct
-    void  started(){
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
-    }
-
 }

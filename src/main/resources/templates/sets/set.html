@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/webjars/layui/2.5.6/css/layui.css"/>
+    <script type="text/javascript" src="/webjars/layui/2.5.6/layui.js"></script>
+    <script type="text/javascript" src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <script>
+        function msgfun() {
+            layui.use('layer', function(){
+                layer.open({
+                    type:1,
+                    title:"添加测试集",
+                    area: ["920px", "300px"],
+                     content: $('#select_pe_content').html(),
+                    cancel: function(){
+                        //右上角关闭回调
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                });
+            });
+        }
+    </script>
+    <div>
+        <button type="button" onclick="msgfun()">点击这个</button>
+    </div>
+    <div id="select_pe_content" style="display: none">
+        <div style="align-content: center">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">测试集合</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入测试集名称" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">BaseUrl</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入测试集URL" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

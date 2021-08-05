@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Software: IntelliJIDEA
  */
 
-//public class IndexController {
-//
-//    public String
-//}
+public class IndexController {
+
+    @RequestMapping("/")
+    public String index(){
+        return "index";
+    }
+}
