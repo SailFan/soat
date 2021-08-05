@@ -8,14 +8,15 @@
     <script type="text/javascript" src="/webjars/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <script>
+    <script type="text/javascript">
         function msgfun() {
             layui.use('layer', function(){
                 layer.open({
                     type:1,
                     title:"添加测试集",
                     area: ["920px", "300px"],
-                     content: $('#select_pe_content').html(),
+                    offset: '20%',
+                    content: $('#select_pe_content').html(),
                     cancel: function(){
                         //右上角关闭回调
                         //return false 开启该代码可禁止点击该按钮关闭
@@ -23,23 +24,62 @@
                 });
             });
         }
+        layui.use('table', function(){
+            var table = layui.table;
+            var currentPage = 1
+            var pageSize = 5
+            table.render({
+                elem: '#demo'
+                ,type: "GET"
+                ,height: 312
+                ,url:"/aggregate/setIndex"
+                ,page: true
+                ,cols: [[
+                    {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                    ,{field: '测试集', title: '用户名', width:80}
+                    ,{field: '创建时间', title: '性别', width:80, sort: true}
+                    ,{field: '修改时间', title: '城市', width:80}
+                    ,{field: '创建人', title: '签名', width: 177}
+                    ,{field: '修改人', title: '积分', width: 80, sort: true}
+                    ,{field: 'BaseUrl', title: '评分', width: 80, sort: true}
+                ]]
+                ,parseData: function(res){
+                    return {
+                        "code": res.code,
+                        "msg": res.message,
+                        "count": res.data.length,
+                        "data": res.data
+                    };
+                }
+                ,request: {
+                    pageName: 'currentPage'
+                    ,limitName: 'pageSize'
+                }
+            });
+
+        });
+
+
+
+
+
     </script>
     <div>
         <button type="button" onclick="msgfun()">点击这个</button>
     </div>
     <div id="select_pe_content" style="display: none">
-        <div style="align-content: center">
+        <div style="padding-top: 3%">
             <form class="layui-form" action="">
                 <div class="layui-form-item">
                     <label class="layui-form-label">测试集合</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入测试集名称" autocomplete="off" class="layui-input">
+                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入测试集名称" autocomplete="off" style="width:90%" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">BaseUrl</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入测试集URL" autocomplete="off" class="layui-input">
+                        <input type="text" name="title" required width="90%" lay-verify="required|url" placeholder="请输入测试集URL" autocomplete="off" class="layui-input" style="width:90%">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -50,6 +90,9 @@
                 </div>
             </form>
         </div>
+    </div>
+    <div id="set_table">
+        <table id="demo" lay-filter="test"></table>
     </div>
 </body>
 </html>

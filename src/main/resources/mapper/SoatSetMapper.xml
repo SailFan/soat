@@ -138,4 +138,11 @@
       base_url = #{baseUrl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="queryAll" resultType="com.tool.soat.entity.SoatSet">
+    SELECT * FROM soat_set LIMIT #{currentPage},#{pageSize}
+  </select>
+
+
+
 </mapper>

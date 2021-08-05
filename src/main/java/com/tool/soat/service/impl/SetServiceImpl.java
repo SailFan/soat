@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 @Service
@@ -39,5 +40,10 @@ public class SetServiceImpl implements SetService {
 
     public SoatSet querySet(Integer id){
         return soatSetMapper.selectByPrimaryKey(id);
+    }
+
+    public List<SoatSet> queryAllSet(Integer currentPage, Integer pageSize){
+        List<SoatSet> sets = soatSetMapper.queryAll(currentPage, pageSize);
+        return sets;
     }
 }
