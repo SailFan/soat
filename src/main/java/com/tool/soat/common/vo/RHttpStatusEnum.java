@@ -16,11 +16,11 @@ public enum RHttpStatusEnum {
     SET_CREATE_FAIL_CODE(201, "集合创建失败");
 
     Integer code;
-    String message;
+    String msg;
 
-    RHttpStatusEnum(Integer code, String message){
+    RHttpStatusEnum(Integer code, String msg){
         this.code=code;
-        this.message=message;
+        this.msg=msg;
     }
 
     public Integer getCode() {
@@ -28,7 +28,7 @@ public enum RHttpStatusEnum {
     }
 
     public String getMessage() {
-        return message;
+        return msg;
     }
 
 }

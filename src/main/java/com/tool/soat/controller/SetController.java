@@ -81,12 +81,17 @@ public class SetController {
 
 
     @RequestMapping(value = "/qASet", method = RequestMethod.GET)
-        public @ResponseBody R qASet(Integer currentPage, Integer pageSize){
+        public @ResponseBody HashMap<String, Object> qASet(Integer currentPage, Integer pageSize){
         try {
             List<SoatSet> sets = setService.queryAllSet(currentPage, pageSize);
-            System.out.println(sets);
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("code",0);
+            map.put("msg","查询成功");
+            map.put("count",sets.size());
+            map.put("data",sets);
 
-            return new R(RHttpStatusEnum.SUCCESS.getCode(),sets,RHttpStatusEnum.SUCCESS.getMessage());
+            return map;
+
         }catch (Exception e){
             logger.debug("11111111111111111");
             return null;

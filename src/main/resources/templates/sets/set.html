@@ -1,11 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/webjars/layui/2.5.6/css/layui.css"/>
-    <script type="text/javascript" src="/webjars/layui/2.5.6/layui.js"></script>
-    <script type="text/javascript" src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+<!--    <link rel="stylesheet" href="/webjars/layui/2.5.6/css/layui.css"/>-->
+<!--    <script type="text/javascript" src="/webjars/layui/2.5.6/layui.js"></script>-->
+<!--    <script type="text/javascript" src="/webjars/jquery/3.5.1/jquery.min.js"></script>-->
+    <link rel="stylesheet" th:href="@{/webjars/layui/2.5.6/css/layui.css}">
+    <script type="text/javascript"   th:src="@{/webjars/layui/2.5.6/layui.js}"></script>
+    <script type="text/javascript"   th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+    <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="insertData">新增测试集</button>
+            <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">修改测试集</button>
+        </div>
+    </script>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+
+    <style>
+        #set_table{
+            width: 80%;
+            height: 100%;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
     <script type="text/javascript">
@@ -31,26 +52,30 @@
             table.render({
                 elem: '#demo'
                 ,type: "GET"
-                ,height: 312
-                ,url:"/aggregate/setIndex"
+                ,height: 500
+                ,title: "测试集"
+                ,url:"/aggregate/qASet"
+                ,toolbar: '#toolbarDemo'
+                ,defaultToolbar: ['filter', 'exports', 'print', {
+                    title: '提示'
+                    ,layEvent: 'LAYTABLE_TIPS'
+                    ,icon: 'layui-icon-tips'
+                }]
                 ,page: true
-                ,cols: [[
-                    {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                    ,{field: 'name', title: '测试集', width:80}
-                    ,{field: 'createTime', title: '创建时间', width:80, sort: true}
-                    ,{field: 'updateTime', title: '修改时间', width:80}
-                    ,{field: 'creater', title: '创建人', width: 177}
-                    ,{field: 'updater', title: '修改人', width: 80, sort: true}
-                    ,{field: 'baseUrl', title: 'BaseUrl', width: 80, sort: true}
-                ]]
-                ,parseData: function(res){
-                    return {
-                        "code": res.code,
-                        "msg": res.message,
-                        "count": res.data.length,
-                        "data": res.data
-                    };
-                }
+
+                ,cols: [
+                    [
+                    {type: 'checkbox', fixed: 'left'}
+                    ,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                    ,{field: 'name', title: '测试集', width:100,edit: 'text'}
+                    ,{field: 'createTime', title: '创建时间', width:300, sort: true}
+                    ,{field: 'updateTime', title: '修改时间', width:300}
+                    ,{field: 'creater', title: '创建人', width: 100}
+                    ,{field: 'updater', title: '修改人', width: 100, sort: true}
+                    ,{field: 'baseUrl', title: 'BaseUrl', width: 500,edit: 'text'}
+                    ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150,fixed: 'right'}
+                ]
+                ]
                 ,request: {
                     pageName: 'currentPage'
                     ,limitName: 'pageSize'
@@ -60,12 +85,64 @@
         });
 
 
+        table.on('toolbar(toolbarDemo)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'insertData':
+                    $("#set_table_button").onclick("msgfun()")
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：'+ data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选': '未全选');
+                    break;
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                    break;
+            };
+        });
+        //
+        // table.on('tool(test)', function(obj){
+        //     var data = obj.data;
+        //     //console.log(obj)
+        //     if(obj.event === 'del'){
+        //         layer.confirm('真的删除行么', function(index){
+        //             obj.del();
+        //             layer.close(index);
+        //         });
+        //     } else if(obj.event === 'edit'){
+        //         layer.prompt({
+        //             formType: 2
+        //             ,value: data.email
+        //         }, function(value, index){
+        //             obj.update({
+        //                 email: value
+        //             });
+        //             layer.close(index);
+        //         });
+        //     }
+        // });
+        //
+        layui.use(['table', 'util'], function(){
+            var table = layui.table
+                ,util = layui.util;
 
+            //监听单元格编辑
+            table.on('edit(test)', function(obj){
+                var value = obj.value //得到修改后的值
+                    ,data = obj.data //得到所在行所有键值
+                    ,field = obj.field; //得到字段
+                layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改值为：'+ util.escape(value));
+            });
+        });
 
 
     </script>
     <div>
-        <button type="button" onclick="msgfun()">点击这个</button>
+        <button id="set_table_button" type="button" onclick="msgfun()">点击这个</button>
     </div>
     <div id="select_pe_content" style="display: none">
         <div style="padding-top: 3%">

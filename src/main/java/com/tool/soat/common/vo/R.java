@@ -19,22 +19,22 @@ import lombok.ToString;
 public class R {
     private Integer code;
     private Object data="";
-    private String message;
+    private String msg;
 
-    public R(Integer code, Object data, String message) {
+    public R(Integer code, Object data, String msg) {
         if (data==null){
             data="";
         }
         this.code = code;
         this.data = data;
-        this.message = message;
+        this.msg = msg;
     }
 
     public static R ok (Object data){
         return new R(200,data,"");
     }
-    public static R ok (Integer code,Object data,String message){
-        return new R(200,data,message);
+    public static R ok (Integer code,Object data,String msg){
+        return new R(200,data,msg);
     }
     public static R error(RHttpStatusEnum rHttpStatusEnum){
         return new R(rHttpStatusEnum.getCode(),"", rHttpStatusEnum.getMessage());
