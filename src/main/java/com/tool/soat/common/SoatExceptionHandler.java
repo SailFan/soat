@@ -14,8 +14,8 @@ import java.util.HashMap;
  * @File: ExceptionHandler
  * @Software: IntelliJIDEA
  */
-@ControllerAdvice
-public class SoatExceptionHandler {
+//@ControllerAdvice
+//public class SoatExceptionHandler {
 
 
 //    @ExceptionHandler(Exception.class)
@@ -27,18 +27,18 @@ public class SoatExceptionHandler {
 //        return objectObjectHashMap;
 //    }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public String handleException(Exception e, HttpServletRequest request){
-        HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
-        request.setAttribute("javax.servlet.error.status_code",400);
-        objectObjectHashMap.put("code","1111111");
-        objectObjectHashMap.put("message",e.getMessage());
-        return "forward:/error";
-    }
+//    @ExceptionHandler(Exception.class)
+//    @ResponseBody
+//    public String handleException(Exception e, HttpServletRequest request){
+//        HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
+//        request.setAttribute("javax.servlet.error.status_code",400);
+//        objectObjectHashMap.put("code","1111111");
+//        objectObjectHashMap.put("message",e.getMessage());
+//        return "forward:/error";
+//    }
+//
 
 
 
 
-
-}
+//}
