@@ -35,6 +35,16 @@ public class InterfaceContoller {
         return new R();
     }
 
+    @RequestMapping(value = "/updateInterface", method = RequestMethod.POST)
+    @ResponseBody
+    public R updateInterface(@RequestBody SoatInterface soatInterface){
+        soatInterface.setRun(0);
+        System.out.println(soatInterface);
+        interfaceService.insertInterface(soatInterface);
+
+        return new R();
+    }
+
 
 }
 
