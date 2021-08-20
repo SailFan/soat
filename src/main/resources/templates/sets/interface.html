@@ -6,7 +6,29 @@
     <link rel="stylesheet" th:href="@{/webjars/layui/2.5.6/css/layui.css}">
     <script type="text/javascript"   th:src="@{/webjars/layui/2.5.6/layui.js}"></script>
     <script type="text/javascript"   th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+    <script id="param" type="text/html">
+        <div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline ">
+                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
 
+                </div>
+                <div class="layui-input-inline">
+                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-input-inline">
+                    <i class="layui-icon layui-icon-add-1" style="font-size: 15px;"></i>
+                </div>
+            </div>
+            </div>
+    </script>
+
+
+    <script id="header" type="text/html">
+        <div>
+            我是头信息
+        </div>
+    </script>
 </head>
 <body>
 
@@ -41,13 +63,20 @@
                         <button type="button" class="layui-btn">发送</button>
                 </div>
                 <div class="layui-form-item">
-<!--                    <label class="layui-form-label">单选框</label>-->
+<!--                    <label class="layui-form-label"><span class="x-red"></span>Query Params</label>-->
                     <div class="layui-input-block">
-                        <input type="radio" name="hp" value="男" title="头部信息" checked>
-                        <input type="radio" name="hp" value="女" title="请求参数">
+                        <input type="radio" lay-filter="role" name="role" value="1" lay-skin="primary" title="params" checked>
+                        <input type="radio"  lay-filter="role" name="role" value="2" lay-skin="primary" title="headers">
                     </div>
                 </div>
-
+                <div class="layui-form-item">
+<!--                    <label class="layui-form-label">-->
+<!--                        <span class="x-red"></span>职称-->
+<!--                    </label>-->
+                    <div class="layui-input-inline">
+                       <div id="level"></div>
+                    </div>
+                </div>
             </form>
         </div>
 
@@ -56,12 +85,27 @@
 
     layui.use('form', function(){
         var form = layui.form;
-
-        //监听提交
         form.on('submit(formDemo)', function(data){
             layer.msg(JSON.stringify(data.field));
             return false;
         });
+
+        $("#level").html("");
+        var html=document.getElementById("param").innerHTML;
+        $("#level").append(html);
+        form.on('radio(role)',function(data){
+            if(data.value==1){
+                $("#level").html("");
+                var html=document.getElementById("param").innerHTML;
+                $("#level").append(html);
+            }
+            if(data.value==2){
+                $("#level").html("");
+                var html=document.getElementById("header").innerHTML;
+                $("#level").append(html);
+            }
+            form.render();
+        })
     });
 
     layui.use(['layer', 'jquery', 'form'], function () {
@@ -71,17 +115,12 @@
 
         form.on('select(method)', function(data){
             if(data.value == 1){
-                // $("#searchSessionNum").attr("disabled","true");
-                // form.render('select');
-                alert("111111111")
             }else{
                 $("#searchSessionNum").removeAttr("disabled");
-                form.render('select');//select是固定写法 不是选择器
+                form.render('select');
             }
         });
     });
-
-
 
 </script>
 </body>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/webjars/layui/2.5.6/css/layui.css}">
+    <script type="text/javascript"   th:src="@{/webjars/layui/2.5.6/layui.js}"></script>
+    <script type="text/javascript"   th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+    <script>
+        <script id="admin" type="text/html">
+            <di
+        </script>
+    <script id="teacher" type="text/html">
+        <option value="助教">助教</option>
+        <option value="讲师">讲师</option>
+        <option value="副教授">副教授</option>
+        <option value="教授">教授</option>
+    </script>
+    <script type="text/javascript">
+        layui.use('form',function(){
+            var form = layui.form;
+            form.on('radio(role)',function(data){//这里的role是指 lay-filter="role"的role
+                if(data.value==1){
+                    $("#level").html("");
+                    var html=document.getElementById("admin").innerHTML;
+                    $("#level").append(html);
+                }
+                if(data.value==2){
+                    $("#level").html("");
+                    var html=document.getElementById("teacher").innerHTML;
+                    $("#level").append(html);
+                }
+                form.render();//动态插入的更新渲染
+            })
+        })
+    </script>
+
+
+
+    </script>
+</head>
+<body>
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label"><span class="x-red">*</span>角色</label>
+        <div class="layui-input-block">
+            <input type="radio" lay-filter="role" name="role" value="1" lay-skin="primary" title="管理员">
+            <input type="radio"  lay-filter="role" name="role" value="2" lay-skin="primary" title="高校教师" checked>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">
+            <span class="x-red"></span>职称
+        </label>
+        <div class="layui-input-inline">
+            <select lay-filter="aihao" id="level">
+                <option value="助教">助教</option>
+                <option value="讲师">讲师</option>
+                <option value="副教授">副教授</option>
+                <option value="教授">教授</option>
+            </select>
+        </div>
+    </div>
+</form>
+
+
+</body>
+</html>
