@@ -1,13 +1,15 @@
 package com.tool.soat.controller;
 
+import com.tool.soat.common.vo.R;
+import com.tool.soat.common.vo.RHttpStatusEnum;
 import com.tool.soat.service.AuthService;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 
 @RestController
@@ -23,18 +25,17 @@ public class AuthController {
         return "success";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(String username, String password,Boolean rememberMe){
-        System.out.println(username);
-        System.out.println(password);
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST,consumes="application/json")
+    public R login(@RequestBody Map<String,Object> map){
+        String username= (String) map.get("username");
+        String password= (String) map.get("password");
         try {
-            authService.checkLogin(username,password,rememberMe);
-            System.out.println("登录成功");
-            return "登录成功";
+            authService.checkLogin(username,password);
+            return new R(RHttpStatusEnum.LOGIN_SUCCESS.getCode(), "",RHttpStatusEnum.LOGIN_SUCCESS.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("用户或者密码错误");
-            return "登录失败";
+            return new R(RHttpStatusEnum.LOGIN_FAIL.getCode(), "",RHttpStatusEnum.LOGIN_FAIL.getMessage());
         }
 
     }

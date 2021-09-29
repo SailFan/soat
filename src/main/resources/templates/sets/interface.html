@@ -7,20 +7,14 @@
     <script type="text/javascript"   th:src="@{/webjars/layui/2.5.6/layui.js}"></script>
     <script type="text/javascript"   th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
     <script id="param" type="text/html">
-        <div>
-            <div class="layui-form-item">
-                <div class="layui-input-inline ">
-                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <div>
 
-                </div>
-                <div class="layui-input-inline">
-                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-input-inline">
+                    <input type="text" name="number" lay-verify="required|number" autocomplete="off" class="layui-input" placeholder="KEY">
+                    <input type="text" name="date" id="date" lay-verify="date" placeholder="VALUE" autocomplete="off" class="layui-input">
                     <i class="layui-icon layui-icon-add-1" style="font-size: 15px;"></i>
-                </div>
             </div>
-            </div>
+        </div>
     </script>
 
 
@@ -63,16 +57,12 @@
                         <button type="button" class="layui-btn">发送</button>
                 </div>
                 <div class="layui-form-item">
-<!--                    <label class="layui-form-label"><span class="x-red"></span>Query Params</label>-->
                     <div class="layui-input-block">
                         <input type="radio" lay-filter="role" name="role" value="1" lay-skin="primary" title="params" checked>
                         <input type="radio"  lay-filter="role" name="role" value="2" lay-skin="primary" title="headers">
                     </div>
                 </div>
                 <div class="layui-form-item">
-<!--                    <label class="layui-form-label">-->
-<!--                        <span class="x-red"></span>职称-->
-<!--                    </label>-->
                     <div class="layui-input-inline">
                        <div id="level"></div>
                     </div>

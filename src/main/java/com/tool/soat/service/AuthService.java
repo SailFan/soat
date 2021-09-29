@@ -1,7 +1,5 @@
 package com.tool.soat.service;
 
-import org.springframework.stereotype.Service;
-
 /**
  * @Description:
  * @Author: Sail
@@ -11,5 +9,5 @@ import org.springframework.stereotype.Service;
  */
 
 public interface AuthService {
-    void checkLogin(String username, String passowrd,Boolean rememberMe) throws Exception;
+    void checkLogin(String username, String passowrd) throws Exception;
 }

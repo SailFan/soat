@@ -6,7 +6,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
 
-import java.security.Security;
+import java.util.Map;
 
 /**
  * @Description:
@@ -18,11 +18,12 @@ import java.security.Security;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    @Override
-    public void checkLogin(String username, String passowrd,Boolean rememberMe) throws Exception{
+
+    public void checkLogin(String username, String passowrd) throws Exception {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, passowrd);
-        token.setRememberMe(rememberMe);
+//        token.setRememberMe(rememberMe);
         subject.login(token);
     }
+
 }
