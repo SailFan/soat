@@ -14,7 +14,10 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @Description:
@@ -78,6 +81,7 @@ public class ShiroConfig {
         return defaultWebSessionManager;
     }
 
+
     @Bean
     public CookieRememberMeManager getCookieRememberMeManager(){
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
@@ -96,21 +100,32 @@ public class ShiroConfig {
         defaultWebSecurityManager.setCacheManager(ehCacheManager);
         defaultWebSecurityManager.setSessionManager(getDefaultWebSessionManager());
         defaultWebSecurityManager.setRememberMeManager(getCookieRememberMeManager());
+
         return defaultWebSecurityManager;
     }
+//    public JwtFilter jwtFilter() {
+//        return new JwtFilter();
+//    }
 
 
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager defaultWebSecurityManager){
         ShiroFilterFactoryBean filter = new ShiroFilterFactoryBean();
         filter.setSecurityManager(defaultWebSecurityManager);
+        filter.setLoginUrl("/login");
+        filter.setSuccessUrl("/authorized");
+        filter.setUnauthorizedUrl("/unauthorized");
+        Map<String, Filter> filterMap = new LinkedHashMap<>();
+//        filterMap.put("jwtFilter", jwtFilter());
+
+
+
         HashMap<String, String> map = new HashMap<>();
+
+        map.put("/login", "anon");
         map.put("/", "anon");
         map.put("/logout","logout");
         filter.setFilterChainDefinitionMap(map);
-//        filter.setLoginUrl("/");
-//        filter.setUnauthorizedUrl("/");
-
         return filter;
     }
 }

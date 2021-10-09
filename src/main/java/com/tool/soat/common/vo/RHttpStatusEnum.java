@@ -15,7 +15,9 @@ public enum RHttpStatusEnum {
     UNKNOWN_REASON(20002, "未知错误"),
     SET_CREATE_FAIL_CODE(201, "集合创建失败"),
     LOGIN_SUCCESS(20003,"登录成功"),
-    LOGIN_FAIL(40001,"登录失败");
+    LOGIN_FAIL_MATCH(40001,"用户名与密码不匹配，请检查后重新输入"),
+    LOGIN_FAIL_Incorrect(40002,"用户名与密码不匹配，请检查后重新输入"),
+    LOGIN_FAIL(40003,"登录失败,请联系网站管理员");
 
     Integer code;
     String msg;
