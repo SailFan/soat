@@ -118,8 +118,6 @@ public class ShiroConfig {
         Map<String, Filter> filterMap = new LinkedHashMap<>();
 //        filterMap.put("jwtFilter", jwtFilter());
 
-
-
         HashMap<String, String> map = new HashMap<>();
 
         map.put("/login", "anon");

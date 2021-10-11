@@ -62,11 +62,17 @@ public class AuthController {
         }
     }
 
-    @RequestMapping("/regist")
-    public String regist(String username, String password){
-        Md5Hash md5Hash = new Md5Hash(password,"soat");
-        System.out.println(md5Hash);
-        return "111";
+    @GetMapping("/logout")
+    public R logout() {
+        return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
     }
 
+//    @RequestMapping("/addUser")
+//    public R addUser(){
+//        try{
+//
+//        }catch (){
+//
+//        }
+//    }
 }
