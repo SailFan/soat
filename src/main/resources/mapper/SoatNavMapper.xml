@@ -30,7 +30,7 @@
   </select>
 
   <select id="selectAllNav" resultMap="BaseResultMap">
-    select id,nav_name,level,path from soat_nav where level is null
+    select id,nav_name,level,path from soat_nav
   </select>
 
   <select id="selectByLevel" resultMap="BaseResultMap" parameterType="java.lang.Integer">
