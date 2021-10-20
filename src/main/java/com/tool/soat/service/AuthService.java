@@ -1,5 +1,9 @@
 package com.tool.soat.service;
 
+import com.tool.soat.entity.SoatUsers;
+
+import java.util.List;
+
 /**
  * @Description:
  * @Author: Sail
@@ -10,4 +14,5 @@ package com.tool.soat.service;
 
 public interface AuthService {
     void checkLogin(String username, String passowrd) throws Exception;
+    List<SoatUsers> queryBySizeAndNumS(Integer pagesize, Integer pagenum);
 }

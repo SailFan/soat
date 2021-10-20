@@ -1,11 +1,15 @@
 package com.tool.soat.service.impl;
 
+import com.tool.soat.dao.SoatUsersMapper;
+import com.tool.soat.entity.SoatUsers;
 import com.tool.soat.service.AuthService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,12 +22,19 @@ import java.util.Map;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-
+    @Resource
+    SoatUsersMapper soatUsersMapper;
     public void checkLogin(String username, String passowrd) throws Exception {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, passowrd);
 //        token.setRememberMe(rememberMe);
         subject.login(token);
+    }
+
+    public List<SoatUsers> queryBySizeAndNumS(Integer pagesize, Integer pagenum) {
+        pagenum=pagenum-1;
+        List<SoatUsers> users = soatUsersMapper.queryAllUserBySizeAndNum(pagenum, pagesize);
+        return  users;
     }
 
 }

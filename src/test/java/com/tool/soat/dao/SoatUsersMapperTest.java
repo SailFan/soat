@@ -6,8 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-
-import static org.junit.Assert.*;
+import java.util.List;
 
 /**
  * @Description:
@@ -29,4 +28,12 @@ public class SoatUsersMapperTest {
         System.out.println(user);
 
     }
+    @org.junit.Test
+    public void queryPageUser() throws Exception{
+        List<SoatUsers> users = soatUsersMapper.queryAllUserBySizeAndNum(1, 3);
+        System.out.println(users);
+
+    }
+
+
 }

@@ -3,6 +3,7 @@ package com.tool.soat.controller;
 import com.tool.soat.common.util.JwtUtil;
 import com.tool.soat.common.vo.R;
 import com.tool.soat.common.vo.RHttpStatusEnum;
+import com.tool.soat.entity.SoatUsers;
 import com.tool.soat.service.AuthService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -48,7 +51,7 @@ public class AuthController {
             HashMap<Object, Object> hashToken = new HashMap<>();
             hashToken.put("token",jwtToken);
 //            ((HttpServletResponse) response).setHeader(JwtUtil.AUTH_HEADER, jwtToken);
-            return new R(RHttpStatusEnum.SUCCESS.getCode(), hashToken,RHttpStatusEnum.LOGIN_SUCCESS.getMessage());
+            return new R(RHttpStatusEnum.LOGIN_SUCCESS.getCode(), hashToken,RHttpStatusEnum.LOGIN_SUCCESS.getMessage());
         } catch (UnknownAccountException uae) {
             return new R(RHttpStatusEnum.LOGIN_FAIL_MATCH.getCode(), "",RHttpStatusEnum.LOGIN_FAIL_MATCH.getMessage());
         } catch (IncorrectCredentialsException ice) {
@@ -75,4 +78,21 @@ public class AuthController {
 //
 //        }
 //    }
+
+
+    @GetMapping("/getUser")
+    public R getUserList(Integer pagesize, Integer pagenum){
+        try {
+            List<SoatUsers> users = authService.queryBySizeAndNumS(pagesize, pagenum);
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("total", users.size());
+            map.put("users", users);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(), map,RHttpStatusEnum.SUCCESS.getMessage());
+
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.QUERY_FAIL.getCode(), "",RHttpStatusEnum.QUERY_FAIL.getMessage());
+        }
+
+    }
+
 }
