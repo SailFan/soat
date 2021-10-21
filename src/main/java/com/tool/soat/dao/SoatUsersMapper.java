@@ -57,4 +57,6 @@ public interface SoatUsersMapper {
     SoatUsers queryUserByUsername(String username);
 
     List<SoatUsers> queryAllUserBySizeAndNum(Integer pagenum, Integer pagesize);
+
+    SoatUsers queryEmailOrPhoneD(String email, String phone);
 }

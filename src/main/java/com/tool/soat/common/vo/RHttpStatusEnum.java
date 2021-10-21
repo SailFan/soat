@@ -19,6 +19,8 @@ public enum RHttpStatusEnum {
     LOGIN_FAIL_Incorrect(40002,"用户名与密码不匹配，请检查后重新输入"),
     LOGIN_FAIL(40003,"登录失败,请联系网站管理员"),
     QUERY_FAIL(40005,"获取用户列表失败"),
+    ADD_FAIL(40007,"新增用户失败"),
+    ADD_USER_REPETITION(40006,"邮箱或者电话不可重复"),
     NAV_QUERY_FAIL(40004,"获取导航栏失败");
 
 

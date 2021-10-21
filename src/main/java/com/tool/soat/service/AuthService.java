@@ -14,5 +14,8 @@ import java.util.List;
 
 public interface AuthService {
     void checkLogin(String username, String passowrd) throws Exception;
+    int insertUser(SoatUsers soatUsers);
     List<SoatUsers> queryBySizeAndNumS(Integer pagesize, Integer pagenum);
+    SoatUsers queryEmailOrPhone (String email, String phone);
+    SoatUsers selectByPrimaryKeyS(Integer id);
 }

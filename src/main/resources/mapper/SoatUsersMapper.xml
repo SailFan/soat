@@ -182,5 +182,8 @@
     SELECT * FROM soat_users LIMIT #{pagenum},#{pagesize}
   </select>
 
+  <select id="queryEmailOrPhoneD" resultMap="BaseResultMap">
+    SELECT * FROM soat_users WHERE email = #{email} or phone = #{phone}
+  </select>
 
 </mapper>

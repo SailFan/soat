@@ -12,6 +12,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -70,14 +71,14 @@ public class AuthController {
         return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
     }
 
-//    @RequestMapping("/addUser")
-//    public R addUser(){
-//        try{
-//
-//        }catch (){
-//
-//        }
-//    }
+    @RequestMapping("/modificationUser")
+    public R modificationUser(){
+        try{
+            return new R(RHttpStatusEnum.LOGIN_FAIL.getCode(), "",RHttpStatusEnum.LOGIN_FAIL.getMessage());
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.LOGIN_FAIL.getCode(), "",RHttpStatusEnum.LOGIN_FAIL.getMessage());
+        }
+    }
 
 
     @GetMapping("/getUser")
@@ -94,5 +95,28 @@ public class AuthController {
         }
 
     }
+
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST,consumes="application/json")
+    public R addUser(@RequestBody SoatUsers soatUsers) {
+        SoatUsers users = authService.queryEmailOrPhone(soatUsers.getEmail(), soatUsers.getPhone());
+        if (users!=null) return new R(RHttpStatusEnum.ADD_USER_REPETITION.getCode(), "",RHttpStatusEnum.ADD_USER_REPETITION.getMessage());
+        try {
+
+            String password=soatUsers.getPassword();
+            String soat="soat";
+            String hex = soat + password;
+            soatUsers.setPassword(DigestUtils.md5DigestAsHex(hex.getBytes()));
+            authService.insertUser(soatUsers);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(), "",RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.ADD_FAIL.getCode(), "",RHttpStatusEnum.ADD_FAIL.getMessage());
+        }
+    }
+
+    @RequestMapping(value = "/getUserDetail", method = RequestMethod.GET)
+    public R getUserDetail(Integer id){
+        return new R(RHttpStatusEnum.ADD_FAIL.getCode(), "",RHttpStatusEnum.ADD_FAIL.getMessage());
+    }
+
 
 }
