@@ -82,18 +82,19 @@ public class AuthController {
 
 
     @GetMapping("/getUser")
-    public R getUserList(Integer pagesize, Integer pagenum){
-        try {
-            List<SoatUsers> users = authService.queryBySizeAndNumS(pagesize, pagenum);
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("total", users.size());
-            map.put("users", users);
-            return new R(RHttpStatusEnum.SUCCESS.getCode(), map,RHttpStatusEnum.SUCCESS.getMessage());
-
-        }catch (Exception e){
-            return new R(RHttpStatusEnum.QUERY_FAIL.getCode(), "",RHttpStatusEnum.QUERY_FAIL.getMessage());
-        }
-
+    public R getUserList(@RequestBody Map map){
+        System.out.println(map);
+//        try {
+//            List<SoatUsers> users = authService.queryBySizeAndNumS(pagesize, pagenum,username,email,phone);
+//            HashMap<String, Object> map = new HashMap<>();
+//            map.put("total", users.size());
+//            map.put("users", users);
+//            return new R(RHttpStatusEnum.SUCCESS.getCode(), map,RHttpStatusEnum.SUCCESS.getMessage());
+//
+//        }catch (Exception e){
+//            return new R(RHttpStatusEnum.QUERY_FAIL.getCode(), "",RHttpStatusEnum.QUERY_FAIL.getMessage());
+//        }
+        return new R(RHttpStatusEnum.QUERY_FAIL.getCode(), "",RHttpStatusEnum.QUERY_FAIL.getMessage());
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST,consumes="application/json")

@@ -11,6 +11,7 @@ import org.springframework.util.DigestUtils;
 import javax.annotation.Resource;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,6 +28,8 @@ class AuthServiceImplTest {
 
     @Test
     void queryBySizeAndNumS() {
+        List<SoatUsers> users = authService.queryBySizeAndNumS(5, 1, null, null, "13893887430");
+        System.out.println(users);
     }
 
     @Test

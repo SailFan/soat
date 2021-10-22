@@ -33,9 +33,9 @@ public class AuthServiceImpl implements AuthService {
         subject.login(token);
     }
 
-    public List<SoatUsers> queryBySizeAndNumS(Integer pagesize, Integer pagenum) {
+    public List<SoatUsers> queryBySizeAndNumS(Integer pagesize, Integer pagenum,String username, String email, String phone) {
         pagenum=pagenum-1;
-        List<SoatUsers> users = soatUsersMapper.queryAllUserBySizeAndNum(pagenum, pagesize);
+        List<SoatUsers> users = soatUsersMapper.queryAllUserBySizeAndNum(pagenum, pagesize,username, email, phone);
         return  users;
     }
 
