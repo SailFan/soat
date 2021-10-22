@@ -186,4 +186,19 @@
     SELECT * FROM soat_users WHERE email = #{email} or phone = #{phone}
   </select>
 
+  <select id="queryEmailOrPhoneOrNameD" resultType="com.tool.soat.entity.SoatUsers">
+    SELECT * FROM soat_users where
+    <if test="username!=null">
+      username=#{username}
+    </if>
+    <if test="email!=null">
+      email=#{email}
+    </if>
+    <if test="phone!=null">
+      phone=#{phone}
+    </if>
+  </select>
+
+
+
 </mapper>

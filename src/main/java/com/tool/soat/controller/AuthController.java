@@ -118,5 +118,35 @@ public class AuthController {
         return new R(RHttpStatusEnum.ADD_FAIL.getCode(), "",RHttpStatusEnum.ADD_FAIL.getMessage());
     }
 
+    @GetMapping(value = "/changeStatus")
+    public R changeStatus(Integer id){
+        System.out.println(id);
+        try {
+            authService.changeStatus(id);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(), "",RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.CHANGE_STATUS_FAIL.getCode(), "",RHttpStatusEnum.CHANGE_STATUS_FAIL.getMessage());
+        }
+    }
+    @GetMapping(value = "/queryUser")
+    public R queryUser(Integer id){
+        try {
+            authService.changeStatus(id);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(), "",RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.CHANGE_STATUS_FAIL.getCode(), "",RHttpStatusEnum.CHANGE_STATUS_FAIL.getMessage());
+        }
+    }
+
+    @GetMapping("/queryUserIsExist")
+    public R queryUserIsExist(String username, String email, String phone){
+        try {
+            SoatUsers users = authService.queryEmailOrPhoneOrNameS(username, email, phone);
+            if (users!=null) return new R(RHttpStatusEnum.USER_EXIST.getCode(), "",RHttpStatusEnum.USER_EXIST.getMessage());
+            return new R(RHttpStatusEnum.USER_NOT_EXIST.getCode(), "",RHttpStatusEnum.USER_NOT_EXIST.getMessage());
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.UNKNOWN_REASON.getCode(), "",RHttpStatusEnum.UNKNOWN_REASON.getMessage());
+        }
+    }
 
 }

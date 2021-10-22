@@ -20,6 +20,9 @@ public enum RHttpStatusEnum {
     LOGIN_FAIL(40003,"登录失败,请联系网站管理员"),
     QUERY_FAIL(40005,"获取用户列表失败"),
     ADD_FAIL(40007,"新增用户失败"),
+    USER_EXIST(40009,"用户已经存在"),
+    USER_NOT_EXIST(40010,"用户不存在"),
+    CHANGE_STATUS_FAIL(40008,"新增用户失败"),
     ADD_USER_REPETITION(40006,"邮箱或者电话不可重复"),
     NAV_QUERY_FAIL(40004,"获取导航栏失败");
 

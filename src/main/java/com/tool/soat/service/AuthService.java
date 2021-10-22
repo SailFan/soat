@@ -18,4 +18,6 @@ public interface AuthService {
     List<SoatUsers> queryBySizeAndNumS(Integer pagesize, Integer pagenum);
     SoatUsers queryEmailOrPhone (String email, String phone);
     SoatUsers selectByPrimaryKeyS(Integer id);
+    void changeStatus(Integer id);
+    SoatUsers queryEmailOrPhoneOrNameS(String username, String email, String phone);
 }

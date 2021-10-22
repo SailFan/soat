@@ -36,6 +36,17 @@ public class SetServiceImplTest {
 
     }
 
+    @Test
+    public void statusTest() {
+        Boolean i = false;
+        i=!i;
+        System.out.println(i);
+
+    }
+
+
+
+
 
     @Test
     public void querySet() {

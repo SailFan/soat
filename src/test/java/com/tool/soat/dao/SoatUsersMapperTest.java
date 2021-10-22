@@ -1,6 +1,7 @@
 package com.tool.soat.dao;
 
 import com.tool.soat.entity.SoatUsers;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -33,6 +34,15 @@ public class SoatUsersMapperTest {
         List<SoatUsers> users = soatUsersMapper.queryAllUserBySizeAndNum(1, 3);
         System.out.println(users);
 
+    }
+
+    @Test
+    public void queryEmailOrPhoneOrNameD(){
+        String username="系统管理员";
+        String email=null;
+        String phone=null;
+        SoatUsers users = soatUsersMapper.queryEmailOrPhoneOrNameD(username, email, phone);
+        System.out.println(users);
     }
 
 }

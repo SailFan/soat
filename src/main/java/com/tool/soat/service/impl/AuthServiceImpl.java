@@ -54,4 +54,16 @@ public class AuthServiceImpl implements AuthService {
         SoatUsers users = soatUsersMapper.selectByPrimaryKey(id);
         return users;
     }
+
+    public void changeStatus(Integer id) {
+        SoatUsers users = soatUsersMapper.selectByPrimaryKey(id);
+        users.setStatus(!users.getStatus());
+        soatUsersMapper.updateByPrimaryKey(users);
+    }
+
+    public SoatUsers queryEmailOrPhoneOrNameS(String username, String email, String phone){
+        SoatUsers users = soatUsersMapper.queryEmailOrPhoneOrNameD(username, email, phone);
+        return users;
+    }
+
 }
