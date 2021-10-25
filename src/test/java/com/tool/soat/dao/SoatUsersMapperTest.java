@@ -31,8 +31,7 @@ public class SoatUsersMapperTest {
     }
     @org.junit.Test
     public void queryPageUser() throws Exception{
-        List<SoatUsers> users = soatUsersMapper.queryAllUserBySizeAndNum(1,5,"系统管理员",null,null);
-        System.out.println(users);
+
 
     }
 

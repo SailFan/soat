@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,19 +83,25 @@ public class AuthController {
 
 
     @GetMapping("/getUser")
-    public R getUserList(@RequestBody Map map){
-        System.out.println(map);
-//        try {
-//            List<SoatUsers> users = authService.queryBySizeAndNumS(pagesize, pagenum,username,email,phone);
-//            HashMap<String, Object> map = new HashMap<>();
-//            map.put("total", users.size());
-//            map.put("users", users);
-//            return new R(RHttpStatusEnum.SUCCESS.getCode(), map,RHttpStatusEnum.SUCCESS.getMessage());
-//
-//        }catch (Exception e){
-//            return new R(RHttpStatusEnum.QUERY_FAIL.getCode(), "",RHttpStatusEnum.QUERY_FAIL.getMessage());
-//        }
-        return new R(RHttpStatusEnum.QUERY_FAIL.getCode(), "",RHttpStatusEnum.QUERY_FAIL.getMessage());
+    public R getUserList(HttpServletRequest httpServletRequest){
+
+
+        String username = httpServletRequest.getParameter("query");
+        Integer pagesize = Integer.parseInt(httpServletRequest.getParameter("pagesize"));
+        Integer pagenum = Integer.parseInt(httpServletRequest.getParameter("pagenum"));
+        if (username==""){
+            username=null;
+        }
+        try {
+            List<SoatUsers> users = authService.queryBySizeAndNumS(pagesize, pagenum,username);
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("total", users.size());
+            map.put("users", users);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(), map,RHttpStatusEnum.SUCCESS.getMessage());
+
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.QUERY_FAIL.getCode(), "",RHttpStatusEnum.QUERY_FAIL.getMessage());
+        }
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST,consumes="application/json")

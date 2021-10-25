@@ -184,12 +184,6 @@
           <if test="username!=null">
             username=#{username}
           </if>
-          <if test="email!=null">
-            email=#{email}
-          </if>
-          <if test="phone!=null">
-            phone=#{phone}
-          </if>
         </where>
     LIMIT #{pagenum},#{pagesize}
   </select>

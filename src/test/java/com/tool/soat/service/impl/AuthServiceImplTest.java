@@ -28,8 +28,7 @@ class AuthServiceImplTest {
 
     @Test
     void queryBySizeAndNumS() {
-        List<SoatUsers> users = authService.queryBySizeAndNumS(5, 1, null, null, "13893887430");
-        System.out.println(users);
+
     }
 
     @Test
