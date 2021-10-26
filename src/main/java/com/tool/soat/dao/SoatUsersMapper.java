@@ -60,4 +60,6 @@ public interface SoatUsersMapper {
 
     SoatUsers queryEmailOrPhoneD(String email, String phone);
     SoatUsers queryEmailOrPhoneOrNameD(String username, String email, String phone);
+    void delUserD(Integer id);
+    SoatUsers queryUserD(Integer id);
 }

@@ -205,6 +205,12 @@
     </if>
   </select>
 
+  <delete id="delUserD">
 
+  </delete>
+
+  <select id="queryUserD" resultType="com.tool.soat.entity.SoatUsers">
+    SELECT id,username,nickname, email,role, phone status FROM soat_users where id = #{id}
+  </select>
 
 </mapper>

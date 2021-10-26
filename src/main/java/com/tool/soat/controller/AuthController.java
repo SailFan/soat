@@ -123,7 +123,13 @@ public class AuthController {
 
     @RequestMapping(value = "/getUserDetail", method = RequestMethod.GET)
     public R getUserDetail(Integer id){
-        return new R(RHttpStatusEnum.ADD_FAIL.getCode(), "",RHttpStatusEnum.ADD_FAIL.getMessage());
+        try {
+            SoatUsers users = authService.queryUserS(id);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(), users,RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.QUERY_USER_FAIL.getCode(), "",RHttpStatusEnum.QUERY_USER_FAIL.getMessage());
+        }
+
     }
 
     @GetMapping(value = "/changeStatus")
@@ -156,5 +162,15 @@ public class AuthController {
             return new R(RHttpStatusEnum.UNKNOWN_REASON.getCode(), "",RHttpStatusEnum.UNKNOWN_REASON.getMessage());
         }
     }
+
+    @GetMapping("/delUser")
+    public R delUser(Integer id){
+        try {
+            return new R(RHttpStatusEnum.USER_NOT_EXIST.getCode(), "",RHttpStatusEnum.USER_NOT_EXIST.getMessage());
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.UNKNOWN_REASON.getCode(), "",RHttpStatusEnum.UNKNOWN_REASON.getMessage());
+        }
+    }
+
 
 }

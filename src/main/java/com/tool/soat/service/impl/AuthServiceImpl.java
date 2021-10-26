@@ -66,4 +66,12 @@ public class AuthServiceImpl implements AuthService {
         return users;
     }
 
+    public  void delUserS(Integer id){
+
+    }
+
+    public SoatUsers queryUserS(Integer id){
+        SoatUsers users = soatUsersMapper.queryUserD(id);
+        return users;
+    }
 }

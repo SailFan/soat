@@ -20,4 +20,6 @@ public interface AuthService {
     SoatUsers selectByPrimaryKeyS(Integer id);
     void changeStatus(Integer id);
     SoatUsers queryEmailOrPhoneOrNameS(String username, String email, String phone);
+    void delUserS(Integer id);
+    SoatUsers queryUserS(Integer id);
 }
