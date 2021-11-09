@@ -47,4 +47,16 @@ class AuthServiceImplTest {
         int i = authService.insertUser(users);
         System.out.println(i);
     }
+
+    @Test
+    void modificationUserS(){
+        SoatUsers soatUsers = new SoatUsers();
+        soatUsers.setPassword("654321");
+        soatUsers.setNickname("1212");
+        soatUsers.setEmail("afan6203@187.com");
+        soatUsers.setPhone("11011011110");
+        soatUsers.setId(3);
+        Integer integer = authService.modificationUserS(soatUsers);
+        System.out.println(integer);
+    }
 }

@@ -74,4 +74,9 @@ public class AuthServiceImpl implements AuthService {
         SoatUsers users = soatUsersMapper.queryUserD(id);
         return users;
     }
+
+    public Integer modificationUserS(SoatUsers soatUsers){
+        int status = soatUsersMapper.updateByPrimaryKeySelective(soatUsers);
+        return status;
+    }
 }

@@ -73,11 +73,15 @@ public class AuthController {
     }
 
     @RequestMapping("/modificationUser")
-    public R modificationUser(){
+    public R modificationUser(@RequestBody SoatUsers soatUsers){
         try{
-            return new R(RHttpStatusEnum.LOGIN_FAIL.getCode(), "",RHttpStatusEnum.LOGIN_FAIL.getMessage());
+            Integer code = authService.modificationUserS(soatUsers);
+            if (code!=1){
+                return new R(RHttpStatusEnum.MODIFICATION_USER_FAIL.getCode(), "",RHttpStatusEnum.MODIFICATION_USER_FAIL.getMessage());
+            }
+            return new R(RHttpStatusEnum.SUCCESS.getCode(), "",RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
-            return new R(RHttpStatusEnum.LOGIN_FAIL.getCode(), "",RHttpStatusEnum.LOGIN_FAIL.getMessage());
+            return new R(RHttpStatusEnum.MODIFICATION_USER_FAIL.getCode(), "",RHttpStatusEnum.MODIFICATION_USER_FAIL.getMessage());
         }
     }
 

@@ -213,4 +213,5 @@
     SELECT id,username, password,nickname, email,role, phone, status FROM soat_users where id = #{id}
   </select>
 
+
 </mapper>

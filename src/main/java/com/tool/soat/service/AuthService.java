@@ -22,4 +22,7 @@ public interface AuthService {
     SoatUsers queryEmailOrPhoneOrNameS(String username, String email, String phone);
     void delUserS(Integer id);
     SoatUsers queryUserS(Integer id);
+    Integer modificationUserS(SoatUsers soatUsers);
+
+
 }
