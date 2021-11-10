@@ -66,8 +66,9 @@ public class AuthServiceImpl implements AuthService {
         return users;
     }
 
-    public  void delUserS(Integer id){
-
+    public  Integer deleteByPrimaryKey(Integer id){
+        int deleteByPrimaryKey = soatUsersMapper.deleteByPrimaryKey(id);
+        return deleteByPrimaryKey;
     }
 
     public SoatUsers queryUserS(Integer id){

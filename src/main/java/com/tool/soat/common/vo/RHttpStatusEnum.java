@@ -26,6 +26,7 @@ public enum RHttpStatusEnum {
     QUERY_USER_FAIL(40010,"查询用户失败"),
     CHANGE_STATUS_FAIL(40008,"修改用户状态失败"),
     ADD_USER_REPETITION(40006,"邮箱或者电话不可重复"),
+    DELETE_USER_FAIL(40013,"删除用户失败"),
     NAV_QUERY_FAIL(40004,"获取导航栏失败");
 
 

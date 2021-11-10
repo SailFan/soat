@@ -72,8 +72,9 @@ public class AuthController {
         return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
     }
 
-    @RequestMapping("/modificationUser")
+    @RequestMapping(value = "/modificationUser", method = RequestMethod.POST,consumes="application/json")
     public R modificationUser(@RequestBody SoatUsers soatUsers){
+        System.out.println(soatUsers);
         try{
             Integer code = authService.modificationUserS(soatUsers);
             if (code!=1){
@@ -170,9 +171,13 @@ public class AuthController {
     @GetMapping("/delUser")
     public R delUser(Integer id){
         try {
-            return new R(RHttpStatusEnum.USER_NOT_EXIST.getCode(), "",RHttpStatusEnum.USER_NOT_EXIST.getMessage());
+            Integer primaryKey = authService.deleteByPrimaryKey(id);
+            if (primaryKey!=1){
+                return new R(RHttpStatusEnum.DELETE_USER_FAIL.getCode(), "",RHttpStatusEnum.DELETE_USER_FAIL.getMessage());
+            }
+            return new R(RHttpStatusEnum.SUCCESS.getCode(), "",RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
-            return new R(RHttpStatusEnum.UNKNOWN_REASON.getCode(), "",RHttpStatusEnum.UNKNOWN_REASON.getMessage());
+            return new R(RHttpStatusEnum.DELETE_USER_FAIL.getCode(), "",RHttpStatusEnum.DELETE_USER_FAIL.getMessage());
         }
     }
 
