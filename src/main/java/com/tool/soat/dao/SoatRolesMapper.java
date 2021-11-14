@@ -2,6 +2,7 @@ package com.tool.soat.dao;
 
 import com.tool.soat.entity.SoatRoles;
 
+import java.util.List;
 import java.util.Set;
 
 public interface SoatRolesMapper {
@@ -23,7 +24,7 @@ public interface SoatRolesMapper {
 
     Set<String> queryRoleNameByUsernames(String username);
 
-
+    List<SoatRoles> queryAllRolePermission();
 
 
 }
