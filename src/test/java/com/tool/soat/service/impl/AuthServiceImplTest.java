@@ -59,4 +59,9 @@ class AuthServiceImplTest {
         Integer integer = authService.modificationUserS(soatUsers);
         System.out.println(integer);
     }
+
+    @Test
+    void testPrint(){
+
+    }
 }
