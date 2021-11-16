@@ -26,10 +26,6 @@ class RoleServiceImplTest {
     @Test
     void queryAllRolePer(){
         List<SoatRoles> roles = roleService.queryAllRolePer();
-        for (SoatRoles role:roles) {
-          if (role.getPermissionsList().size()>0){
-
-          }
-        }
+        System.out.println(roles);
     }
 }
