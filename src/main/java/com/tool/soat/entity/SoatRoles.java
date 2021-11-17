@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Getter
@@ -18,7 +19,7 @@ public class SoatRoles implements Serializable {
 
     private String roleName;
 
-    private List<SoatPermission> permissionsList;
+    private Set<SoatPermission> permissionsList;
 
     private static final long serialVersionUID = 1L;
 

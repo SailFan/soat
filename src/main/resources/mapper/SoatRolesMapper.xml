@@ -18,9 +18,8 @@
       <id column="pid" property="pid"></id>
       <result column="code" property="code"></result>
       <result column="name" property="name"></result>
-      <result column="level" property="level"></result>
-        <collection property="queryPermission" ofType="com.tool.soat.entity.SoatPermission">
-          <id column="pid" property="pid"></id>
+        <collection property="queryChildrePermission" ofType="com.tool.soat.entity.SoatChildrePermission">
+          <id column="pcid" property="pc_id"></id>
           <result column="code" property="code"></result>
           <result column="name" property="name"></result>
           <result column="level" property="level"></result>
@@ -73,12 +72,12 @@
   </insert>
 
   <select id="queryAllRolePermission" resultMap="BaseResultMapCollection">
-    SELECT sr.rid,sr.role_name,sp.pid, sp.`code`, sp.`name`, sp.`level`,sop.pid,sop.pid, sop.`code`, sop.`name`
+    SELECT sr.rid,sr.role_name,sp.pid, sp.`code`, sp.`name`,scp.pc_id,scp.`code`, scp.`name`, scp.`level`
     FROM soat_roles as sr
            LEFT JOIN soat_roles_permissions as srp
                      ON sr.rid = srp.r_id
            LEFT JOIN soat_permission AS sp ON sp.pid = srp.p_id
-           LEFT JOIN soat_permission AS sop ON  sp.pid = sop.`level`
+           LEFT JOIN soat_childre_permission AS scp ON scp.`level` = sp.pid
   </select>
 
 </mapper>
