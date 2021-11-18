@@ -12,18 +12,18 @@
   </resultMap>
 
   <resultMap id="BaseResultMapCollection" type="com.tool.soat.entity.SoatRoles" >
-    <result column="rid" property="rid" jdbcType="INTEGER" />
-    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="srrid" property="rid" jdbcType="INTEGER" />
+    <result column="srrolename" property="roleName" jdbcType="VARCHAR" />
     <collection property="permissionsList" ofType="com.tool.soat.entity.SoatPermission">
-      <id column="pid" property="pid"></id>
-      <result column="code" property="code"></result>
-      <result column="name" property="name"></result>
-        <collection property="queryChildrePermission" ofType="com.tool.soat.entity.SoatChildrePermission">
-          <id column="pc_id" property="pcId"></id>
-          <result column="code" property="code"></result>
-          <result column="name" property="name"></result>
-          <result column="level" property="level"></result>
-        </collection>
+      <id column="sppid" property="pid"></id>
+      <result column="spcode" property="code"></result>
+      <result column="spname" property="name"></result>
+      <collection property="queryChildrePermission" ofType="com.tool.soat.entity.SoatChildrePermission">
+        <id column="scppcid" property="pcId"></id>
+        <result column="scpcode" property="code"></result>
+        <result column="scpname" property="name"></result>
+        <result column="scplevel" property="level"></result>
+      </collection>
     </collection>
   </resultMap>
 
@@ -72,7 +72,7 @@
   </insert>
 
   <select id="queryAllRolePermission" resultMap="BaseResultMapCollection">
-    SELECT sr.rid,sr.role_name,sp.pid, sp.`code`, sp.`name`,scp.pc_id,scp.`code`, scp.`name`, scp.`level`
+    SELECT sr.rid AS srrid,sr.role_name AS srrolename,sp.pid AS sppid, sp.`code` AS spcode, sp.`name` AS spname,scp.pc_id AS scppcid,scp.`code` AS scpcode, scp.`name` AS scpname, scp.`level` AS scplevel
     FROM soat_roles as sr
            LEFT JOIN soat_roles_permissions as srp
                      ON sr.rid = srp.r_id
