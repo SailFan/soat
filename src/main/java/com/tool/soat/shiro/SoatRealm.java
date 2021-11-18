@@ -46,10 +46,10 @@ public class SoatRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         String username =(String) principalCollection.iterator().next();
         Set<String> roleSet = soatRolesMapper.queryRoleNameByUsernames(username);
-        Set<String> permissionSet = soatPermissionMapper.queryPermissionByUsername(username);
+//        Set<String> permissionSet = soatPermissionMapper.queryPermissionByUsername(username);
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(roleSet);
-        authorizationInfo.setStringPermissions(permissionSet);
+//        authorizationInfo.setStringPermissions(permissionSet);
         return authorizationInfo;
     }
 

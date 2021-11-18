@@ -1,5 +1,6 @@
 package com.tool.soat.dao;
 
+import com.tool.soat.entity.SoatPermission;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +28,7 @@ public class SoatPermissionMapperTest {
 
     @Test
     public void queryPermissionByUsername() throws Exception {
-        Set<String> set = soatPermissionMapper.queryPermissionByUsername("liuwenfan");
+        Set<SoatPermission> set = soatPermissionMapper.queryPermissionByUsername("admin");
         System.out.println(set);
     }
 }
