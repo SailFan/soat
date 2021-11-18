@@ -23,8 +23,8 @@ public class PermissionServiceImplTest {
     PermissionService permissionService;
 
     @Test
-    public void test1(){
-        Set<SoatPermission> admin = permissionService.queryCurrentPermission("admin");
+    public void testSoatPermission(){
+        Set<String> admin = permissionService.queryCurrentPermission("admin");
         System.out.println(admin);
     }
 

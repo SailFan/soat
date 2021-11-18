@@ -19,7 +19,7 @@
       <result column="code" property="code"></result>
       <result column="name" property="name"></result>
         <collection property="queryChildrePermission" ofType="com.tool.soat.entity.SoatChildrePermission">
-          <id column="pcid" property="pc_id"></id>
+          <id column="pc_id" property="pcId"></id>
           <result column="code" property="code"></result>
           <result column="name" property="name"></result>
           <result column="level" property="level"></result>

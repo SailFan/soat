@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -26,9 +27,4 @@ public class SoatPermissionMapperTest {
     @Resource
     SoatPermissionMapper soatPermissionMapper;
 
-    @Test
-    public void queryPermissionByUsername() throws Exception {
-        Set<SoatPermission> set = soatPermissionMapper.queryPermissionByUsername("admin");
-        System.out.println(set);
-    }
 }

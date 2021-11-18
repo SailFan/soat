@@ -3,7 +3,9 @@ package com.tool.soat.shiro;
 import com.tool.soat.dao.SoatPermissionMapper;
 import com.tool.soat.dao.SoatRolesMapper;
 import com.tool.soat.dao.SoatUsersMapper;
+import com.tool.soat.entity.SoatPermission;
 import com.tool.soat.entity.SoatUsers;
+import com.tool.soat.service.PermissionService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -12,6 +14,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -28,7 +31,7 @@ public class SoatRealm extends AuthorizingRealm {
     @Resource
     SoatRolesMapper soatRolesMapper;
     @Resource
-    SoatPermissionMapper soatPermissionMapper;
+    PermissionService permissionService;
 
 
 
@@ -46,10 +49,10 @@ public class SoatRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         String username =(String) principalCollection.iterator().next();
         Set<String> roleSet = soatRolesMapper.queryRoleNameByUsernames(username);
-//        Set<String> permissionSet = soatPermissionMapper.queryPermissionByUsername(username);
+        Set<String> permissionSet = permissionService.queryCurrentPermission(username);
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(roleSet);
-//        authorizationInfo.setStringPermissions(permissionSet);
+        authorizationInfo.setStringPermissions(permissionSet);
         return authorizationInfo;
     }
 
