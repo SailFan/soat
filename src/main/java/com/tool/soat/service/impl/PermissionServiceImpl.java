@@ -21,6 +21,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     public Set<String> queryAllPermission(){
-        return null;
+        Set<String> set = soatPermissionMapper.queryAllPermissions();
+        return set;
     }
 }

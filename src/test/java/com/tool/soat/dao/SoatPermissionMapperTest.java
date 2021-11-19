@@ -27,4 +27,10 @@ public class SoatPermissionMapperTest {
     @Resource
     SoatPermissionMapper soatPermissionMapper;
 
+
+    @Test
+    public void test1(){
+        Set<String> set = soatPermissionMapper.queryAllPermissions();
+        System.out.println(set);
+    }
 }
