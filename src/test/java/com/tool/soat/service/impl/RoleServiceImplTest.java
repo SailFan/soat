@@ -24,6 +24,16 @@ class RoleServiceImplTest {
     RoleService roleService;
 
     @Test
+    void insertRole(){
+        SoatRoles roles = new SoatRoles();
+        roles.setRoleName("dev1");
+        Integer role = roleService.insertRole(roles);
+        System.out.println(role);
+
+    }
+
+
+    @Test
     void queryAllRolePer(){
         List<SoatRoles> roles = roleService.queryAllRolePer();
         System.out.println(roles);

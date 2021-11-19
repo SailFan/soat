@@ -30,9 +30,6 @@ public class RolesController {
     public R getRoleList(){
         try {
             List<SoatRoles> roles = roleService.queryAllRolePer();
-            for (SoatRoles role: roles) {
-                System.out.println(role);
-            }
 
             return new R(RHttpStatusEnum.SUCCESS.getCode(),roles,RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
@@ -42,5 +39,31 @@ public class RolesController {
 
 
     }
+
+    @RequestMapping(value = "/addRole", method = RequestMethod.POST,consumes="application/json")
+    public R addRole(@RequestBody SoatRoles soatRoles){
+        try {
+            Integer integer = roleService.insertRole(soatRoles);
+            if (integer!=1){
+                return new R(RHttpStatusEnum.ADD_ROLE_FAIL.getCode(),  "",RHttpStatusEnum.ADD_ROLE_FAIL.getMessage());
+            }
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            logger.debug(String.valueOf(e));
+            return new R(RHttpStatusEnum.ADD_ROLE_FAIL.getCode(), "",RHttpStatusEnum.ADD_ROLE_FAIL.getMessage());
+        }
+    }
+
+    @RequestMapping(value = "/editRole", method = RequestMethod.POST,consumes="application/json")
+    public R editRole(@RequestBody SoatRoles soatRoles){
+        try {
+            roleService.updateCurrentRole(soatRoles);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            logger.debug(String.valueOf(e));
+            return new R(RHttpStatusEnum.EDIT_ROLE_FAIL.getCode(), "",RHttpStatusEnum.EDIT_ROLE_FAIL.getMessage());
+        }
+    }
+
 
 }

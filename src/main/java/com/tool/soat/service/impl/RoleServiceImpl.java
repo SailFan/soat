@@ -22,4 +22,12 @@ public class RoleServiceImpl implements RoleService {
         return roles;
     }
 
+    public Integer insertRole(SoatRoles soatRoles){
+        int i = soatRolesMapper.insertSelectiveRole(soatRoles);
+        return i;
+    }
+
+    public void updateCurrentRole(SoatRoles soatRoles){
+        soatRolesMapper.updateRole(soatRoles.getRoleName(), soatRoles.getRid());
+    }
 }
