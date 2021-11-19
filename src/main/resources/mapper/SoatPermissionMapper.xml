@@ -73,4 +73,9 @@
     WHERE nickname = #{nickname}
   </select>
 
+  <select id="queryAllPermissions" resultMap="BaseResult">
+    SELECT * FROM soat_permission AS sp LEFT JOIN soat_childre_permission AS scp
+                                                  ON sp.pid = scp.`level`
+  </select>
+
 </mapper>

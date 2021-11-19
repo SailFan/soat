@@ -19,4 +19,8 @@ public class PermissionServiceImpl implements PermissionService {
         permissions.removeAll(Collections.singleton(null));
         return permissions;
     }
+
+    public Set<String> queryAllPermission(){
+        return null;
+    }
 }
