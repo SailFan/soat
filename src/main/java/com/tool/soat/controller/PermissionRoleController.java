@@ -21,7 +21,7 @@ public class PermissionRoleController {
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequestMapping(value = "/rolepermission", method = RequestMethod.GET)
+    @RequestMapping(value = "/rolepermission", method = RequestMethod.POST)
     public R getPermissionList(){
         try {
             return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
