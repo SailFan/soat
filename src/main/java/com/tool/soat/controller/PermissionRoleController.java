@@ -32,4 +32,18 @@ public class PermissionRoleController {
 
 
     }
+    @RequestMapping(value = "/removeRolePermission", method = RequestMethod.GET)
+    public R removeRolePermission(Integer pid){
+        try {
+
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
+
+        }catch (Exception e){
+            logger.debug(String.valueOf(e));
+            return new R(RHttpStatusEnum.QUERY_PERMISSIONS_FAIL.getCode(), "",RHttpStatusEnum.QUERY_PERMISSIONS_FAIL.getMessage());
+        }
+
+
+
+    }
 }

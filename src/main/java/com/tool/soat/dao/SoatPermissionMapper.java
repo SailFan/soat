@@ -11,4 +11,5 @@ public interface SoatPermissionMapper {
     int insertSelective(SoatPermission record);
     Set<String> queryPermissionByUsername(String username);
     Set<String> queryAllPermissions();
+    void deleteByPermission(Integer pid);
 }
