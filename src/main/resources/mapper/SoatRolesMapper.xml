@@ -18,24 +18,13 @@
       <id column="sppid" property="pid"></id>
       <result column="spcode" property="code"></result>
       <result column="spname" property="name"></result>
-      <collection property="queryChildrePermission" ofType="com.tool.soat.entity.SoatChildrePermission">
-        <id column="scppcid" property="pcId"></id>
-        <result column="scpcode" property="code"></result>
-        <result column="scpname" property="name"></result>
-        <result column="scplevel" property="level"></result>
-      </collection>
     </collection>
   </resultMap>
 
 <!--  id code name-->
   <select id="queryRoleNameByUsernames" resultSets="java.util.Set" resultType="string">
-    SELECT role_name
-    FROM soat_users
-    INNER JOIN soat_users_roles
-    ON soat_users.id = soat_users_roles.u_id
-    INNER JOIN soat_roles
-    ON soat_users_roles.r_id=soat_roles.rid
-    WHERE soat_users.nickname=#{nickname};
+    SELECT sr.rid AS srrid, sr.role_name AS srrolename, sp.pid AS sppid, sp.`code` AS spcode, sp.`name` AS spname  FROM soat_roles sr LEFT JOIN soat_roles_permissions srp ON sr.rid = srp.r_id                                                                                                                                LEFT JOIN soat_permission sp ON sp.pid = srp.p_id
+    WHERE sr.role_name=#{nickname}
   </select>
 
 

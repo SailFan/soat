@@ -60,9 +60,8 @@
     WHERE nickname = #{nickname}
   </select>
 
-  <select id="queryAllPermissions" resultMap="BaseResult">
-    SELECT sp.pid AS sppid, sp.`code` AS spcode, sp.name AS spname, scp.pc_id AS scppcid, scp.`code` AS scpcode, scp.name AS scpname,scp.`level` AS scplevel FROM soat_permission AS sp LEFT JOIN soat_childre_permission AS scp
-                                                                                                                                                                              ON sp.pid = scp.`level`
+  <select id="queryAllPermissions" resultMap="BaseResultMap">
+    SELECT pid,code,name FROM soat_permission
   </select>
 
 </mapper>
