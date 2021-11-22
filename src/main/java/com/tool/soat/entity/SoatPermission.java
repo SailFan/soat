@@ -18,7 +18,7 @@ public class SoatPermission implements Serializable {
     private Integer pid;
     private String code;
     private String name;
-    private Set<SoatChildrePermission> queryChildrePermission;
+
 
 }
 

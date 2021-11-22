@@ -11,18 +11,6 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
   </resultMap>
 
-  <resultMap id="BaseResult" type="com.tool.soat.entity.SoatPermission">
-
-    <result column="sppid" jdbcType="INTEGER" property="pid" />
-    <result column="spcode" jdbcType="VARCHAR" property="code" />
-    <result column="spname" jdbcType="VARCHAR" property="name" />
-      <collection property="queryChildrePermission" ofType="com.tool.soat.entity.SoatChildrePermission">
-        <id column="scppcid" property="pcId"></id>
-        <result column="scpcode" property="code"></result>
-        <result column="scpname" property="name"></result>
-        <result column="scplevel" property="level"></result>
-      </collection>
-  </resultMap>
 
   <insert id="insert" parameterType="com.tool.soat.entity.SoatPermission">
     <!--
@@ -66,10 +54,9 @@
 
   <select id="queryPermissionByUsername" resultType="String">
     SELECT sp.code FROM soat_users AS su LEFT JOIN soat_users_roles AS sur ON su.id = sur.u_id
-     LEFT JOIN soat_roles AS sr ON sr.rid = sur.r_id
-     LEFT JOIN soat_roles_permissions AS srp ON srp.r_id = sr.rid
-     LEFT JOIN soat_permission AS sp ON sp.pid = srp.p_id
-     LEFT JOIN soat_childre_permission AS scp on scp.`level` = sp.pid
+                                         LEFT JOIN soat_roles AS sr ON sr.rid = sur.r_id
+                                         LEFT JOIN soat_roles_permissions AS srp ON srp.r_id = sr.rid
+                                         LEFT JOIN soat_permission AS sp ON sp.pid = srp.p_id
     WHERE nickname = #{nickname}
   </select>
 
