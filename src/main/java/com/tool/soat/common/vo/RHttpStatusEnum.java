@@ -31,7 +31,9 @@ public enum RHttpStatusEnum {
     ADD_ROLE_FAIL(40015,"增加角色失败"),
     EDIT_ROLE_FAIL(40016,"修改角色失败"),
     PERMISSIONS_FAIL(40017,"修改角色失败"),
-    QUERY_PERMISSIONS_FAIL(40017,"修改角色失败"),
+    QUERY_PERMISSIONS_FAIL(40018,"查询权限失败"),
+    REMOVE_PR_FAIL(40019,"删除角色权限关联关系失败"),
+    ADD_PR_FAIL(40020,"新建角色权限关联关系"),
     NAV_QUERY_FAIL(40004,"获取导航栏失败");
 
 

@@ -33,4 +33,10 @@
       </if>
     </trim>
   </insert>
+
+
+  <delete id="deleteRelationByRidAndByPid">
+    DELETE FROM soat_roles_permissions WHERE r_id = #{rid} AND p_id = #{pid}
+  </delete>
+
 </mapper>

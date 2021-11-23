@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface RolePermissionService {
     public Integer roleRelationPermission(SoatRolesPermissions soatRolesPermissions);
+    public void removeRP(SoatRolesPermissions soatRolesPermissions);
 
 }
