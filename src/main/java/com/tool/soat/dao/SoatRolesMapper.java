@@ -23,4 +23,5 @@ public interface SoatRolesMapper {
     List<SoatRoles> queryAllRolePermission();
 
 
+
 }
