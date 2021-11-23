@@ -22,6 +22,7 @@ public interface SoatRolesMapper {
 
     List<SoatRoles> queryAllRolePermission();
 
+    void removeRole(Integer rid);
 
 
 }

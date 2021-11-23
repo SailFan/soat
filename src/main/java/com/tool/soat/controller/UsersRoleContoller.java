@@ -22,8 +22,8 @@ public class UsersRoleContoller {
     @Resource
     RoleUserService roleUserService;
 
-    @RequestMapping(value = "/addUR", method = RequestMethod.GET)
-    public R addUR(@RequestBody SoatUsersRoles soatUsersRoles){
+    @RequestMapping(value = "/delUR", method = RequestMethod.GET)
+    public R delUR(@RequestBody SoatUsersRoles soatUsersRoles){
         try {
             roleUserService.removeUserRole(soatUsersRoles);
             return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
@@ -40,7 +40,7 @@ public class UsersRoleContoller {
             return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
             logger.debug(String.valueOf(e));
-            return new R(RHttpStatusEnum.ADD_UR_FAIL.getCode(), "",RHttpStatusEnum.ADD_UR_FAIL.getMessage());
+            return new R(RHttpStatusEnum.REMOVE_UR_FAIL.getCode(), "",RHttpStatusEnum.REMOVE_UR_FAIL.getMessage());
         }
     }
 }

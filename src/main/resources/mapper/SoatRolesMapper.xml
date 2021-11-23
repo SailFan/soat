@@ -67,4 +67,13 @@
     UPDATE soat_roles SET role_name = #{roleName} WHERE rid = #{rid}
   </update>
 
+  <delete id="removeRole">
+    DELETE soat_roles,soat_users_roles,soat_roles_permissions
+    FROM soat_roles LEFT JOIN soat_users_roles
+    on soat_roles.rid = soat_users_roles.r_id
+    LEFT JOIN soat_roles_permissions
+    ON soat_roles_permissions.r_id = soat_roles.rid
+    WHERE soat_roles.rid=#{rid}
+  </delete>
+
 </mapper>

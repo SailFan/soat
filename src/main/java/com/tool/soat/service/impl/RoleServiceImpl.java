@@ -30,4 +30,9 @@ public class RoleServiceImpl implements RoleService {
     public void updateCurrentRole(SoatRoles soatRoles){
         soatRolesMapper.updateRole(soatRoles.getRoleName(), soatRoles.getRid());
     }
+
+    public void removeRoleAllRelation(Integer rid){
+        soatRolesMapper.removeRole(rid);
+    }
+
 }

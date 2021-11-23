@@ -30,13 +30,11 @@ public class RolesController {
     public R getRoleList(){
         try {
             List<SoatRoles> roles = roleService.queryAllRolePer();
-
             return new R(RHttpStatusEnum.SUCCESS.getCode(),roles,RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
             logger.debug(String.valueOf(e));
             return new R(RHttpStatusEnum.QUERY_ROLE_LIST_FAIL.getCode(), "",RHttpStatusEnum.QUERY_ROLE_LIST_FAIL.getMessage());
         }
-
 
     }
 
@@ -65,5 +63,14 @@ public class RolesController {
         }
     }
 
-
+    @RequestMapping(value = "/delRole")
+    public R delRole(Integer rid){
+        try {
+            roleService.removeRoleAllRelation(rid);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            logger.debug(String.valueOf(e));
+            return new R(RHttpStatusEnum.DEL_ROLE_FAIL.getCode(), "",RHttpStatusEnum.DEL_ROLE_FAIL.getMessage());
+        }
+    }
 }
