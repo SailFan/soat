@@ -49,7 +49,5 @@ public class PermissionRoleController {
             return new R(RHttpStatusEnum.REMOVE_PR_FAIL.getCode(), "",RHttpStatusEnum.REMOVE_PR_FAIL.getMessage());
         }
 
-
-
     }
 }

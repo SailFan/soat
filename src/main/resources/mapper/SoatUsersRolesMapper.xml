@@ -40,4 +40,9 @@
       </if>
     </trim>
   </insert>
+
+  <delete id="deleteSoatUsersRoles">
+    DELETE FROM soat_users_roles WHERE r_id = #{rid} AND u_id = #{uid}
+  </delete>
+
 </mapper>
