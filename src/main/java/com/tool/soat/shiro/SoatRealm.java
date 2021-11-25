@@ -67,6 +67,7 @@ public class SoatRealm extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         String nickname = token.getUsername();
         SoatUsers soatUsers = soatUsersMapper.queryUserByUsername(nickname);
+        System.out.println(soatUsers);
         if (soatUsers==null){
             return null;
         }

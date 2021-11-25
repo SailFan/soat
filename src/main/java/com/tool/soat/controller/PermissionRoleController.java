@@ -39,9 +39,9 @@ public class PermissionRoleController {
 
     }
     @RequestMapping(value = "/removeRolePermission", method = RequestMethod.GET)
-    public R removeRolePermission(@RequestBody SoatRolesPermissions soatRolesPermissions){
+    public R removeRolePermission(Integer rid, Integer pid){
         try {
-            PermissionService.removeRP(soatRolesPermissions);
+            PermissionService.removeRP(rid,pid);
             return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
 
         }catch (Exception e){

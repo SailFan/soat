@@ -19,7 +19,7 @@ public class RolePermissionServiceImpl implements RolePermissionService {
         return insertOneRP;
     }
 
-    public void removeRP(SoatRolesPermissions soatRolesPermissions){
-        soatRolesPermissionsMapper.deleteRelationByRidAndByPid(soatRolesPermissions);
+    public void removeRP(Integer rid, Integer pid){
+        soatRolesPermissionsMapper.deleteRelationByRidAndByPid(rid,pid);
     }
 }
