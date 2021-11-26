@@ -73,4 +73,17 @@ public class RolesController {
             return new R(RHttpStatusEnum.DEL_ROLE_FAIL.getCode(), "",RHttpStatusEnum.DEL_ROLE_FAIL.getMessage());
         }
     }
+
+    @RequestMapping(value = "/getRole", method = RequestMethod.GET)
+    public R getRole(Integer rid){
+        try {
+            SoatRoles roles = roleService.queryRole(rid);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),roles,RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            logger.debug(String.valueOf(e));
+            return new R(RHttpStatusEnum.QUERY_ROLE_FAIL.getCode(), "",RHttpStatusEnum.QUERY_ROLE_FAIL.getMessage());
+        }
+
+    }
+
 }

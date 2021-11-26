@@ -10,4 +10,5 @@ public interface RoleService {
     public Integer insertRole(SoatRoles soatRoles);
     public void updateCurrentRole(SoatRoles soatRoles);
     public void removeRoleAllRelation(Integer rid);
+    public SoatRoles queryRole(Integer rid);
 }

@@ -28,6 +28,11 @@
     WHERE sr.role_name=#{nickname}
   </select>
 
+  <select id="queryRoleById" resultMap="BaseResultMap">
+    SELECT * FROM soat_roles WHERE rid = #{rid}
+  </select>
+
+
 
   <insert id="insert" parameterType="com.tool.soat.entity.SoatRoles" >
 
