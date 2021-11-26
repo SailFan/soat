@@ -55,12 +55,11 @@
   </insert>
 
   <select id="queryAllRolePermission" resultMap="BaseResultMapCollection">
-    SELECT sr.rid AS srrid,sr.role_name AS srrolename,sp.pid AS sppid, sp.`code` AS spcode, sp.`name` AS spname,scp.pc_id AS scppcid,scp.`code` AS scpcode, scp.`name` AS scpname, scp.`level` AS scplevel
+    SELECT sr.rid AS srrid,sr.role_name AS srrolename,sp.pid AS sppid, sp.`code` AS spcode, sp.`name` AS spname
     FROM soat_roles as sr
            LEFT JOIN soat_roles_permissions as srp
                      ON sr.rid = srp.r_id
            LEFT JOIN soat_permission AS sp ON sp.pid = srp.p_id
-           LEFT JOIN soat_childre_permission AS scp ON scp.`level` = sp.pid
   </select>
 
   <update id="updateRole">
