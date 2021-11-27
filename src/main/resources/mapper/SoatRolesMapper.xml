@@ -14,6 +14,7 @@
   <resultMap id="BaseResultMapCollection" type="com.tool.soat.entity.SoatRoles" >
     <result column="srrid" property="rid" jdbcType="INTEGER" />
     <result column="srrolename" property="roleName" jdbcType="VARCHAR" />
+    <result column="srroletag" property="roleTag" jdbcType="VARCHAR" />
     <collection property="permissionsList" ofType="com.tool.soat.entity.SoatPermission">
       <id column="sppid" property="pid"></id>
       <result column="spcode" property="code"></result>
@@ -26,6 +27,11 @@
     SELECT sr.rid AS srrid, sr.role_name AS srrolename, sp.pid AS sppid, sp.`code` AS spcode, sp.`name` AS spname  FROM soat_roles sr LEFT JOIN soat_roles_permissions srp ON sr.rid = srp.r_id                                                                                                                                LEFT JOIN soat_permission sp ON sp.pid = srp.p_id
     WHERE sr.role_name=#{nickname}
   </select>
+
+  <select id="queryRoleById" resultMap="BaseResultMap">
+    SELECT * FROM soat_roles WHERE rid = #{rid}
+  </select>
+
 
 
   <insert id="insert" parameterType="com.tool.soat.entity.SoatRoles" >
@@ -55,7 +61,11 @@
   </insert>
 
   <select id="queryAllRolePermission" resultMap="BaseResultMapCollection">
+<<<<<<< HEAD
     SELECT sr.rid AS srrid,sr.role_name AS srrolename,sp.pid AS sppid, sp.`code` AS spcode, sp.`name` AS spname
+=======
+    SELECT sr.rid AS srrid,sr.role_name AS srrolename,sr.role_tag AS srroletag,sp.pid AS sppid, sp.`code` AS spcode, sp.`name` AS spname
+>>>>>>> e5e85231155dacffe50a01899f6e24a96b4bc1db
     FROM soat_roles as sr
            LEFT JOIN soat_roles_permissions as srp
                      ON sr.rid = srp.r_id

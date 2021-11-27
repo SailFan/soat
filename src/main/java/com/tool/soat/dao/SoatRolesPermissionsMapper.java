@@ -8,7 +8,7 @@ public interface SoatRolesPermissionsMapper {
 
     int insertSelective(SoatRolesPermissions record);
 
-    void deleteRelationByRidAndByPid(SoatRolesPermissions record);
+    void deleteRelationByRidAndByPid(Integer rid, Integer pid);
 
 
 }

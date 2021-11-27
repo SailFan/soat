@@ -35,4 +35,8 @@ public class RoleServiceImpl implements RoleService {
         soatRolesMapper.removeRole(rid);
     }
 
+    public SoatRoles queryRole(Integer rid){
+        SoatRoles soatRoles = soatRolesMapper.queryRoleById(rid);
+        return soatRoles;
+    }
 }

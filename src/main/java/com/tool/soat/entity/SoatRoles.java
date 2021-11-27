@@ -18,6 +18,7 @@ public class SoatRoles implements Serializable {
     private Integer rid;
 
     private String roleName;
+    private String roleTag;
 
     private Set<SoatPermission> permissionsList;
 
