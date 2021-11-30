@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -27,9 +30,11 @@ public class PermissionRoleController {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping(value = "/addRP", method = RequestMethod.POST)
-    public R addRP(@RequestBody SoatRolesPermissions soatRolesPermissions){
+    public R addRP(@RequestBody Map<Object,Object> map){
         try {
-            PermissionService.roleRelationPermission(soatRolesPermissions);
+
+
+//           PermissionService.roleRelationPermission(soatRolesPermissions);
             return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
             logger.debug(String.valueOf(e));

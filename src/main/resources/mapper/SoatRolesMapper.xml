@@ -61,11 +61,8 @@
   </insert>
 
   <select id="queryAllRolePermission" resultMap="BaseResultMapCollection">
-<<<<<<< HEAD
-    SELECT sr.rid AS srrid,sr.role_name AS srrolename,sp.pid AS sppid, sp.`code` AS spcode, sp.`name` AS spname
-=======
+
     SELECT sr.rid AS srrid,sr.role_name AS srrolename,sr.role_tag AS srroletag,sp.pid AS sppid, sp.`code` AS spcode, sp.`name` AS spname
->>>>>>> e5e85231155dacffe50a01899f6e24a96b4bc1db
     FROM soat_roles as sr
            LEFT JOIN soat_roles_permissions as srp
                      ON sr.rid = srp.r_id
