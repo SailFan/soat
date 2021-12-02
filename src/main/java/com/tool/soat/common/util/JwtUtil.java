@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JwtUtil {
-    public static final long EXPIRE_TIME = 30 * 60 * 1000;
+    public static final long EXPIRE_TIME = 30 * 60;
     public static final String soat = "soat";
     public static final String AUTH_HEADER = "X-Authorization-With";
 
