@@ -33,7 +33,7 @@ public class PermissionRoleController {
     public R addRP(@RequestBody Map<Object,Object> map){
         try {
 
-
+            System.out.println(map);
 //           PermissionService.roleRelationPermission(soatRolesPermissions);
             return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
