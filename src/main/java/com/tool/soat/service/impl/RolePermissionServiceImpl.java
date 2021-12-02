@@ -11,6 +11,8 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 
+import static java.util.stream.Collectors.toList;
+
 
 @Service
 public class RolePermissionServiceImpl implements RolePermissionService {
@@ -21,14 +23,17 @@ public class RolePermissionServiceImpl implements RolePermissionService {
     SoatRolesMapper soatRolesMapper;
 
     public void roleRelationPermission(Integer rid, List<Integer> pid){
-        System.out.println(pid);
-        System.out.println("前");
         List<Integer> list = soatRolesMapper.queryPermissionByRoleId(rid);
-        pid.removeAll(list);
-        System.out.println("后");
-        System.out.println(pid);
-        for (Integer item: pid) {
-            soatRolesPermissionsMapper.insertOneRP(rid, item);
+        if(list.size()>pid.size()){
+            list.removeAll(pid);
+            for (Integer c: list) {
+                soatRolesPermissionsMapper.deleteRelationByRidAndByPid(rid,c);
+            }
+        }else {
+            pid.removeAll(list);
+            for (Integer item: pid) {
+                soatRolesPermissionsMapper.insertOneRP(rid, item);
+            }
         }
     }
 

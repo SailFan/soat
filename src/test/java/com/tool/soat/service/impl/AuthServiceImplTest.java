@@ -2,6 +2,7 @@ package com.tool.soat.service.impl;
 
 import com.tool.soat.entity.SoatUsers;
 import com.tool.soat.service.AuthService;
+import org.apache.commons.collections.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,8 +12,11 @@ import org.springframework.util.DigestUtils;
 import javax.annotation.Resource;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -28,7 +32,18 @@ class AuthServiceImplTest {
 
     @Test
     void queryBySizeAndNumS() {
-
+        ArrayList<Integer> list1 = new ArrayList<>();
+        list1.add(1);
+        list1.add(2);
+        list1.add(4);
+        list1.add(3);
+        ArrayList<Integer> list2 = new ArrayList<>();
+        list2.add(3);
+        list2.add(4);
+        list2.add(5);
+        list2.add(6);
+        List<Integer> list = list1.stream().filter(item -> list2.contains(item)).collect(toList());
+        System.out.println(list);
     }
 
     @Test
