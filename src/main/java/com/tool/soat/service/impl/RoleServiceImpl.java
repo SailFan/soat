@@ -39,4 +39,9 @@ public class RoleServiceImpl implements RoleService {
         SoatRoles soatRoles = soatRolesMapper.queryRoleById(rid);
         return soatRoles;
     }
+//    queryPermissionByRoleId
+    public List<Integer> queryPermission(Integer rid){
+        List<Integer> integers = soatRolesMapper.queryPermissionByRoleId(rid);
+        return integers;
+    }
 }

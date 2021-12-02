@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class NavController {
     @RequestMapping (value = "/getNav")
     public R getNav(){
         try {
-            List<SoatNav> navs = navService.queryNavS();
+            List<SoatNav> navs =  navService.queryNavS();
             return new R(RHttpStatusEnum.SUCCESS.getCode(),navs,RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
             logger.debug(String.valueOf(e));

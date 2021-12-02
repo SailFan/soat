@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.apache.shiro.web.filter.mgt.DefaultFilter.roles;
+
 @RestController
 @RequestMapping("/role")
 public class RolesController {
@@ -85,6 +87,17 @@ public class RolesController {
             return new R(RHttpStatusEnum.QUERY_ROLE_FAIL.getCode(), "",RHttpStatusEnum.QUERY_ROLE_FAIL.getMessage());
         }
 
+    }
+
+    @RequestMapping(value = "/getRolePermissions", method = RequestMethod.GET)
+    public R getRolePermissions(Integer rid){
+        try {
+            List<Integer> integers = roleService.queryPermission(rid);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),integers,RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            logger.debug(String.valueOf(e));
+            return new R(RHttpStatusEnum.QUERY_ASSIGN_ROLE_PERMISSION_FAIL.getCode(), "",RHttpStatusEnum.QUERY_ASSIGN_ROLE_PERMISSION_FAIL.getMessage());
+        }
     }
 
 }

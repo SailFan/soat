@@ -21,4 +21,5 @@ public interface SoatRolesMapper {
 
     SoatRoles queryRoleById(Integer rid);
 
+    List<Integer> queryPermissionByRoleId(Integer rid);
 }
