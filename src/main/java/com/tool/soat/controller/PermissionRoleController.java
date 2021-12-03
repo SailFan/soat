@@ -34,8 +34,6 @@ public class PermissionRoleController {
         try {
             Integer rid = (Integer) map.get("rid");
             List<Integer> pid = (List<Integer>) map.get("pid");
-            System.out.println(pid);
-            System.out.println(rid);
             PermissionService.roleRelationPermission(rid,pid);
             return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){

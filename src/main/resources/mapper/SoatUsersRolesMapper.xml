@@ -45,4 +45,14 @@
     DELETE FROM soat_users_roles WHERE r_id = #{rid} AND u_id = #{uid}
   </delete>
 
+  <select id="queryCurrentRole" resultType="String">
+    SELECT sr.role_name FROM soat_users su left join soat_users_roles sur ON su.id=sur.u_id
+                                LEFT JOIN soat_roles sr ON sr.rid = sur.r_id WHERE id = #{uid}
+  </select>
+
+
+  <update id="changeCurrentRole">
+    UPDATE soat_users_roles set u_id = {uId}, r_id = #{rId}  WHERE  u_id = #{uId}
+  </update>
+
 </mapper>

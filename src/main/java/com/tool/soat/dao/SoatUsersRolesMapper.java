@@ -10,4 +10,6 @@ public interface SoatUsersRolesMapper {
     int insertSelective(SoatUsersRoles record);
 
     void deleteSoatUsersRoles(SoatUsersRoles record);
+    void changeCurrentRole(SoatUsersRoles record);
+    String queryCurrentRole(Integer uid);
 }
