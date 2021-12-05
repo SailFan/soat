@@ -16,8 +16,6 @@ public class NavServiceImpl implements NavService {
     @Override
     public List<SoatNav> queryNavS() {
         List<SoatNav> navs = new ArrayList<>();
-        Map<Integer, SoatNav> map = new HashMap<>();
-
         List<SoatNav> soatNavs = soatNavMapper.selectAllNav();
 
         for (SoatNav s : soatNavs){
