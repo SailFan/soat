@@ -33,12 +33,10 @@ public class UsersRoleContoller {
         }
     }
 
-    @RequestMapping(value = "/adelUR", method = RequestMethod.POST)
-    public R adelUR(@RequestBody SoatUsersRoles soatUsersRoles){
+    @RequestMapping(value = "/addUR", method = RequestMethod.GET)
+    public R addUR(Integer uId, Integer rId){
         try {
-            System.out.println("3333333333333333333333");
-            System.out.println(soatUsersRoles);
-            roleUserService.cCurrentRole(soatUsersRoles);
+            roleUserService.cCurrentRole(uId, rId);
             return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
             logger.debug(String.valueOf(e));
