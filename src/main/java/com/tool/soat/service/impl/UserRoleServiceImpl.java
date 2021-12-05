@@ -15,9 +15,21 @@ public class UserRoleServiceImpl implements RoleUserService {
     SoatUsersRolesMapper soatUsersRolesMapper;
 
     public void insertUserRole(SoatUsersRoles soatUsersRoles){
+//        soatUsersRolesMapper.deleteSoatUsersRoles(soatUsersRoles);
         soatUsersRolesMapper.insert(soatUsersRoles);
     }
+
+    @Override
+    public String currentRole(Integer uid) {
+        String s = soatUsersRolesMapper.queryCurrentRole(uid);
+        return s;
+    }
+
     public void removeUserRole(SoatUsersRoles soatUsersRoles){
 
     }
+    public void cCurrentRole(SoatUsersRoles soatUsersRoles){
+        soatUsersRolesMapper.changeCurrentRole(soatUsersRoles);
+    }
+
 }

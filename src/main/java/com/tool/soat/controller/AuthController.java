@@ -70,7 +70,6 @@ public class AuthController {
 
     @RequestMapping(value = "/modificationUser", method = RequestMethod.POST,consumes="application/json")
     public R modificationUser(@RequestBody SoatUsers soatUsers){
-        System.out.println(soatUsers);
         try{
             Integer code = authService.modificationUserS(soatUsers);
             if (code!=1){
@@ -134,7 +133,6 @@ public class AuthController {
 
     @GetMapping(value = "/changeStatus")
     public R changeStatus(Integer id){
-        System.out.println(id);
         try {
             authService.changeStatus(id);
             return new R(RHttpStatusEnum.SUCCESS.getCode(), "",RHttpStatusEnum.SUCCESS.getMessage());

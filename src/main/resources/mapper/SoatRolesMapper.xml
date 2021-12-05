@@ -82,4 +82,12 @@
     WHERE soat_roles.rid=#{rid}
   </delete>
 
+
+
+  <select id="queryPermissionByRoleId" resultType="Integer">
+    SELECT sp.pid FROM soat_roles AS sr LEFT JOIN soat_roles_permissions  AS srp ON sr.rid = srp.r_id
+                                   LEFT JOIN soat_permission AS sp ON sp.pid = srp.p_id
+    WHERE sr.rid = #{rid}
+  </select>
+
 </mapper>

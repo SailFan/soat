@@ -19,8 +19,8 @@ public class SoatRolesPermissionsMapperTest {
     @Test
     public void test1(){
         SoatRolesPermissions permissions = new SoatRolesPermissions(4,4);
-        int i = soatRolesPermissionsMapper.insertOneRP(permissions);
-        System.out.println(i);
+//        int i = soatRolesPermissionsMapper.insertOneRP(permissions);
+//        System.out.println(i);
     }
 
 }

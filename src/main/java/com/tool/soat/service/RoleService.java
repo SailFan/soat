@@ -11,4 +11,5 @@ public interface RoleService {
     public void updateCurrentRole(SoatRoles soatRoles);
     public void removeRoleAllRelation(Integer rid);
     public SoatRoles queryRole(Integer rid);
+    public List<Integer> queryPermission(Integer rid);
 }

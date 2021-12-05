@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ class NavServiceImplTest {
 
     @Test
     void queryNavS() {
-        List<SoatNav> objects = aavServiceImpl.queryNavS();
+        List<Object> objects = Collections.singletonList(aavServiceImpl.queryNavS());
 //        for (SoatNav s : objects){
 //            System.out.println(s);
 

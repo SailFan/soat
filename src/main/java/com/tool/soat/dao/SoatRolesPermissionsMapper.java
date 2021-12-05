@@ -4,7 +4,7 @@ import com.tool.soat.entity.SoatRolesPermissions;
 
 public interface SoatRolesPermissionsMapper {
 
-    int insertOneRP(SoatRolesPermissions record);
+    int insertOneRP(Integer rId, Integer pId);
 
     int insertSelective(SoatRolesPermissions record);
 

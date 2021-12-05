@@ -33,14 +33,30 @@ public class UsersRoleContoller {
         }
     }
 
-    @RequestMapping(value = "/adelUR", method = RequestMethod.POST,consumes="application/json")
+    @RequestMapping(value = "/adelUR", method = RequestMethod.POST)
     public R adelUR(@RequestBody SoatUsersRoles soatUsersRoles){
         try {
-            roleUserService.insertUserRole(soatUsersRoles);
+            System.out.println("3333333333333333333333");
+            System.out.println(soatUsersRoles);
+            roleUserService.cCurrentRole(soatUsersRoles);
             return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
             logger.debug(String.valueOf(e));
             return new R(RHttpStatusEnum.REMOVE_UR_FAIL.getCode(), "",RHttpStatusEnum.REMOVE_UR_FAIL.getMessage());
         }
     }
+
+    @RequestMapping(value = "/getCurrentRole")
+    public R getCurrentRole(Integer uid){
+        try {
+            String s = roleUserService.currentRole(uid);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),s,RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            logger.debug(String.valueOf(e));
+            return new R(RHttpStatusEnum.GET_CURRENT_ROLE_FAIL.getCode(), "",RHttpStatusEnum.GET_CURRENT_ROLE_FAIL.getMessage());
+        }
+    }
+
+
+
 }

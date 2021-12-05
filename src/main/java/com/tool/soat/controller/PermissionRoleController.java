@@ -30,15 +30,15 @@ public class PermissionRoleController {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping(value = "/addRP", method = RequestMethod.POST)
-    public R addRP(@RequestBody Map<Object,Object> map){
+    public R addRP(@RequestBody Map<String,Object> map){
         try {
-
-
-//           PermissionService.roleRelationPermission(soatRolesPermissions);
+            Integer rid = (Integer) map.get("rid");
+            List<Integer> pid = (List<Integer>) map.get("pid");
+            PermissionService.roleRelationPermission(rid,pid);
             return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
             logger.debug(String.valueOf(e));
-            return new R(RHttpStatusEnum.ADD_PR_FAIL.getCode(), "",RHttpStatusEnum.ADD_PR_FAIL.getMessage());
+            return new R(RHttpStatusEnum.ADD_PERMISSION_ROLE_FAIL.getCode(), "",RHttpStatusEnum.ADD_PERMISSION_ROLE_FAIL.getMessage());
         }
 
 

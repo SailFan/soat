@@ -17,7 +17,6 @@ public class NavServiceImpl implements NavService {
     public List<SoatNav> queryNavS() {
         List<SoatNav> navs = new ArrayList<>();
         List<SoatNav> soatNavs = soatNavMapper.selectAllNav();
-
         for (SoatNav s : soatNavs){
             if (s.getLevel()==0){
                 if (soatNavMapper.selectByLevel(s.getId()).size()!=0){
@@ -28,7 +27,6 @@ public class NavServiceImpl implements NavService {
                 navs.add(s);
             }
         }
-
         return navs;
     }
 }
