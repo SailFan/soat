@@ -34,7 +34,4 @@ public class PermissionController {
             return new R(RHttpStatusEnum.QUERY_PERMISSIONS_FAIL.getCode(), "",RHttpStatusEnum.QUERY_PERMISSIONS_FAIL.getMessage());
         }
     }
-
-
-
 }
