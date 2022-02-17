@@ -8,6 +8,7 @@ class SoatApplicationTests {
 
     @Test
     void contextLoads() {
+        
     }
 
 }
