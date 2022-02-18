@@ -2,7 +2,6 @@ package com.tool.soat.service.impl;
 
 
 
-import com.tool.soat.dao.SoatInterfaceMapper;
 import com.tool.soat.entity.SoatInterface;
 import com.tool.soat.service.InterfaceService;
 import org.springframework.stereotype.Service;
