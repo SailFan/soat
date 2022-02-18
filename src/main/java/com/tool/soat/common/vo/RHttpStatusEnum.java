@@ -40,7 +40,8 @@ public enum RHttpStatusEnum {
     ADD_PERMISSION_ROLE_FAIL(40025,"新增角色用户关联关系失败"),
     GET_CURRENT_ROLE_FAIL(40026,"获取当前角色"),
     QUERY_ASSIGN_ROLE_PERMISSION_FAIL(40024,"获取指定角色权限失败"),
-    NAV_QUERY_FAIL(40004,"获取导航栏失败");
+    NAV_QUERY_FAIL(40004,"获取导航栏失败"),
+    INTERFACE_ADD_FAIL(40027,"获取接口参数失败");
 
 
     Integer code;
