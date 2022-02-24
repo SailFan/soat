@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface SoatProjectMapper{
     void addOneProject(SoatProject soatProject);
-    List<SoatProject> queryProject(Integer currentPage, Integer pageSize);
+    List<SoatProject> queryProject(Integer uid,Integer currentPage, Integer pageSize);
 }

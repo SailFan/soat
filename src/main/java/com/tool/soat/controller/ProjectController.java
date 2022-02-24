@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,9 +47,12 @@ public class ProjectController {
 
 
     @RequestMapping(value = "/queryProject", method = RequestMethod.GET)
-    public R queryProject(){
+    public R queryProject(HttpServletRequest httpServletRequest){
       try{
-          List<SoatProject> projects = projectService.queryProject();
+          String username = httpServletRequest.getParameter("query");
+          Integer pagesize = Integer.parseInt(httpServletRequest.getParameter("pagesize"));
+          Integer pagenum = Integer.parseInt(httpServletRequest.getParameter("pagenum"));
+          List<SoatProject> projects = projectService.queryProject(uid, currentPage,  pageSize);
           return new R(RHttpStatusEnum.SUCCESS.getCode(),projects,RHttpStatusEnum.SUCCESS.getMessage());
       }catch (Exception e){
           return new R(RHttpStatusEnum.QUERY_PROJECT_ERROR.getCode(),"",RHttpStatusEnum.QUERY_PROJECT_ERROR.getMessage());

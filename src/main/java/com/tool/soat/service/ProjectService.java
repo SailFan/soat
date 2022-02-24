@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface ProjectService {
     public void addOneProject(SoatProject soatProject);
-    public List<SoatProject> queryProject();
+    public List<SoatProject> queryProject(Integer uid,Integer currentPage, Integer pageSize);
+
 }

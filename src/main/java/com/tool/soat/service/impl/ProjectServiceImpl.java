@@ -27,13 +27,9 @@ public class ProjectServiceImpl implements ProjectService {
         soatProjectMapper.addOneProject(project);
     }
 
-    @Override
-    public List<SoatProject> queryProject() {
-        return null;
-    }
 
-//    public List<SoatProject> queryProject(Integer currentPage, Integer pageSize) {
-//        List<SoatProject> soatProjects = soatProjectMapper.queryProject(Integer currentPage, Integer pageSize);
-//        return soatProjects;
-//    }
+    public List<SoatProject> queryProject(Integer uid,Integer currentPage, Integer pageSize) {
+        List<SoatProject> soatProjects = soatProjectMapper.queryProject(uid,currentPage,pageSize);
+        return soatProjects;
+    }
 }
