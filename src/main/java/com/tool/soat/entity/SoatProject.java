@@ -1,13 +1,15 @@
 package com.tool.soat.entity;
 
 import lombok.*;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.xml.crypto.Data;
+
+import java.util.Date;
 import java.util.List;
 
-@lombok.Data
+@Data
 @ToString
 @Getter
 @Setter
@@ -17,14 +19,15 @@ import java.util.List;
 public class SoatProject {
 
     @Id
-    private Integer id;
+    private ObjectId id;
     private String projectName;
     private String basePath;
-    private String projectType;
+    private Boolean projectType;
     private Integer uId;
-    private Data addTime;
-    private Data upTime;
+    private Date addTime;
+    private Date upTime;
     private String global;
     private List<SoatEnv> env;
     private List<SoatTag> tag;
+
 }

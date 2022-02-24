@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
 
-@SpringBootApplication(exclude = MongoAutoConfiguration.class)
+@SpringBootApplication
 
 @MapperScan(basePackages = "com.tool.soat.dao")
 public class SoatApplication {

@@ -3,6 +3,7 @@ package com.tool.soat.service.impl;
 import com.tool.soat.entity.SoatUsers;
 import com.tool.soat.service.AuthService;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.shiro.SecurityUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,8 +13,11 @@ import org.springframework.util.DigestUtils;
 import javax.annotation.Resource;
 
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -77,6 +81,10 @@ class AuthServiceImplTest {
 
     @Test
     void testPrint(){
+//        Date date = new Date();
+//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        System.out.println(df.format(date));
+        SoatUsers users = (SoatUsers) SecurityUtils.getSubject().getPrincipal();
 
     }
 }
