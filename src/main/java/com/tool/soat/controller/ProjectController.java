@@ -48,7 +48,6 @@ public class ProjectController {
 
     @RequestMapping(value = "/queryProject", method = RequestMethod.GET)
     public R queryProject(HttpServletRequest httpServletRequest){
-        System.out.println("------------------------------------------");
       try{
           HashMap<String, Object> map = new HashMap<>();
           Integer uid = Integer.parseInt( httpServletRequest.getParameter("query"));
@@ -63,6 +62,19 @@ public class ProjectController {
           return new R(RHttpStatusEnum.QUERY_PROJECT_ERROR.getCode(),"",RHttpStatusEnum.QUERY_PROJECT_ERROR.getMessage());
       }
     }
+
+    @RequestMapping(value = "/delOneProject", method = RequestMethod.GET)
+    public R delOneProject(HttpServletRequest httpServletRequest){
+        try{
+            Integer uid = Integer.parseInt( httpServletRequest.getParameter("query"));
+            Integer id = Integer.parseInt(httpServletRequest.getParameter("id"));
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.QUERY_PROJECT_ERROR.getCode(),"",RHttpStatusEnum.QUERY_PROJECT_ERROR.getMessage());
+        }
+    }
+
+
 
 }
 
