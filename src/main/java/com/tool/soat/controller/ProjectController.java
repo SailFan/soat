@@ -48,21 +48,21 @@ public class ProjectController {
 
     @RequestMapping(value = "/queryProject", method = RequestMethod.GET)
     public R queryProject(HttpServletRequest httpServletRequest){
+        System.out.println("------------------------------------------");
       try{
-          String username = httpServletRequest.getParameter("query");
-          Integer pagesize = Integer.parseInt(httpServletRequest.getParameter("pagesize"));
-          Integer pagenum = Integer.parseInt(httpServletRequest.getParameter("pagenum"));
+          HashMap<String, Object> map = new HashMap<>();
+          Integer uid = Integer.parseInt( httpServletRequest.getParameter("query"));
+          Integer pageSize = Integer.parseInt(httpServletRequest.getParameter("pageSize"));
+          Integer currentPage = Integer.parseInt(httpServletRequest.getParameter("currentPage"));
           List<SoatProject> projects = projectService.queryProject(uid, currentPage,  pageSize);
-          return new R(RHttpStatusEnum.SUCCESS.getCode(),projects,RHttpStatusEnum.SUCCESS.getMessage());
+          map.put("total", projects.size());
+          map.put("projects", projects);
+          System.out.println(map);
+          return new R(RHttpStatusEnum.SUCCESS.getCode(),map,RHttpStatusEnum.SUCCESS.getMessage());
       }catch (Exception e){
           return new R(RHttpStatusEnum.QUERY_PROJECT_ERROR.getCode(),"",RHttpStatusEnum.QUERY_PROJECT_ERROR.getMessage());
       }
     }
-
-
-
-
-
 
 }
 

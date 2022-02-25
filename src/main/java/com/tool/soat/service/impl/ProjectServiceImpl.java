@@ -20,11 +20,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void addOneProject(SoatProject soatProject) {
         Date date = new Date();
-        SoatProject project = new SoatProject();
-        project.setAddTime(date);
-        project.setUpTime(date);
-        project.setUId(2);
-        soatProjectMapper.addOneProject(project);
+        soatProject.setAddTime(date);
+        soatProject.setUpTime(date);
+        soatProject.setUId(2);
+        soatProjectMapper.addOneProject(soatProject);
     }
 
 
