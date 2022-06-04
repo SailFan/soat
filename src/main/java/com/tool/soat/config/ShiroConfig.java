@@ -120,7 +120,7 @@ public class ShiroConfig {
 
         HashMap<String, String> map = new HashMap<>();
 
-        map.put("/login", "anon");
+        map.put("/login", "authc");
         map.put("/", "anon");
         map.put("/logout","logout");
         filter.setFilterChainDefinitionMap(map);
