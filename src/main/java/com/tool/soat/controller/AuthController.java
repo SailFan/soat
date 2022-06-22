@@ -1,14 +1,19 @@
 package com.tool.soat.controller;
 
 import com.tool.soat.common.util.JwtUtil;
+import com.tool.soat.common.util.SoatJWTUtil;
 import com.tool.soat.common.vo.R;
 import com.tool.soat.common.vo.RHttpStatusEnum;
 import com.tool.soat.entity.SoatUsers;
 import com.tool.soat.service.AuthService;
+import com.tool.soat.service.PermissionService;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.DigestUtils;
@@ -16,11 +21,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
+import java.util.Set;
 
 
 @RestController
@@ -30,6 +35,8 @@ public class AuthController {
 
     @Resource
     AuthService authService;
+    @Resource
+    PermissionService permissionService;
 
     @RequestMapping(value = "/")
     public String index(){
@@ -37,31 +44,31 @@ public class AuthController {
     }
 
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST,consumes="application/json")
-    public R login(@RequestBody Map<String,Object> map, ServletResponse response){
-        String username= (String) map.get("username");
-        String password= (String) map.get("password");
-        try {
-            HashMap<String, String> hashMap = new HashMap<>();
-            hashMap.put("username","liuwenfan");
-            authService.checkLogin(username,password);
-            String jwtToken = JwtUtil.createToken(hashMap);
-            HashMap<Object, Object> hashToken = new HashMap<>();
-            hashToken.put("token",jwtToken);
-//            ((HttpServletResponse) response).setHeader(JwtUtil.AUTH_HEADER, jwtToken);
-            return new R(RHttpStatusEnum.LOGIN_SUCCESS.getCode(), hashToken,RHttpStatusEnum.LOGIN_SUCCESS.getMessage());
-        } catch (UnknownAccountException uae) {
-            return new R(RHttpStatusEnum.LOGIN_FAIL_MATCH.getCode(), "",RHttpStatusEnum.LOGIN_FAIL_MATCH.getMessage());
-        } catch (IncorrectCredentialsException ice) {
-            return new R(RHttpStatusEnum.LOGIN_FAIL_Incorrect.getCode(), "",RHttpStatusEnum.LOGIN_FAIL_Incorrect.getMessage());
-        } catch (LockedAccountException lae) {
-            return new R(RHttpStatusEnum.LOGIN_FAIL.getCode(), "",RHttpStatusEnum.LOGIN_FAIL.getMessage());
-        } catch (AuthenticationException au) {
-            return new R(RHttpStatusEnum.LOGIN_FAIL.getCode(), "",RHttpStatusEnum.LOGIN_FAIL.getMessage());
-        } catch (Exception e) {
-            return new R(RHttpStatusEnum.LOGIN_FAIL.getCode(), "",RHttpStatusEnum.LOGIN_FAIL.getMessage());
-        }
-    }
+//    @RequestMapping(value = "/login", method = RequestMethod.POST,consumes="application/json")
+//    public R login(@RequestBody Map<String,Object> map, ServletResponse response){
+//        String username= (String) map.get("username");
+//        String password= (String) map.get("password");
+//        try {
+//            HashMap<String, String> hashMap = new HashMap<>();
+//            hashMap.put("username","liuwenfan");
+//            authService.checkLogin(username,password);
+//            String jwtToken = JwtUtil.createToken(hashMap);
+//            HashMap<Object, Object> hashToken = new HashMap<>();
+//            hashToken.put("token",jwtToken);
+////            ((HttpServletResponse) response).setHeader(JwtUtil.AUTH_HEADER, jwtToken);
+//            return new R(RHttpStatusEnum.LOGIN_SUCCESS.getCode(), hashToken,RHttpStatusEnum.LOGIN_SUCCESS.getMessage());
+//        } catch (UnknownAccountException uae) {
+//            return new R(RHttpStatusEnum.LOGIN_FAIL_MATCH.getCode(), "",RHttpStatusEnum.LOGIN_FAIL_MATCH.getMessage());
+//        } catch (IncorrectCredentialsException ice) {
+//            return new R(RHttpStatusEnum.LOGIN_FAIL_Incorrect.getCode(), "",RHttpStatusEnum.LOGIN_FAIL_Incorrect.getMessage());
+//        } catch (LockedAccountException lae) {
+//            return new R(RHttpStatusEnum.LOGIN_FAIL.getCode(), "",RHttpStatusEnum.LOGIN_FAIL.getMessage());
+//        } catch (AuthenticationException au) {
+//            return new R(RHttpStatusEnum.LOGIN_FAIL.getCode(), "",RHttpStatusEnum.LOGIN_FAIL.getMessage());
+//        } catch (Exception e) {
+//            return new R(RHttpStatusEnum.LOGIN_FAIL.getCode(), "",RHttpStatusEnum.LOGIN_FAIL.getMessage());
+//        }
+//    }
 
     @GetMapping("/logout")
     public R logout() {
@@ -175,4 +182,46 @@ public class AuthController {
     }
 
 
+
+    /**
+     * 登录操作
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+
+    @RequestMapping(value = "login", method = RequestMethod.POST,consumes="application/json")
+    public R login(@RequestBody Map<String,Object> map, ServletResponse response,HttpServletRequest request) {
+        String email= (String) map.get("email");
+        String password= (String) map.get("password");
+        SoatUsers user = authService.queryEmail(email);
+        if (user == null) {
+            return new R(RHttpStatusEnum.USER_NOT_EXIST.getCode(), "",RHttpStatusEnum.USER_NOT_EXIST.getMessage());
+        }
+        if (user.getStatus().equals(true)) {
+            return new R(RHttpStatusEnum.USER_LOCK.getCode(), "",RHttpStatusEnum.USER_LOCK.getMessage());
+        }
+        String salt = user.getSalt();
+        String tmp = password+salt;
+        String md5 = DigestUtils.md5DigestAsHex(tmp.getBytes());
+        SoatUsers soatUsers = authService.queryUsernameAndPassword(email, md5);
+
+        Set<String> stringSet = permissionService.queryCurrentPermission(soatUsers.getNickname());
+        soatUsers.setSoatPermission(stringSet);
+        String sign = SoatJWTUtil.sign(soatUsers.getEmail(), soatUsers.getId());
+        HashMap<Object, Object> hashToken = new HashMap<>();
+        hashToken.put("token",sign);
+        return new R(RHttpStatusEnum.LOGIN_SUCCESS.getCode(), hashToken,RHttpStatusEnum.LOGIN_SUCCESS.getMessage());
+
+    }
+
+
+//    @RequestMapping(value = "logout", method = {RequestMethod.GET, RequestMethod.POST})
+//    public R logout(HttpServletRequest request, HttpServletResponse response) {
+//        Subject currentUser = SecurityUtils.getSubject();
+//        currentUser.logout();
+//
+//        return new R(RHttpStatusEnum.LOGIN_SUCCESS.getCode(), "",RHttpStatusEnum.LOGIN_SUCCESS.getMessage());
+//    }
 }

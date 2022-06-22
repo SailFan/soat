@@ -1,5 +1,6 @@
 package com.tool.soat.service.impl;
 
+import com.tool.soat.entity.SoatRoles;
 import com.tool.soat.entity.SoatUsers;
 import com.tool.soat.service.AuthService;
 import org.apache.commons.collections.CollectionUtils;
@@ -87,4 +88,35 @@ class AuthServiceImplTest {
         SoatUsers users = (SoatUsers) SecurityUtils.getSubject().getPrincipal();
 
     }
+
+    @Test
+    void queryEmail(){
+        SoatUsers users = authService.queryEmail("afan6203@126.com");
+        System.out.println(users);
+    }
+
+
+    @Test
+    void testMd5(){
+        String base = "123456soat";
+        String md5 = DigestUtils.md5DigestAsHex(base.getBytes());
+        System.out.println(md5);
+    }
+
+    @Test
+    void testString(){
+        String base = "123456";
+        String soat = "soat";
+        System.out.println(base+soat);
+    }
+
+
+    @Test
+    void queryUsernameAndPassword() {
+        SoatUsers users = authService.queryUsernameAndPassword("afan6203@126.com", "a3eb67417ed506a6e7800f3236b6f85c");
+        System.out.println(users);
+    }
+
+
+
 }

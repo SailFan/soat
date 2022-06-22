@@ -1,5 +1,6 @@
 package com.tool.soat.dao;
 
+import com.tool.soat.entity.SoatRoles;
 import com.tool.soat.entity.SoatUsers;
 
 import java.util.List;
@@ -17,4 +18,7 @@ public interface SoatUsersMapper {
     SoatUsers queryEmailOrPhoneD(String email, String phone);
     SoatUsers queryEmailOrPhoneOrNameD(String username, String email, String phone);
     SoatUsers queryUserD(Integer id);
+    SoatUsers queryUserByEmail(String email);
+    SoatUsers queryUAndP(String email, String password);
+
 }

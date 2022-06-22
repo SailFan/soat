@@ -1,6 +1,7 @@
 package com.tool.soat.service.impl;
 
 import com.tool.soat.dao.SoatUsersMapper;
+import com.tool.soat.entity.SoatRoles;
 import com.tool.soat.entity.SoatUsers;
 import com.tool.soat.service.AuthService;
 import org.apache.shiro.SecurityUtils;
@@ -66,6 +67,12 @@ public class AuthServiceImpl implements AuthService {
         return users;
     }
 
+    @Override
+    public SoatUsers queryEmail(String email) {
+        SoatUsers users = soatUsersMapper.queryUserByEmail(email);
+        return users;
+    }
+
     public  Integer deleteByPrimaryKey(Integer id){
         int deleteByPrimaryKey = soatUsersMapper.deleteByPrimaryKey(id);
         return deleteByPrimaryKey;
@@ -80,4 +87,12 @@ public class AuthServiceImpl implements AuthService {
         int status = soatUsersMapper.updateByPrimaryKeySelective(soatUsers);
         return status;
     }
+
+    @Override
+    public SoatUsers queryUsernameAndPassword(String email, String password) {
+        SoatUsers users = soatUsersMapper.queryUAndP(email, password);
+        return users;
+    }
+
+
 }

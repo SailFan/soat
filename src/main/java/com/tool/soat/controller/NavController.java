@@ -7,6 +7,7 @@ import com.tool.soat.entity.SoatNav;
 import com.tool.soat.entity.SoatSet;
 import com.tool.soat.service.NavService;
 import com.tool.soat.service.SetService;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ public class NavController {
     NavService navService;
 
     Logger logger = LoggerFactory.getLogger(getClass());
-
+    @RequiresRoles("vip")
     @RequestMapping (value = "/getNav")
     public R getNav(){
         try {

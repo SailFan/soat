@@ -1,5 +1,6 @@
 package com.tool.soat.dao;
 
+import com.tool.soat.entity.SoatRoles;
 import com.tool.soat.entity.SoatUsers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +32,8 @@ public class SoatUsersMapperTest {
     }
     @org.junit.Test
     public void queryPageUser() throws Exception{
-
+//        SoatRoles soatRoles = soatUsersMapper.queryRolesByUser(2);
+//        System.out.println(soatRoles);
 
     }
 
@@ -44,4 +46,10 @@ public class SoatUsersMapperTest {
         System.out.println(users);
     }
 
+    @Test
+    public void queryUserByEmail(){
+        String email="afan6203@126.com";
+        SoatUsers users = soatUsersMapper.queryUserByEmail(email);
+        System.out.println(users);
+    }
 }

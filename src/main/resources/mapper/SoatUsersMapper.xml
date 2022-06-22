@@ -210,5 +210,30 @@
     SELECT id,username, password,nickname, email,role, phone, status FROM soat_users where id = #{id}
   </select>
 
+  <select id="queryUserByEmail" resultType="com.tool.soat.entity.SoatUsers">
+    SELECT id, username,password,salt,nickname,email,role,phone,status FROM soat_users where email = #{email}
+  </select>
+
+
+  <select id="queryUAndP" resultType="com.tool.soat.entity.SoatUsers">
+    SELECT
+      id,
+      username,
+      password,
+      salt,
+      nickname,
+      email,
+      role,
+      phone,
+      STATUS
+    FROM
+      soat_users
+    WHERE
+      email = #{email} AND password = #{password}
+  </select>
+
+
+
+
 
 </mapper>

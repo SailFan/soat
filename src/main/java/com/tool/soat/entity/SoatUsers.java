@@ -3,6 +3,8 @@ package com.tool.soat.entity;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 
 @Data
@@ -21,6 +23,7 @@ public class SoatUsers implements Serializable {
     private String email;
     private String role;
     private String phone;
+    private Set<String> soatPermission;
     private Boolean status;
     private static final long serialVersionUID = 1L;
 

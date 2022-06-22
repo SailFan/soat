@@ -43,7 +43,8 @@ public enum RHttpStatusEnum {
     NAV_QUERY_FAIL(40004,"获取导航栏失败"),
     CREATE_PROJECT_ERROR(40028,"获取导航栏失败"),
     QUERY_PROJECT_ERROR(40029,"获取测试集列表失败"),
-    INTERFACE_ADD_FAIL(40027,"获取接口参数失败");
+    INTERFACE_ADD_FAIL(40027,"获取接口参数失败"),
+    USER_LOCK(40030,"用户已经被锁定");
 
 
     Integer code;

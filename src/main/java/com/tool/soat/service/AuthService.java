@@ -1,5 +1,6 @@
 package com.tool.soat.service;
 
+import com.tool.soat.entity.SoatRoles;
 import com.tool.soat.entity.SoatUsers;
 
 import java.util.List;
@@ -20,9 +21,10 @@ public interface AuthService {
     SoatUsers selectByPrimaryKeyS(Integer id);
     void changeStatus(Integer id);
     SoatUsers queryEmailOrPhoneOrNameS(String username, String email, String phone);
+    SoatUsers queryEmail(String email);
     Integer deleteByPrimaryKey(Integer id);
     SoatUsers queryUserS(Integer id);
     Integer modificationUserS(SoatUsers soatUsers);
-
+    SoatUsers queryUsernameAndPassword(String email, String password);
 
 }
