@@ -1,15 +1,23 @@
 package com.tool.soat.common.filter;
 
 import com.tool.soat.entity.JWTToken;
+
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,8 +30,13 @@ import java.net.URLEncoder;
  * @File: SoatFilter
  * @Software: IntelliJIDEA
  */
+@Component
 public class SoatFilter extends BasicHttpAuthenticationFilter {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public SoatFilter() {
+        logger.info("进入过滤器，开始权限和登录的处理");
+    }
 
     /**
      * 如果带有 token，则对 token 进行检查，否则直接通过
@@ -44,11 +57,16 @@ public class SoatFilter extends BasicHttpAuthenticationFilter {
         return true;
     }
 
+    @Override
+    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
+        return false;
+    }
+
     /**
      * 判断用户是否想要登入。
      * 检测 header 里面是否包含 Token
      */
-    @Override
+
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         HttpServletRequest req = (HttpServletRequest) request;
         String token = req.getHeader("Authorization");
@@ -58,11 +76,12 @@ public class SoatFilter extends BasicHttpAuthenticationFilter {
     /**
      * 执行登陆操作
      */
-    @Override
+
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = httpServletRequest.getHeader("Authorization");
         JWTToken jwtToken = new JWTToken(token);
+        System.out.println("执行登录方法了");
         getSubject(request, response).login(jwtToken);
         return true;
     }
