@@ -10,6 +10,7 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
@@ -23,7 +24,15 @@ import java.util.Map;
  * @File: ShiroConfig
  * @Software: IntelliJIDEA
  */
+
+@Component
 public class ShiroConfig {
+
+    @Bean
+    public SoatRealm soatRealm(){
+        return new SoatRealm();
+    }
+
 
     @Bean
     public DefaultWebSecurityManager securityManager(SoatRealm shiroRealm) {
@@ -51,16 +60,17 @@ public class ShiroConfig {
         Map<String, Filter> filterMap = new HashMap<>();
         filterMap.put("jwt", new SoatFilter());
         factoryBean.setFilters(filterMap);
-        factoryBean.setUnauthorizedUrl("/401");
-        Map<String, String> filterRuleMap = new LinkedHashMap<>();
-        filterRuleMap.put("/auth/doLogin", "anon");
-        filterRuleMap.put("/auth/logout", "anon");
-        filterRuleMap.put("/auth/noLogin", "anon");
-        filterRuleMap.put("/**", "authc");
+        factoryBean.setSecurityManager(securityManager);
+//        factoryBean.setUnauthorizedUrl("/401");
+        Map<String, String> filterRuleMap = new HashMap<>();
+//        filterRuleMap.put("/auth/doLogin", "auth");
+//        filterRuleMap.put("/auth/logout", "anon");
+//        filterRuleMap.put("/auth/noLogin", "anon");
+//        filterRuleMap.put("/**", "authc");
         // 所有请求通过我们自己的JWT Filter
         filterRuleMap.put("/**", "jwt");
-        factoryBean.setLoginUrl("/auth/noLogin");//没有登录的用户请求需要登录的资源时自动跳转到该路径
-        factoryBean.setUnauthorizedUrl("/auth/unauthorized");//没有权限默认跳转
+//        factoryBean.setLoginUrl("/auth/noLogin");//没有登录的用户请求需要登录的资源时自动跳转到该路径
+//        factoryBean.setUnauthorizedUrl("/auth/unauthorized");//没有权限默认跳转
         factoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return factoryBean;
 

@@ -6,10 +6,9 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,12 +37,14 @@ public class SoatFilter extends BasicHttpAuthenticationFilter {
         logger.info("进入过滤器，开始权限和登录的处理");
     }
 
+
     /**
      * 如果带有 token，则对 token 进行检查，否则直接通过
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws UnauthorizedException {
-       
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        logger.info("执行isAccessAllowed方法，获取到的token:{}",httpServletRequest.getHeaders("Authorization"));
         if (isLoginAttempt(request, response)) {
             //如果存在，则进入 executeLogin 方法执行登入，检查 token 是否正确
             try {
@@ -68,8 +69,10 @@ public class SoatFilter extends BasicHttpAuthenticationFilter {
      */
 
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
+        logger.info("判断是否带有token");
         HttpServletRequest req = (HttpServletRequest) request;
         String token = req.getHeader("Authorization");
+        logger.info(token);
         return token != null;
     }
 

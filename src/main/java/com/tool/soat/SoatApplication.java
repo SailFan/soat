@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 
-@SpringBootApplication(scanBasePackages ="com.tool.soat" )
+@SpringBootApplication
 
 @MapperScan(basePackages = "com.tool.soat.dao")
 //@ComponentScan(value = "com.tool.soat")
