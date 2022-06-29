@@ -9,7 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 
 @MapperScan(basePackages = "com.tool.soat.dao")
-//@ComponentScan(value = "com.tool.soat")
 public class SoatApplication {
 
     public static void main(String[] args) {
