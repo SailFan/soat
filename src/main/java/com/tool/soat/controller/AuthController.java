@@ -1,19 +1,11 @@
 package com.tool.soat.controller;
 
-import com.tool.soat.common.util.JwtUtil;
 import com.tool.soat.common.util.SoatJWTUtil;
 import com.tool.soat.common.vo.R;
 import com.tool.soat.common.vo.RHttpStatusEnum;
 import com.tool.soat.entity.SoatUsers;
 import com.tool.soat.service.AuthService;
 import com.tool.soat.service.PermissionService;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.DigestUtils;
@@ -21,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -209,6 +200,7 @@ public class AuthController {
 
         Set<String> stringSet = permissionService.queryCurrentPermission(soatUsers.getNickname());
         soatUsers.setSoatPermission(stringSet);
+        System.out.println(soatUsers);
         String sign = SoatJWTUtil.sign(soatUsers.getEmail(), soatUsers.getId());
         HashMap<Object, Object> hashToken = new HashMap<>();
         hashToken.put("token",sign);
@@ -216,6 +208,11 @@ public class AuthController {
 
     }
 
+    @RequestMapping(value = "unauthorized", method = {RequestMethod.GET, RequestMethod.POST})
+    public R unauthorized() {
+        return new R(RHttpStatusEnum.PERMISSION_DENIED_CODE.getCode(), "",RHttpStatusEnum.PERMISSION_DENIED_CODE.getMessage());
+
+    }
 
 //    @RequestMapping(value = "logout", method = {RequestMethod.GET, RequestMethod.POST})
 //    public R logout(HttpServletRequest request, HttpServletResponse response) {

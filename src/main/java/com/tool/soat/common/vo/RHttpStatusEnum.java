@@ -41,12 +41,13 @@ public enum RHttpStatusEnum {
     GET_CURRENT_ROLE_FAIL(40026,"获取当前角色"),
     QUERY_ASSIGN_ROLE_PERMISSION_FAIL(40024,"获取指定角色权限失败"),
     NAV_QUERY_FAIL(40004,"获取导航栏失败"),
-    CREATE_PROJECT_ERROR(40028,"获取导航栏失败"),
+    CREATE_PROJECT_ERROR(40028,"创建工程失败"),
     QUERY_PROJECT_ERROR(40029,"获取测试集列表失败"),
     INTERFACE_ADD_FAIL(40027,"获取接口参数失败"),
-    USER_LOCK(40030,"用户已经被锁定");
-
-
+    USER_LOCK(40030,"用户已经被锁定"),
+    PERMISSION_DENIED_CODE(40031, "无此权限"),
+    INVALID_LOGIN_CODE(40032,"登录失败"),
+    SERVER_ERROR(40033,"服务器错误");
     Integer code;
     String msg;
 

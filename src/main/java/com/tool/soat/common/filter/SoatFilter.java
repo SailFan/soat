@@ -3,10 +3,7 @@ package com.tool.soat.common.filter;
 import com.tool.soat.entity.JWTToken;
 
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
-import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -43,8 +40,6 @@ public class SoatFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws UnauthorizedException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        logger.info("执行isAccessAllowed方法，获取到的token:{}",httpServletRequest.getHeaders("Authorization"));
         if (isLoginAttempt(request, response)) {
             //如果存在，则进入 executeLogin 方法执行登入，检查 token 是否正确
             try {
@@ -58,11 +53,6 @@ public class SoatFilter extends BasicHttpAuthenticationFilter {
         return true;
     }
 
-    @Override
-    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
-        return false;
-    }
-
     /**
      * 判断用户是否想要登入。
      * 检测 header 里面是否包含 Token
@@ -72,7 +62,6 @@ public class SoatFilter extends BasicHttpAuthenticationFilter {
         logger.info("判断是否带有token");
         HttpServletRequest req = (HttpServletRequest) request;
         String token = req.getHeader("Authorization");
-        logger.info(token);
         return token != null;
     }
 
@@ -84,7 +73,6 @@ public class SoatFilter extends BasicHttpAuthenticationFilter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = httpServletRequest.getHeader("Authorization");
         JWTToken jwtToken = new JWTToken(token);
-        System.out.println("执行登录方法了");
         getSubject(request, response).login(jwtToken);
         return true;
     }

@@ -44,7 +44,8 @@ public class SoatRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String email = SoatJWTUtil.getUserId(principalCollection.getPrimaryPrincipal().toString());
+
+        String email = SoatJWTUtil.getEmail(principalCollection.getPrimaryPrincipal().toString());
         SoatUsers users = soatUsersMapper.queryUserByEmail(email);
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         if (!StringUtils.isEmpty(email)) {
@@ -73,7 +74,7 @@ public class SoatRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
         String token = (String) auth.getCredentials();
         // 解密获得username，用于和数据库进行对比
-        String email = SoatJWTUtil.getUsername(token);
+        String email = SoatJWTUtil.getEmail(token);
         if (StringUtils.isEmpty(email)) {
             throw new AuthenticationException("token错误!");
         }

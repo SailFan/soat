@@ -49,4 +49,10 @@ public class SoatRolesMapperTest {
         SoatRoles soatRoles = soatRolesMapper.queryRolesByUser(2);
         System.out.println(soatRoles);
     }
+
+    @org.junit.jupiter.api.Test
+    void testQueryRolesByUser() {
+        SoatRoles roles = soatRolesMapper.queryRolesByUser(2);
+        System.out.println(roles);
+    }
 }

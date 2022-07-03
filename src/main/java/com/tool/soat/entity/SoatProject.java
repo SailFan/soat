@@ -23,7 +23,7 @@ public class SoatProject {
     private String projectName;
     private String basePath;
     private Boolean projectType;
-    private Integer uId;
+    private String creater;
     private Date addTime;
     private Date upTime;
     private String global;

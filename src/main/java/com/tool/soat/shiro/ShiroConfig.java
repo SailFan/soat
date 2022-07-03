@@ -37,12 +37,7 @@ public class ShiroConfig {
     @Bean
     public DefaultWebSecurityManager securityManager(SoatRealm shiroRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        // 使用自己的realm
         securityManager.setRealm(shiroRealm);
-        /*
-         * 关闭shiro自带的session，详情见文档
-         * http://shiro.apache.org/session-management.html#SessionManagement-StatelessApplications%28Sessionless%29
-         */
         DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
         DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
         defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
@@ -55,25 +50,21 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
-        factoryBean.setSecurityManager(securityManager);
+
         // 添加自己的过滤器并且取名为jwt
         Map<String, Filter> filterMap = new HashMap<>();
         filterMap.put("jwt", new SoatFilter());
         factoryBean.setFilters(filterMap);
         factoryBean.setSecurityManager(securityManager);
-//        factoryBean.setUnauthorizedUrl("/401");
         Map<String, String> filterRuleMap = new HashMap<>();
-//        filterRuleMap.put("/auth/doLogin", "auth");
-//        filterRuleMap.put("/auth/logout", "anon");
-//        filterRuleMap.put("/auth/noLogin", "anon");
-//        filterRuleMap.put("/**", "authc");
+        filterRuleMap.put("/auth/**", "anon");
+        filterRuleMap.put("/**", "authc");
         // 所有请求通过我们自己的JWT Filter
         filterRuleMap.put("/**", "jwt");
-//        factoryBean.setLoginUrl("/auth/noLogin");//没有登录的用户请求需要登录的资源时自动跳转到该路径
-//        factoryBean.setUnauthorizedUrl("/auth/unauthorized");//没有权限默认跳转
+        factoryBean.setLoginUrl("/auth/loginpage");//没有登录的用户请求需要登录的资源时自动跳转到该路径
+        factoryBean.setUnauthorizedUrl("/auth/unauthorized");//没有权限默认跳转
         factoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return factoryBean;
-
     }
 
     /**

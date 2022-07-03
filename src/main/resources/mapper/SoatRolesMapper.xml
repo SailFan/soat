@@ -106,7 +106,7 @@
       soat_users AS su
         LEFT JOIN soat_users_roles AS sur ON su.id =sur.u_id
         LEFT JOIN soat_roles AS sr ON sr.rid = sur.r_id
-    WHERE su.id = {id}
+    WHERE su.id = #{id}
 
   </select>
 </mapper>

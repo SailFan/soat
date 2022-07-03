@@ -28,15 +28,27 @@ public class SoatProjectMapperImpl implements SoatProjectMapper {
 
 
     @Override
-    public List<SoatProject> queryProject(Integer uid,Integer currentPage, Integer pageSize) {
+    public List<SoatProject> queryProject(String creater,Integer currentPage, Integer pageSize) {
         Criteria where = new Criteria();
-        where.and("uId").is(uid);
+        where.and("creater").is(creater);
         Query query = new Query(where);
         long count = mongoTemplate.count(query, SoatProject.class);
         Pageable pageable = PageRequest.of(currentPage-1,pageSize);
         List<SoatProject> pageList = mongoTemplate.find(query.with(pageable).with(Sort.by(new Sort.Order(Sort.Direction.DESC,"upTime"))), SoatProject.class);
         return pageList;
     }
+
+
+
+    @Override
+    public List<SoatProject> queryProjectAdmin(Integer currentPage, Integer pageSize) {
+        Query query = new Query();
+        long count = mongoTemplate.count(query, SoatProject.class);
+        Pageable pageable = PageRequest.of(currentPage-1,pageSize);
+        List<SoatProject> pageList = mongoTemplate.find(query.with(pageable).with(Sort.by(new Sort.Order(Sort.Direction.DESC,"upTime"))), SoatProject.class);
+        return pageList;
+    }
+
 
     @Override
     public void delOneProject(Integer uid, Integer id) {

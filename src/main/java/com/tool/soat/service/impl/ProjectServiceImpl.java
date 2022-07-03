@@ -22,13 +22,18 @@ public class ProjectServiceImpl implements ProjectService {
         Date date = new Date();
         soatProject.setAddTime(date);
         soatProject.setUpTime(date);
-        soatProject.setUId(2);
+
         soatProjectMapper.addOneProject(soatProject);
     }
 
 
-    public List<SoatProject> queryProject(Integer uid,Integer currentPage, Integer pageSize) {
-        List<SoatProject> soatProjects = soatProjectMapper.queryProject(uid,currentPage,pageSize);
+    public List<SoatProject> queryProjectAdmin(Integer currentPage, Integer pageSize) {
+        List<SoatProject> soatProjects = soatProjectMapper.queryProjectAdmin(currentPage,pageSize);
+        return soatProjects;
+    }
+
+    public List<SoatProject> queryProject(String creater,Integer currentPage, Integer pageSize) {
+        List<SoatProject> soatProjects = soatProjectMapper.queryProject(creater,currentPage,pageSize);
         return soatProjects;
     }
 }

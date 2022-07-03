@@ -1,12 +1,11 @@
 package com.tool.soat.controller;
 
 
+import com.tool.soat.common.util.SoatJWTUtil;
 import com.tool.soat.common.vo.R;
 import com.tool.soat.common.vo.RHttpStatusEnum;
-import com.tool.soat.entity.SoatAccount;
-import com.tool.soat.entity.SoatEnv;
-import com.tool.soat.entity.SoatProject;
-import com.tool.soat.entity.SoatTag;
+import com.tool.soat.entity.*;
+import com.tool.soat.service.AuthService;
 import com.tool.soat.service.ProjectService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -31,8 +30,11 @@ public class ProjectController {
     @Autowired
     ProjectService projectService;
 
+    @Autowired
+    AuthService authService;
+
     @RequestMapping(value = "/createProject", method = RequestMethod.POST)
-    public R createProject(@RequestBody Map<String, Object> map){
+    public R createProject(@RequestBody Map<String, Object> map, HttpServletRequest httpServletRequest){
         logger.info("开始创建项目");
         try{
             SoatProject project = new SoatProject();
@@ -44,8 +46,11 @@ public class ProjectController {
             project.setProjectName((String) baseData.get("projectName"));
             project.setEnv(envs);
             project.setTag(tags);
-            SoatAccount user = (SoatAccount) SecurityUtils.getSubject().getPrincipal(); // 获取当前登录用户
-            logger.info("session "+user);
+            logger.info("获取到的Authorization "+httpServletRequest.getHeader("Authorization"));
+            String email = SoatJWTUtil.getEmail(httpServletRequest.getHeader("Authorization"));
+
+            SoatUsers users = authService.queryEmail(email);
+            project.setCreater(users.getNickname());
             projectService.addOneProject(project);
             return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
@@ -57,18 +62,21 @@ public class ProjectController {
 
     @RequestMapping(value = "/queryProject", method = RequestMethod.GET)
     public R queryProject(HttpServletRequest httpServletRequest){
-        logger.info("加载出所有工程开始");
+        logger.info("获取所有测试工程");
       try{
+          List<SoatProject> projects;
+          String email = SoatJWTUtil.getEmail(httpServletRequest.getHeader("Authorization"));
+          SoatUsers users = authService.queryEmail(email);
           HashMap<String, Object> map = new HashMap<>();
-          Integer uid = new Integer( httpServletRequest.getParameter("uid"));
           Integer pageSize = new Integer(httpServletRequest.getParameter("pageSize"));
-
           Integer currentPage = new Integer(httpServletRequest.getParameter("currentPage"));
-          List<SoatProject> projects = projectService.queryProject(uid, currentPage,  pageSize);
+          if(users.getNickname().equals("admin")){
+              projects = projectService.queryProjectAdmin(currentPage,  pageSize);
+          }else {
+              projects = projectService.queryProject(users.getNickname(), currentPage,  pageSize);
+          }
           map.put("total", projects.size());
           map.put("projects", projects);
-
-          logger.info("返回的project集合内容"+map);
           return new R(RHttpStatusEnum.SUCCESS.getCode(),map,RHttpStatusEnum.SUCCESS.getMessage());
       }catch (Exception e){
           return new R(RHttpStatusEnum.QUERY_PROJECT_ERROR.getCode(),"",RHttpStatusEnum.QUERY_PROJECT_ERROR.getMessage());

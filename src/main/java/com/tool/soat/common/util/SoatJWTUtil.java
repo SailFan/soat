@@ -5,10 +5,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 /**
@@ -34,11 +32,11 @@ public class SoatJWTUtil {
      * @param token  密钥
      * @return 是否正确
      */
-    public static boolean verify(String token, String userName) {
+    public static boolean verify(String token, String email) {
         //根据密码生成JWT效验器
         Algorithm algorithm = Algorithm.HMAC256(secret);
         JWTVerifier verifier = JWT.require(algorithm)
-                .withClaim("userName", userName)
+                .withClaim("email", email)
                 .build();
         //效验TOKEN
         verifier.verify(token);
@@ -49,10 +47,10 @@ public class SoatJWTUtil {
      *
      * @return token中包含的用户名
      */
-    public static String getUsername(String token) {
+    public static String getEmail(String token) {
         try {
             DecodedJWT jwt = JWT.decode(token);
-            return jwt.getClaim("userName").asString();
+            return jwt.getClaim("email").asString();
         } catch (JWTDecodeException e) {
             return null;
         }
@@ -74,17 +72,17 @@ public class SoatJWTUtil {
     /**
      * 生成签名
      *
-     * @param userName 用户名
+     * @param email 用户名
      * @param userId
      * @return 加密的token
      */
-    public static String sign(String userName, Integer userId) {
+    public static String sign(String email, Integer userId) {
         try {
             Date date = new Date(System.currentTimeMillis() + expire * 1000);
             Algorithm algorithm = Algorithm.HMAC256(secret);
             // 附带username信息
             return JWT.create()
-                    .withClaim("userName", userName)
+                    .withClaim("email", email)
                     .withClaim("userId", userId)
                     .withExpiresAt(date)
                     .sign(algorithm);
