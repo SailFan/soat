@@ -47,6 +47,7 @@ public enum RHttpStatusEnum {
     USER_LOCK(40030,"用户已经被锁定"),
     PERMISSION_DENIED_CODE(40031, "无此权限"),
     INVALID_LOGIN_CODE(40032,"登录失败"),
+    ADD_INTERFACE_FAIL_CODE(40034,"新增接口失败"),
     SERVER_ERROR(40033,"服务器错误");
     Integer code;
     String msg;
