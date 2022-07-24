@@ -4,6 +4,7 @@ import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 
 import java.util.Date;
@@ -19,7 +20,7 @@ import java.util.List;
 public class SoatProject {
 
     @Id
-    private ObjectId id;
+    private ObjectId projdctId;
     private String projectName;
     private String basePath;
     private Boolean projectType;

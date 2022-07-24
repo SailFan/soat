@@ -2,7 +2,10 @@ package com.tool.soat.entity;
 
 import lombok.*;
 
-import java.io.Serializable;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 
 @Data
@@ -11,16 +14,25 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SoatInterface implements Serializable {
+@Document(collection="soat_interface")
 
-    private Integer id;
+public class SoatInterface{
+
+    @Id
+    private ObjectId interfaceId;
     private String name;
+    private Boolean status;
     private String path;
+    private String procotol;
     private String method;
     private String params;
-    private Integer run;
+    private String run;
     private String headers;
     private Integer setId;
-    private static final long serialVersionUID = 1L;
+    private String request_type;
+    private String author;
+    private String editer;
+    private Integer projectId;
+
 
 }
