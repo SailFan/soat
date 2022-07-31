@@ -1,6 +1,8 @@
 package com.tool.soat.mongo.impl;
 import com.tool.soat.entity.SoatInterface;
+import com.tool.soat.entity.SoatProject;
 import com.tool.soat.mongo.SoatInterfaceMapper;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,5 +38,12 @@ public class SoatInterfaceMapperImpl implements SoatInterfaceMapper {
         return pageList;
     }
 
+    @Override
+    public SoatInterface queryOneInterface(ObjectId objectId) {
+        Criteria where = new Criteria();
+        where.and("_id").is(new ObjectId(String.valueOf(objectId)));
+        Query query = new Query(where);
+        return (SoatInterface) mongoTemplate.find(query, SoatInterface.class);
 
+    }
 }

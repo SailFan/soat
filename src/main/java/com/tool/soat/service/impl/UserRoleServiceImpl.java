@@ -16,8 +16,6 @@ public class UserRoleServiceImpl implements RoleUserService {
 
     public void insertUserRole(Integer uId, Integer rId){
         soatUsersRolesMapper.deleteSoatUsersRoles(uId,rId);
-        System.out.println("uid"+uId);
-        System.out.println("rId"+rId);
         soatUsersRolesMapper.insert(uId,rId);
     }
 

@@ -1,5 +1,6 @@
 package com.tool.soat.dao;
 
+import com.tool.soat.common.util.OkHttpUtils;
 import com.tool.soat.entity.SoatPermission;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +32,16 @@ public class SoatPermissionMapperTest {
     @Test
     public void test1(){
         Set<String> set = soatPermissionMapper.queryAllPermissions();
-        System.out.println(set);
+
+    }
+
+    @Test
+    public void test2(){
+        String async = OkHttpUtils.builder()
+                .url("http://www.baidu.com")
+                .get()
+                .async();
+        System.out.println("async:" + async);
+
     }
 }

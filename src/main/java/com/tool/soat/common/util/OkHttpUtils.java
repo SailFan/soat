@@ -1,252 +1,295 @@
-//package com.tool.soat.common.util;
-//
-//import okhttp3.HttpUrl;
-//
-///**
-// * @Description:
-// * @Author: Sail
-// * @CreateTime: 2022/7/24 22:13
-// * @File: OkHttpUtils
-// * @Software: IntelliJIDEA
-// */
-//public class OkHttpUtils {
-//    private static OkHttpClientManager mInstance;
-//    private OkHttpClient mOkHttpClient;
-//    private Handler mDelivery;
-//    private Gson mGson;
-//
-//    private OkHttpClientManager()
-//    {
-//        OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
-//        okHttpClient.connectTimeout(5, TimeUnit.SECONDS);
-//        okHttpClient.readTimeout(5, TimeUnit.SECONDS);
-//        okHttpClient.cookieJar(new CookieJar() {
-//            private final HashMap<HttpUrl, List<Cookie>> cookieStore = new HashMap<>();
-//            @Override
-//            public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-//                cookieStore.put(url, cookies);
-//            }
-//
-//            @Override
-//            public List<Cookie> loadForRequest(HttpUrl url) {
-//                return null;
-//            }
-//        });
-//        mOkHttpClient=okHttpClient.build();
-//        mDelivery = new Handler(Looper.getMainLooper());
-//        mGson = new Gson();
-//    }
-//
-//    public static OkHttpClientManager getInstance()
-//    {
-//        if (mInstance == null)
-//        {
-//            synchronized (OkHttpClientManager.class)
-//            {
-//                if (mInstance == null)
-//                {
-//                    mInstance = new OkHttpClientManager();
-//                }
-//            }
-//        }
-//        return mInstance;
-//    }
-//
-//    /**
-//     * 异步的get请求
-//     *
-//     * @param url
-//     * @param callback
-//     */
-//    private void _getAsyn(String url, final ResultCallback callback)
-//    {
-//        final Request request = new Request.Builder()
-//                .url(url)
-//                .build();
-//        deliveryResult(callback, request);
-//    }
-//
-//    /**
-//     * 异步的post请求
-//     *
-//     * @param url
-//     * @param callback
-//     * @param params
-//     */
-//    private void _postAsyn(String url, final ResultCallback callback, Param... params)
-//    {
-//        Request request = buildPostRequest(url, params);
-//        deliveryResult(callback, request);
-//    }
-//
-//    /**
-//     * 异步的post请求
-//     *
-//     * @param url
-//     * @param callback
-//     * @param params
-//     */
-//    private void _postAsyn(String url, final ResultCallback callback, Map<String, String> params)
-//    {
-//        Param[] paramsArr = map2Params(params);
-//        Request request = buildPostRequest(url, paramsArr);
-//        deliveryResult(callback, request);
-//    }
-//
-//    private Param[] map2Params(Map<String, String> params)
-//    {
-//        if (params == null) return new Param[0];
-//        int size = params.size();
-//        Param[] res = new Param[size];
-//        Set<Map.Entry<String, String>> entries = params.entrySet();
-//        int i = 0;
-//        for (Map.Entry<String, String> entry : entries)
-//        {
-//            res[i++] = new Param(entry.getKey(), entry.getValue());
-//        }
-//        return res;
-//    }
-//
-//    //*************对外公布的方法************
-//
-//    //异步get请求
-//    public static void getAsyn(String url, ResultCallback callback)
-//    {
-//        getInstance()._getAsyn(url, callback);
-//    }
-//    //异步的post请求
-//    public static void postAsyn(String url, final ResultCallback callback, Param... params)
-//    {
-//        getInstance()._postAsyn(url, callback, params);
-//    }
-//
-//    //异步的post请求
-//    public static void postAsyn(String url, final ResultCallback callback, Map<String, String> params)
-//    {
-//        getInstance()._postAsyn(url, callback, params);
-//    }
-//
-//    private void deliveryResult(final ResultCallback callback, Request request)
-//    {
-//        mOkHttpClient.newCall(request).enqueue(new Callback()
-//        {
-//
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                sendFailCallback(callback,e);
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                try
-//                {
-//                    final String string = response.body().string();
-//                    if (callback.mType == String.class)
-//                    {
-//                        sendSuccessCallBack(callback,string);
-//                    } else
-//                    {
-//                        Object o = mGson.fromJson(string, callback.mType);
-//                        sendSuccessCallBack(callback,string);
-//                    }
-//
-//                } catch (IOException e)
-//                {
-//                    sendFailCallback(callback,e);
-//                } catch (com.google.gson.JsonParseException e)//Json解析的错误
-//                {
-//                    sendFailCallback(callback,e);
-//                }
-//            }
-//        });
-//    }
-//    private void sendFailCallback(final ResultCallback callback, final Exception e) {
-//        mDelivery.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (callback != null) {
-//                    callback.onFailure(e);
-//                }
-//            }
-//        });
-//    }
-//
-//    private void sendSuccessCallBack(final ResultCallback callback, final Object obj) {
-//        mDelivery.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (callback != null) {
-//                    callback.onSuccess(obj);
-//                }
-//            }
-//        });
-//    }
-//
-//    private Request buildPostRequest(String url, Param[] params)
-//    {
-//        if (params == null)
-//        {
-//            params = new Param[0];
-//        }
-//        FormBody.Builder formBodyBuilder = new FormBody.Builder();
-//        for (Param param : params)
-//        {
-//            formBodyBuilder.add(param.key, param.value);
-//        }
-//        RequestBody requestBody = formBodyBuilder.build();
-//        return new Request.Builder()
-//                .url(url)
-//                .post(requestBody)
-//                .build();
-//    }
-//    public static abstract class ResultCallback<T>
-//    {
-//        Type mType;
-//
-//        public ResultCallback()
-//        {
-//            mType = getSuperclassTypeParameter(getClass());
-//        }
-//
-//        static Type getSuperclassTypeParameter(Class<?> subclass)
-//        {
-//            Type superclass = subclass.getGenericSuperclass();
-//            if (superclass instanceof Class)
-//            {
-//                throw new RuntimeException("Missing type parameter.");
-//            }
-//            ParameterizedType parameterized = (ParameterizedType) superclass;
-//            return $Gson$Types.canonicalize(parameterized.getActualTypeArguments()[0]);
-//        }
-//
-//        /**
-//         * 请求成功回调
-//         * @param response
-//         */
-//        public abstract void onSuccess(T response);
-//
-//        /**
-//         * 请求失败回调
-//         * @param e
-//         */
-//        public abstract void onFailure(Exception e);
-//    }
-//
-//    /**
-//     * post请求参数类
-//     */
-//    public static class Param
-//    {
-//        public Param()
-//        {
-//        }
-//
-//        public Param(String key, String value)
-//        {
-//            this.key = key;
-//            this.value = value;
-//        }
-//        String key;
-//        String value;
-//    }
-//}
+package com.tool.soat.common.util;
+
+import com.alibaba.fastjson.JSON;
+import okhttp3.*;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+
+public class OkHttpUtils {
+    private static volatile OkHttpClient okHttpClient = null;
+    private static volatile Semaphore semaphore = null;
+    private Map<String, String> headerMap;
+    private Map<String, String> paramMap;
+    private String url;
+    private Request.Builder request;
+
+    /**
+     * 初始化okHttpClient，并且允许https访问
+     */
+    private OkHttpUtils() {
+        if (okHttpClient == null) {
+            synchronized (OkHttpUtils.class) {
+                if (okHttpClient == null) {
+                    TrustManager[] trustManagers = buildTrustManagers();
+                    okHttpClient = new OkHttpClient.Builder()
+                            .connectTimeout(15, TimeUnit.SECONDS)
+                            .writeTimeout(20, TimeUnit.SECONDS)
+                            .readTimeout(20, TimeUnit.SECONDS)
+                            .sslSocketFactory(createSSLSocketFactory(trustManagers), (X509TrustManager) trustManagers[0])
+                            .hostnameVerifier((hostName, session) -> true)
+                            .retryOnConnectionFailure(true)
+                            .build();
+                    addHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36");
+                }
+            }
+        }
+    }
+
+    /**
+     * 用于异步请求时，控制访问线程数，返回结果
+     *
+     * @return
+     */
+    private static Semaphore getSemaphoreInstance() {
+        //只能1个线程同时访问
+        synchronized (OkHttpUtils.class) {
+            if (semaphore == null) {
+                semaphore = new Semaphore(0);
+            }
+        }
+        return semaphore;
+    }
+
+    /**
+     * 创建OkHttpUtils
+     *
+     * @return
+     */
+    public static OkHttpUtils builder() {
+        return new OkHttpUtils();
+    }
+
+    /**
+     * 添加url
+     *
+     * @param url
+     * @return
+     */
+    public OkHttpUtils url(String url) {
+        this.url = url;
+        return this;
+    }
+
+    /**
+     * 添加参数
+     *
+     * @param key   参数名
+     * @param value 参数值
+     * @return
+     */
+    public OkHttpUtils addParam(String key, String value) {
+        if (paramMap == null) {
+            paramMap = new LinkedHashMap<>(16);
+        }
+        paramMap.put(key, value);
+        return this;
+    }
+
+    /**
+     * 添加请求头
+     *
+     * @param key   参数名
+     * @param value 参数值
+     * @return
+     */
+    public OkHttpUtils addHeader(String key, String value) {
+        if (headerMap == null) {
+            headerMap = new LinkedHashMap<>(16);
+        }
+        headerMap.put(key, value);
+        return this;
+    }
+
+    /**
+     * 初始化get方法
+     *
+     * @return
+     */
+    public OkHttpUtils get() {
+        request = new Request.Builder().get();
+        StringBuilder urlBuilder = new StringBuilder(url);
+        if (paramMap != null) {
+            urlBuilder.append("?");
+            try {
+                for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+                    urlBuilder.append(URLEncoder.encode(entry.getKey(), "utf-8")).
+                            append("=").
+                            append(URLEncoder.encode(entry.getValue(), "utf-8")).
+                            append("&");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            urlBuilder.deleteCharAt(urlBuilder.length() - 1);
+        }
+        request.url(urlBuilder.toString());
+        return this;
+    }
+
+    /**
+     * 初始化post方法
+     *
+     * @param isJsonPost true等于json的方式提交数据，类似postman里post方法的raw
+     *                   false等于普通的表单提交
+     * @return
+     */
+    public OkHttpUtils post(boolean isJsonPost) {
+        RequestBody requestBody;
+        if (isJsonPost) {
+            String json = "";
+            if (paramMap != null) {
+                json = JSON.toJSONString(paramMap);
+            }
+            requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+        } else {
+            FormBody.Builder formBody = new FormBody.Builder();
+            if (paramMap != null) {
+                paramMap.forEach(formBody::add);
+            }
+            requestBody = formBody.build();
+        }
+        request = new Request.Builder().post(requestBody).url(url);
+        return this;
+    }
+
+    /**
+     * 同步请求
+     *
+     * @return
+     */
+    public String sync() {
+        setHeader(request);
+        try {
+            Response response = okHttpClient.newCall(request.build()).execute();
+            assert response.body() != null;
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "请求失败：" + e.getMessage();
+        }
+    }
+
+    /**
+     * 异步请求，有返回值
+     */
+    public String async() {
+        StringBuilder buffer = new StringBuilder("");
+        setHeader(request);
+        okHttpClient.newCall(request.build()).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                buffer.append("请求出错：").append(e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                assert response.body() != null;
+                buffer.append(response.body().string());
+                getSemaphoreInstance().release();
+            }
+        });
+        try {
+            getSemaphoreInstance().acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return buffer.toString();
+    }
+
+    /**
+     * 异步请求，带有接口回调
+     *
+     * @param callBack
+     */
+    public void async(ICallBack callBack) {
+        setHeader(request);
+        okHttpClient.newCall(request.build()).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callBack.onFailure(call, e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                assert response.body() != null;
+                callBack.onSuccessful(call, response.body().string());
+            }
+        });
+    }
+
+    /**
+     * 为request添加请求头
+     *
+     * @param request
+     */
+    private void setHeader(Request.Builder request) {
+        if (headerMap != null) {
+            try {
+                for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+                    request.addHeader(entry.getKey(), entry.getValue());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    /**
+     * 生成安全套接字工厂，用于https请求的证书跳过
+     *
+     * @return
+     */
+    private static SSLSocketFactory createSSLSocketFactory(TrustManager[] trustAllCerts) {
+        SSLSocketFactory ssfFactory = null;
+        try {
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new SecureRandom());
+            ssfFactory = sc.getSocketFactory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ssfFactory;
+    }
+
+    private static TrustManager[] buildTrustManagers() {
+        return new TrustManager[]{
+                new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(X509Certificate[] chain, String authType) {
+                    }
+
+                    @Override
+                    public void checkServerTrusted(X509Certificate[] chain, String authType) {
+                    }
+
+                    @Override
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return new X509Certificate[]{};
+                    }
+                }
+        };
+    }
+
+    /**
+     * 自定义一个接口回调
+     */
+    public interface ICallBack {
+
+        void onSuccessful(Call call, String data);
+
+        void onFailure(Call call, String errorMsg);
+
+    }
+}

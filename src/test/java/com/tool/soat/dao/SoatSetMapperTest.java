@@ -47,6 +47,5 @@ class SoatSetMapperTest {
     @Test
     void queryAll() {
         List<SoatSet> soatSets = soatSetMapper.queryAll(1, 2);
-        System.out.println(soatSets);
     }
 }

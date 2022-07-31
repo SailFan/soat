@@ -25,7 +25,6 @@ public class SetServiceImpl implements SetService {
         record.setName("测试集二");
         record.setUpdater("刘文凡");
         record.setUpdateTime(new Date());
-        System.out.println(new Date());
         soatSetMapper.insert(record);
     }
 

@@ -20,7 +20,6 @@ public class ToolsContoller {
 
     @RequestMapping(value = "/getAccountLink", method = RequestMethod.POST,produces="application/json;charset=UTF-8")
     public R getAccountLink(@RequestBody Map<String, Object> map){
-        System.out.println(map);
         return new R(RHttpStatusEnum.SUCCESS.getCode(),  "",RHttpStatusEnum.SUCCESS.getMessage());
     }
 }

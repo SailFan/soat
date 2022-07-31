@@ -7,6 +7,7 @@ import com.tool.soat.entity.SoatInterface;
 import com.tool.soat.entity.SoatUsers;
 import com.tool.soat.service.AuthService;
 import com.tool.soat.service.InterfaceService;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -60,14 +61,18 @@ public class InterfaceController {
         HashMap<String, Object> map = new HashMap<>();
         map.put("total", anInterface.size());
         map.put("anInterface", anInterface);
-        System.out.println("map1"+map);
         return new R(RHttpStatusEnum.SUCCESS.getCode(),map,RHttpStatusEnum.SUCCESS.getMessage());
     }
 
-    @GetMapping("/runInterface")
-    public R runInterface(HttpServletRequest httpServletRequest) {
+    @RequestMapping(value = "/runInterface")
+    public String runInterface(  SoatInterface soatInterface) {
 
-        return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
+        System.out.println("inte1111rfaceId"+soatInterface);
+//            SoatInterface soatInterface = interfaceService.runOneInterface(id);
+//            System.out.println("soatInte2222rface"+soatInterface);
+//            return new R(RHttpStatusEnum.RUN_INTERFACE_FAIL_CODE.getCode(),"",RHttpStatusEnum.RUN_INTERFACE_FAIL_CODE.getMessage());
+
+              return "111";
     }
 
 

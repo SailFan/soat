@@ -32,7 +32,6 @@ public class RolesController {
     public R getRoleList(){
         try {
             List<SoatRoles> roles = roleService.queryAllRolePer();
-            System.out.println(roles);
             return new R(RHttpStatusEnum.SUCCESS.getCode(),roles,RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
             logger.debug(String.valueOf(e));

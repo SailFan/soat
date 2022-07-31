@@ -200,7 +200,6 @@ public class AuthController {
 
         Set<String> stringSet = permissionService.queryCurrentPermission(soatUsers.getNickname());
         soatUsers.setSoatPermission(stringSet);
-        System.out.println(soatUsers);
         String sign = SoatJWTUtil.sign(soatUsers.getEmail(), soatUsers.getId());
         HashMap<Object, Object> hashToken = new HashMap<>();
         hashToken.put("token",sign);
