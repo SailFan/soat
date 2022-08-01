@@ -64,12 +64,11 @@ public class InterfaceController {
         return new R(RHttpStatusEnum.SUCCESS.getCode(),map,RHttpStatusEnum.SUCCESS.getMessage());
     }
 
-    @RequestMapping(value = "/runInterface")
-    public String runInterface(  SoatInterface soatInterface) {
+    @RequestMapping(value = "/runInterface", method = {RequestMethod.GET})
+    public String runInterface(HttpServletRequest httpServletRequest) {
+        System.out.println(new ObjectId(httpServletRequest.getParameter("interfaceId")));
 
-        System.out.println("inte1111rfaceId"+soatInterface);
-//            SoatInterface soatInterface = interfaceService.runOneInterface(id);
-//            System.out.println("soatInte2222rface"+soatInterface);
+//            SoatInterface soatInterface = interfaceService.runOneInterface(new ObjectId(httpServletRequest.getParameter("interfaceId")));
 //            return new R(RHttpStatusEnum.RUN_INTERFACE_FAIL_CODE.getCode(),"",RHttpStatusEnum.RUN_INTERFACE_FAIL_CODE.getMessage());
 
               return "111";
