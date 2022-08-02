@@ -9,6 +9,6 @@ import java.util.Map;
 public interface InterfaceService {
     public void addInterfacce(Map<String,Object> map,String nickname);
     public List<SoatInterface> getInterface(Integer currentPage, Integer pageSize, String creater);
-    public SoatInterface runOneInterface(ObjectId interfaceId);
+    public SoatInterface runOneInterface(String name);
 
 }

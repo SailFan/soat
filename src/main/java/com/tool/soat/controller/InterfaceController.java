@@ -66,9 +66,8 @@ public class InterfaceController {
 
     @RequestMapping(value = "/runInterface", method = {RequestMethod.GET})
     public String runInterface(HttpServletRequest httpServletRequest) {
-        System.out.println(new ObjectId(httpServletRequest.getParameter("interfaceId")));
-
-//            SoatInterface soatInterface = interfaceService.runOneInterface(new ObjectId(httpServletRequest.getParameter("interfaceId")));
+            SoatInterface soatInterface = interfaceService.runOneInterface(httpServletRequest.getParameter("name"));
+            System.out.println(soatInterface);
 //            return new R(RHttpStatusEnum.RUN_INTERFACE_FAIL_CODE.getCode(),"",RHttpStatusEnum.RUN_INTERFACE_FAIL_CODE.getMessage());
 
               return "111";

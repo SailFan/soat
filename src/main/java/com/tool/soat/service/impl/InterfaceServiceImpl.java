@@ -39,8 +39,8 @@ public class InterfaceServiceImpl implements InterfaceService {
     }
 
     @Override
-    public SoatInterface runOneInterface(ObjectId interfaceId) {
-        SoatInterface soatInterface = soatInterfaceMapper.queryOneInterface(interfaceId);
+    public SoatInterface runOneInterface(String name) {
+        SoatInterface soatInterface = soatInterfaceMapper.queryOneInterface(name);
         return soatInterface;
     }
 }

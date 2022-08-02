@@ -39,9 +39,9 @@ public class SoatInterfaceMapperImpl implements SoatInterfaceMapper {
     }
 
     @Override
-    public SoatInterface queryOneInterface(ObjectId objectId) {
+    public SoatInterface queryOneInterface(String name) {
         Criteria where = new Criteria();
-        where.and("_id").is(objectId);
+        where.and("name").is(name);
         Query query = new Query(where);
         return (SoatInterface) mongoTemplate.find(query, SoatInterface.class);
 
