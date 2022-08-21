@@ -1,7 +1,5 @@
 package com.tool.soat.dao;
 
-import com.tool.soat.common.util.OkHttpUtils;
-import com.tool.soat.entity.SoatPermission;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,10 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
-import java.util.List;
 import java.util.Set;
-
-import static org.junit.Assert.*;
 
 /**
  * @Description:
@@ -37,11 +32,11 @@ public class SoatPermissionMapperTest {
 
     @Test
     public void test2(){
-        String async = OkHttpUtils.builder()
-                .url("http://www.baidu.com")
-                .get()
-                .async();
-        System.out.println("async:" + async);
+//        String async = OkHttpUtils.builder()
+//                .url("http://www.baidu.com")
+//                .get()
+//                .async();
+//        System.out.println("async:" + async);
 
     }
 }

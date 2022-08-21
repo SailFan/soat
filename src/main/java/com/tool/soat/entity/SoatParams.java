@@ -13,9 +13,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document
-public class SoatHeaders {
+public class SoatParams {
     @Id
-    private Integer paramId;
+    private ObjectId headerId;
     private String name;
     private Object value;
 }

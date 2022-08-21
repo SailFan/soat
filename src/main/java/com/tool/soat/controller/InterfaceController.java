@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,11 +66,8 @@ public class InterfaceController {
     }
 
     @RequestMapping(value = "/runInterface", method = {RequestMethod.GET})
-    public String runInterface(HttpServletRequest httpServletRequest) {
-            SoatInterface soatInterface = interfaceService.runOneInterface(httpServletRequest.getParameter("name"));
-            System.out.println(soatInterface);
-//            return new R(RHttpStatusEnum.RUN_INTERFACE_FAIL_CODE.getCode(),"",RHttpStatusEnum.RUN_INTERFACE_FAIL_CODE.getMessage());
-
+    public String runInterface(HttpServletRequest httpServletRequest) throws IOException {
+            String response = interfaceService.runOneInterface(httpServletRequest.getParameter("name"));
               return "111";
     }
 

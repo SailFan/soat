@@ -43,7 +43,9 @@ public class SoatInterfaceMapperImpl implements SoatInterfaceMapper {
         Criteria where = new Criteria();
         where.and("name").is(name);
         Query query = new Query(where);
-        return (SoatInterface) mongoTemplate.find(query, SoatInterface.class);
+        List<SoatInterface> interfaces = mongoTemplate.find(query, SoatInterface.class);
+        SoatInterface mongoTemplateOne = mongoTemplate.findOne(query, SoatInterface.class);
+        return mongoTemplateOne;
 
     }
 }

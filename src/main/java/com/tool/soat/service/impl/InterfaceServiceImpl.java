@@ -1,12 +1,14 @@
 package com.tool.soat.service.impl;
 
+import com.tool.soat.common.util.http.OkHttpClientManager;
 import com.tool.soat.entity.SoatInterface;
 import com.tool.soat.mongo.SoatInterfaceMapper;
 import com.tool.soat.service.InterfaceService;
-import org.bson.types.ObjectId;
+import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -39,8 +41,11 @@ public class InterfaceServiceImpl implements InterfaceService {
     }
 
     @Override
-    public SoatInterface runOneInterface(String name) {
+    public String runOneInterface(String name) throws IOException {
         SoatInterface soatInterface = soatInterfaceMapper.queryOneInterface(name);
-        return soatInterface;
+//        if (soatInterface.getMethod() == "GET"){
+//            OkHttpClientManager.getInstance().getAsyn(soatInterface.getPath(),)
+//        }
+        return "";
     }
 }
