@@ -6,9 +6,9 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 
 
 
@@ -31,7 +31,7 @@ public class SoatInterface{
     private String method;
     private String params;
     private String run;
-    private List<Map<String, Object>> headers;
+    private List<HashMap<String,Object>> headers;
     private Integer setId;
     private String request_type;
     private String author;
