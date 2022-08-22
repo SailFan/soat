@@ -11,5 +11,5 @@ public interface InterfaceService {
     public void addInterfacce(Map<String,Object> map,String nickname);
     public List<SoatInterface> getInterface(Integer currentPage, Integer pageSize, String creater);
     public String runOneInterface(String name) throws IOException;
-
+    public SoatInterface getOneSoatInterface(String name);
 }

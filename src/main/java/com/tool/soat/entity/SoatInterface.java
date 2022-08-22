@@ -29,9 +29,9 @@ public class SoatInterface{
     private String path;
     private String procotol;
     private String method;
-    private String params;
+    private List<SoatParams> params;
     private String run;
-    private List<HashMap<String,Object>> headers;
+    private List<SoatHeaders> headers;
     private Integer setId;
     private String request_type;
     private String author;

@@ -43,6 +43,11 @@ public class InterfaceController {
     @PostMapping("/addInterface")
     public R addInterface(@RequestBody Map<String,Object> map, HttpServletRequest httpServletRequest) {
         try {
+            Map<String, Object> base = (Map<String, Object>) map.get("baseData");
+            SoatInterface interfaceName = interfaceService.getOneSoatInterface((String) base.get("interfaceName"));
+            if (interfaceName!=null){
+                return new R(RHttpStatusEnum.RUN_ADD_TWO_CODE.getCode(),"",RHttpStatusEnum.RUN_ADD_TWO_CODE.getMessage());
+            }
             String email = SoatJWTUtil.getEmail(httpServletRequest.getHeader("Authorization"));
             SoatUsers users = authService.queryEmail(email);
             interfaceService.addInterfacce(map,users.getNickname());
