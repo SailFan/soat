@@ -43,6 +43,7 @@ public class InterfaceController {
     @PostMapping("/addInterface")
     public R addInterface(@RequestBody Map<String,Object> map, HttpServletRequest httpServletRequest) {
         try {
+            Integer projectId = Integer.valueOf((String) map.get("projectId"));
             Map<String, Object> base = (Map<String, Object>) map.get("baseData");
             SoatInterface interfaceName = interfaceService.getOneSoatInterface((String) base.get("interfaceName"));
             if (interfaceName!=null){
@@ -50,7 +51,7 @@ public class InterfaceController {
             }
             String email = SoatJWTUtil.getEmail(httpServletRequest.getHeader("Authorization"));
             SoatUsers users = authService.queryEmail(email);
-            interfaceService.addInterfacce(map,users.getNickname());
+            interfaceService.addInterfacce(map,users.getNickname(),projectId);
             return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
             return new R(RHttpStatusEnum.ADD_INTERFACE_FAIL_CODE.getCode(),"",RHttpStatusEnum.ADD_INTERFACE_FAIL_CODE.getMessage());
@@ -60,15 +61,22 @@ public class InterfaceController {
 
     @GetMapping("/getAllInterface")
     public R getAllInterface(HttpServletRequest httpServletRequest) {
+        try {
         String email = SoatJWTUtil.getEmail(httpServletRequest.getHeader("Authorization"));
         SoatUsers users = authService.queryEmail(email);
         Integer pageSize = new Integer(httpServletRequest.getParameter("pageSize"));
         Integer currentPage = new Integer(httpServletRequest.getParameter("currentPage"));
-        List<SoatInterface> anInterface = interfaceService.getInterface(currentPage, pageSize, users.getNickname());
+        Integer projectId = new Integer(httpServletRequest.getParameter("projectId"));
+        System.out.println("projectId"+projectId);
+        List<SoatInterface> anInterface = interfaceService.getInterface(currentPage, pageSize, users.getNickname(),projectId);
         HashMap<String, Object> map = new HashMap<>();
         map.put("total", anInterface.size());
         map.put("anInterface", anInterface);
         return new R(RHttpStatusEnum.SUCCESS.getCode(),map,RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.INTERFACE_LIST_FAIL.getCode(),"",RHttpStatusEnum.INTERFACE_LIST_FAIL.getMessage());
+        }
+
     }
 
     @RequestMapping(value = "/runInterface", method = {RequestMethod.GET})

@@ -1,5 +1,6 @@
 package com.tool.soat.entity;
 
+import com.tool.soat.common.util.AutoIncKey;
 import lombok.*;
 
 import org.bson.types.ObjectId;
@@ -21,9 +22,9 @@ import java.util.List;
 @Document(collection="soat_interface")
 
 public class SoatInterface{
-
+    @AutoIncKey
     @Id
-    private ObjectId interfaceId;
+    private int id=0;
     private String name;
     private Boolean status;
     private String path;
@@ -37,6 +38,7 @@ public class SoatInterface{
     private String author;
     private String editer;
     private Integer projectId;
+
 
 
 }

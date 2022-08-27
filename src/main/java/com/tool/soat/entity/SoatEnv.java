@@ -17,7 +17,7 @@ import java.util.List;
 public class SoatEnv {
    @Id
    private Integer id;
-   private List<SoatHeaders> headers;
    private String name;
    private String domains;
+   private String defaultApply;
 }

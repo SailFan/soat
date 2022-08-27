@@ -28,9 +28,10 @@ public class SoatInterfaceMapperImpl implements SoatInterfaceMapper {
     }
 
     @Override
-    public List<SoatInterface> queryAllInterface(String creater, Integer currentPage, Integer pageSize){
+    public List<SoatInterface> queryAllInterface(String creater, Integer currentPage, Integer pageSize,Integer projectId){
         Criteria where = new Criteria();
         where.and("author").is(creater);
+        where.and("projectId").is(projectId);
         Query query = new Query(where);
         long count = mongoTemplate.count(query, SoatInterface.class);
         Pageable pageable = PageRequest.of(currentPage-1,pageSize);

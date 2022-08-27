@@ -1,5 +1,6 @@
 package com.tool.soat.entity;
 
+import com.tool.soat.common.util.AutoIncKey;
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -19,8 +20,9 @@ import java.util.List;
 @Document(collection="soat_project")
 public class SoatProject {
 
+    @AutoIncKey
     @Id
-    private ObjectId projdctId;
+    private int id=0;
     private String projectName;
     private String basePath;
     private Boolean projectType;

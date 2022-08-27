@@ -52,6 +52,7 @@ public class ProjectController {
             SoatUsers users = authService.queryEmail(email);
             project.setCreater(users.getNickname());
             projectService.addOneProject(project);
+            System.out.println("project"+project);
             return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
             return new R(RHttpStatusEnum.CREATE_PROJECT_ERROR.getCode(), "",RHttpStatusEnum.CREATE_PROJECT_ERROR.getMessage());

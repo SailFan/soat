@@ -50,6 +50,7 @@ public enum RHttpStatusEnum {
     ADD_INTERFACE_FAIL_CODE(40034,"新增接口失败"),
     RUN_INTERFACE_FAIL_CODE(40035,"运行接口失败"),
     RUN_ADD_TWO_CODE(40036,"新增接口名称不可重复"),
+    INTERFACE_LIST_FAIL(40037,"获取接口列表失败"),
     SERVER_ERROR(40033,"服务器错误");
     Integer code;
     String msg;
