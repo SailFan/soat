@@ -1,10 +1,15 @@
 package com.tool.soat.common.util.http;
 
+import com.tool.soat.entity.SoatHeaders;
+import com.tool.soat.entity.SoatParams;
 import okhttp3.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 
 /**
@@ -15,6 +20,8 @@ import java.util.LinkedHashMap;
  * @Software: IntelliJIDEA
  */
 public class OkHttpClientManager {
+
+    Logger logger = LoggerFactory.getLogger(getClass());
     private static OkHttpClientManager instance;
     private OkHttpClient okHttpClient;
 
@@ -40,11 +47,11 @@ public class OkHttpClientManager {
      * @return
      * @throws IOException
      */
-    private Response _getAsyn(String url) throws IOException {
+    private Response _getAsyn(String url,Headers headers) throws IOException {
         if (url == "" || url == null) {
             return null;
         }
-        final Request build = new Request.Builder().url(url).build();
+        final Request build = new Request.Builder().url(url).headers(headers).build();
         Call call = okHttpClient.newCall(build);
         Response response = call.execute();
         return response;
@@ -153,9 +160,14 @@ public class OkHttpClientManager {
      * @return
      * @throws IOException
      */
-    public Response getAsyn(String url,LinkedHashMap<String,Object> params) throws IOException {
+    public Response getAsyn(String url,List<SoatParams> params,List < SoatHeaders > list) throws IOException {
+        logger.info("执行getAsyn方法");
+        logger.info("getAsyn方法Url"+url);
+        logger.info("getAsyn方法请求体参数为params"+params);
+        logger.info("getAsyn方法请求头参数为list"+list);
         String endUrl = generateUrl(url, params);
-        return getInstance()._getAsyn(endUrl);
+        Headers headers = setHeaders(list);
+        return getInstance()._getAsyn(endUrl,headers);
     }
 
 
@@ -177,19 +189,35 @@ public class OkHttpClientManager {
      *
      * generating url
      * @param url
-     * @param linkedHashMap
+     * @param params
      * @return
      */
-    public String generateUrl(String url, LinkedHashMap<String, Object> linkedHashMap){
+    public String generateUrl(String url, List<SoatParams> params){
+        logger.info("invoke generateUrl method");
         HttpUrl.Builder builder = HttpUrl.parse(url).newBuilder();
-        if (!(linkedHashMap==null || linkedHashMap.isEmpty())){
-            for(String key: linkedHashMap.keySet()){
-                builder.addQueryParameter(key, (String) linkedHashMap.get(key));
-            }
+        if(!params.isEmpty()){
+            for (SoatParams soatParams: params)
+                builder.addQueryParameter(soatParams.getKey(), (String) soatParams.getValue());
         }
+//        if (!(linkedHashMap==null || linkedHashMap.isEmpty())){
+//            for(String key: linkedHashMap.keySet()){
+//                builder.addQueryParameter(key, (String) linkedHashMap.get(key));
+//            }
+//        }
         String newUrl = builder.build().toString();
+        logger.info("generateNewUrl generate"+ newUrl);
         return newUrl;
     }
 
-
+    public  Headers setHeaders(List<SoatHeaders> list){
+        logger.info("invoke setHeaders method");
+        okhttp3.Headers.Builder headersbuilder = new okhttp3.Headers.Builder();
+        if (!list.isEmpty()){
+            for (SoatHeaders soatHeaders: list)
+                headersbuilder.add(soatHeaders.getKey(), (String) soatHeaders.getValue());
+            }
+        Headers headers = headersbuilder.build();
+        logger.info("生成的请求头为"+headers);
+        return headers;
+    }
 }

@@ -31,7 +31,7 @@ public class SoatInterface{
     private String procotol;
     private String method;
     private List<SoatParams> params;
-    private String run;
+    private Boolean run;
     private List<SoatHeaders> headers;
     private Integer setId;
     private String request_type;

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,9 @@ public class InterfaceServiceImpl implements InterfaceService {
 
     @Autowired
     SoatProjectMapper soatProjectMapper;
+
+//    @Autowired
+//    SoatInterface soatInterface
 
     @Autowired
     SoatInterfaceMapper soatInterfaceMapper;
@@ -53,11 +57,15 @@ public class InterfaceServiceImpl implements InterfaceService {
     }
 
     @Override
-    public String runOneInterface(String name) throws IOException {
-        SoatInterface soatInterface = soatInterfaceMapper.queryOneInterface(name);
-        System.out.println(soatInterface.getMethod());
+    public String runOneInterface(Integer id) throws IOException {
+        SoatInterface soatInterface = soatInterfaceMapper.queryOneInterface(id);
         if (soatInterface.getMethod() .equals("GET")){
            System.out.println("This is GET Method");
+           System.out.println(soatInterface);
+            Response asyn = OkHttpClientManager.getInstance().getAsyn(soatInterface.getPath(), soatInterface.getParams(), soatInterface.getHeaders());
+            System.out.println(asyn.body());
+            System.out.println(asyn);
+            System.out.println(asyn.message());
         }else if (soatInterface.getMethod().equals("POST")){
             System.out.println("This is POST Method");
         }else if(soatInterface.getMethod().equals("UPDATE")){
@@ -69,8 +77,27 @@ public class InterfaceServiceImpl implements InterfaceService {
     }
 
     @Override
-    public SoatInterface getOneSoatInterface(String name) {
-        SoatInterface soatInterface = soatInterfaceMapper.queryOneInterface(name);
+    public SoatInterface getOneSoatInterface(Integer id) {
+        SoatInterface soatInterface = soatInterfaceMapper.queryOneInterface(id);
         return soatInterface;
+    }
+    @Override
+    public void delOneSoatInterface(Integer id){
+        soatInterfaceMapper.delSoatInterface(id);
+    }
+
+    @Override
+    public void UpdateInterfacce(Map<String, Object> map, String nickname, Integer projectId) {
+        SoatInterface anInterface = new SoatInterface();
+        Map<String, Object> base = (Map<String, Object>) map.get("baseData");
+        anInterface.setMethod((String) base.get("interfaceMethod"));
+        anInterface.setProcotol((String) base.get("interfaceProtocol"));
+        anInterface.setName((String) base.get("interfaceName"));
+        anInterface.setPath((String) base.get("interfacePath"));
+        anInterface.setProjectId(projectId);
+        anInterface.setParams((List<SoatParams>) map.get("params"));
+        anInterface.setHeaders((List<SoatHeaders>) map.get("headers"));
+        anInterface.setEditer(nickname);
+        soatInterfaceMapper.updateOneInterface(anInterface);
     }
 }

@@ -10,5 +10,7 @@ import java.util.List;
 public interface SoatInterfaceMapper {
     void addOneInterface(SoatInterface soatInterface);
     List<SoatInterface> queryAllInterface(String creater, Integer currentPage, Integer pageSize,Integer projectId);
-    SoatInterface queryOneInterface(String name);
+    SoatInterface queryOneInterface(Integer id);
+    void delSoatInterface(Integer id);
+    void updateOneInterface(SoatInterface soatInterface);
 }

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class SoatInterfaceMapperImpl implements SoatInterfaceMapper {
 
     @Override
     public void addOneInterface(SoatInterface soatInterface) {
+        soatInterface.setRun(false);
         mongoTemplate.save(soatInterface);
     }
 
@@ -40,13 +42,27 @@ public class SoatInterfaceMapperImpl implements SoatInterfaceMapper {
     }
 
     @Override
-    public SoatInterface queryOneInterface(String name) {
+    public SoatInterface queryOneInterface(Integer id) {
         Criteria where = new Criteria();
-        where.and("name").is(name);
+        where.and("id").is(id);
         Query query = new Query(where);
-        List<SoatInterface> interfaces = mongoTemplate.find(query, SoatInterface.class);
         SoatInterface mongoTemplateOne = mongoTemplate.findOne(query, SoatInterface.class);
         return mongoTemplateOne;
+
+    }
+
+    @Override
+    public void delSoatInterface(Integer id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(id));
+        mongoTemplate.remove(query,SoatInterface.class);
+    }
+
+    @Override
+    public void updateOneInterface(SoatInterface soatInterface) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(soatInterface.getId()));
+        Update update=new Update();
 
     }
 }
