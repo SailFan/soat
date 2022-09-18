@@ -25,7 +25,6 @@ public class SoatInterfaceMapperImpl implements SoatInterfaceMapper {
 
     @Override
     public void addOneInterface(SoatInterface soatInterface) {
-        soatInterface.setRun(false);
         mongoTemplate.save(soatInterface);
     }
 
@@ -61,8 +60,10 @@ public class SoatInterfaceMapperImpl implements SoatInterfaceMapper {
     @Override
     public void updateOneInterface(SoatInterface soatInterface) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("id").is(soatInterface.getId()));
-        Update update=new Update();
+//        query.addCriteria(Criteria.where("id").is(soatInterface.getId()));
+//        Update update=new Update();
+        System.out.println("soatInterface");
+        System.out.println(soatInterface);
 
     }
 }

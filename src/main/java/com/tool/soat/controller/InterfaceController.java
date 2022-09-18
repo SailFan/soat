@@ -3,6 +3,7 @@ package com.tool.soat.controller;
 import com.tool.soat.common.util.SoatJWTUtil;
 import com.tool.soat.common.vo.R;
 import com.tool.soat.common.vo.RHttpStatusEnum;
+import com.tool.soat.entity.SoatHeaders;
 import com.tool.soat.entity.SoatInterface;
 import com.tool.soat.entity.SoatUsers;
 import com.tool.soat.service.AuthService;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,10 +46,6 @@ public class InterfaceController {
         try {
             Integer projectId = Integer.valueOf((String) map.get("projectId"));
             Map<String, Object> base = (Map<String, Object>) map.get("baseData");
-            SoatInterface interfaceName = interfaceService.getOneSoatInterface((Integer) base.get("id"));
-            if (interfaceName!=null){
-                return new R(RHttpStatusEnum.RUN_ADD_TWO_CODE.getCode(),"",RHttpStatusEnum.RUN_ADD_TWO_CODE.getMessage());
-            }
             String email = SoatJWTUtil.getEmail(httpServletRequest.getHeader("Authorization"));
             SoatUsers users = authService.queryEmail(email);
             interfaceService.addInterfacce(map,users.getNickname(),projectId);
@@ -112,34 +111,17 @@ public class InterfaceController {
     }
 
 
-    @RequestMapping(value = "/updateOneInterface", method = {RequestMethod.GET})
-    public R updateOneInterface(@RequestBody Map<String,Object> map,HttpServletRequest httpServletRequest) {
-        Integer projectId = Integer.valueOf((String) map.get("projectId"));
-        Map<String, Object> base = (Map<String, Object>) map.get("baseData");
-        SoatInterface interfaceName = interfaceService.getOneSoatInterface((Integer) base.get("id"));
-        if (interfaceName!=null){
-            return new R(RHttpStatusEnum.RUN_ADD_TWO_CODE.getCode(),"",RHttpStatusEnum.RUN_ADD_TWO_CODE.getMessage());
-        }
-        String email = SoatJWTUtil.getEmail(httpServletRequest.getHeader("Authorization"));
-        SoatUsers users = authService.queryEmail(email);
-        interfaceService.UpdateInterfacce(map,users.getNickname(),projectId);
-        try {
-            interfaceService.addInterfacce(map,users.getNickname(),projectId);
-            return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
-        }catch (Exception e){
-            return new R(RHttpStatusEnum.UPDATE_ONE_INTERFACE_FAIL.getCode(),"",RHttpStatusEnum.UPDATE_ONE_INTERFACE_FAIL.getMessage());
-        }
-
-    }
-
-
     @RequestMapping(value = "/generateDefaultHeaders", method = {RequestMethod.GET})
-    public R generateDefaultHeaders(@RequestBody Map<String,Object> map) {
+    public R generateDefaultHeaders() {
         try {
-
-            return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
+            SoatHeaders soatHeaders = new SoatHeaders();
+            soatHeaders.setKey("User-Agent");
+            soatHeaders.setValue("SoatRuntime/7.28.0");
+            List<SoatHeaders> list = new ArrayList<>();
+            list.add(soatHeaders);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),list,RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
-            return new R(RHttpStatusEnum.GET_ONE_INTERFACE_FAIL.getCode(),"",RHttpStatusEnum.GET_ONE_INTERFACE_FAIL.getMessage());
+            return new R(RHttpStatusEnum.GET_DEFAULT_HEADER_FAIL.getCode(),"",RHttpStatusEnum.GET_DEFAULT_HEADER_FAIL.getMessage());
         }
 
     }

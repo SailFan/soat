@@ -9,6 +9,8 @@ import com.tool.soat.mongo.SoatProjectMapper;
 import com.tool.soat.service.InterfaceService;
 import okhttp3.Response;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,7 @@ import java.util.Map;
 
 @Service
 public class InterfaceServiceImpl implements InterfaceService {
-
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     SoatProjectMapper soatProjectMapper;
@@ -31,22 +33,29 @@ public class InterfaceServiceImpl implements InterfaceService {
     @Autowired
     SoatInterfaceMapper soatInterfaceMapper;
 
-//    {baseData={interfaceName=23142134, interfaceProtocol=http, interfacePath=23142134234, interfaceMethod=GET}, params=[{key=213423143, value=213432142334312421}, {key=12344231, value=4213231412}], headers=[{key=231423142, value=4231213421}, {key=4123423, value=214323114234321}]}
 
 
     @Override
     public void addInterfacce(Map<String, Object> map, String nickname,Integer projectId) {
         SoatInterface anInterface = new SoatInterface();
         Map<String, Object> base = (Map<String, Object>) map.get("baseData");
-        anInterface.setMethod((String) base.get("interfaceMethod"));
-        anInterface.setProcotol((String) base.get("interfaceProtocol"));
-        anInterface.setName((String) base.get("interfaceName"));
-        anInterface.setPath((String) base.get("interfacePath"));
-        anInterface.setProjectId(projectId);
-        anInterface.setAuthor(nickname);
-        anInterface.setParams((List<SoatParams>) map.get("params"));
-        anInterface.setHeaders((List<SoatHeaders>) map.get("headers"));
-        soatInterfaceMapper.addOneInterface(anInterface);
+        try  {
+            Integer id = Integer.valueOf((String) base.get("id"));
+            anInterface.setId(id);
+        }catch (Exception e){
+            logger.info("此处为用户编辑,异常无需处理");
+        }finally {
+            anInterface.setMethod((String) base.get("interfaceMethod"));
+            anInterface.setProcotol((String) base.get("interfaceProtocol"));
+            anInterface.setName((String) base.get("interfaceName"));
+            anInterface.setPath((String) base.get("interfacePath"));
+            anInterface.setProjectId(projectId);
+            anInterface.setAuthor(nickname);
+            anInterface.setRun(false);
+            anInterface.setParams((List<SoatParams>) map.get("params"));
+            anInterface.setHeaders((List<SoatHeaders>) map.get("headers"));
+            soatInterfaceMapper.addOneInterface(anInterface);
+        }
     }
 
 
@@ -58,14 +67,11 @@ public class InterfaceServiceImpl implements InterfaceService {
 
     @Override
     public String runOneInterface(Integer id) throws IOException {
+        logger.info("进入同步执行方法");
         SoatInterface soatInterface = soatInterfaceMapper.queryOneInterface(id);
+        logger.info("请求对象"+soatInterface);
         if (soatInterface.getMethod() .equals("GET")){
-           System.out.println("This is GET Method");
-           System.out.println(soatInterface);
             Response asyn = OkHttpClientManager.getInstance().getAsyn(soatInterface.getPath(), soatInterface.getParams(), soatInterface.getHeaders());
-            System.out.println(asyn.body());
-            System.out.println(asyn);
-            System.out.println(asyn.message());
         }else if (soatInterface.getMethod().equals("POST")){
             System.out.println("This is POST Method");
         }else if(soatInterface.getMethod().equals("UPDATE")){
