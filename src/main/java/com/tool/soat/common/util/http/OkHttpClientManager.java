@@ -160,9 +160,8 @@ public class OkHttpClientManager {
      * @return
      * @throws IOException
      */
-    public Response getAsyn(String url,List<SoatParams> params,List < SoatHeaders > list) throws IOException {
-        logger.info("执行getAsyn方法");
-        logger.info("getAsyn方法Url "+url,"同步get方法请求参数列表 "+params,"同步get方法请求头 "+list);
+    public Response getsyn(String url,List<SoatParams> params,List < SoatHeaders > list) throws IOException {
+        logger.info("执行同步GET方法，Service传来的url为 "+ url, "Service传来的params为" + params,"Service传来的list为"+list);
         String endUrl = generateUrl(url, params);
         Headers headers = setHeaders(list);
         return getInstance()._getAsyn(endUrl,headers);
@@ -193,14 +192,13 @@ public class OkHttpClientManager {
     public String generateUrl(String url, List<SoatParams> params){
         logger.info("invoke generateUrl method");
         logger.info("生成url链接，原始url "+url,"生成url链接，请求参数为 "+params);
-        url = "http://www.baidu.com";
         HttpUrl.Builder builder = HttpUrl.parse(url).newBuilder();
-        if(!params.isEmpty()){
+        if(params.size()>1){
             for (SoatParams soatParams: params)
                 builder.addQueryParameter(soatParams.getKey(), (String) soatParams.getValue());
         }
         String newUrl = builder.build().toString();
-        logger.info("generateNewUrl generate"+ newUrl);
+        logger.info("generateNewUrl generate "+ newUrl);
         return newUrl;
     }
 

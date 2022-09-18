@@ -8,6 +8,7 @@ import com.tool.soat.entity.SoatInterface;
 import com.tool.soat.entity.SoatUsers;
 import com.tool.soat.service.AuthService;
 import com.tool.soat.service.InterfaceService;
+import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -76,10 +77,18 @@ public class InterfaceController {
     }
 
     @RequestMapping(value = "/runInterface", method = {RequestMethod.GET})
-    public String runInterface(HttpServletRequest httpServletRequest) throws IOException {
+    public R runInterface(HttpServletRequest httpServletRequest) throws IOException {
+        HashMap<String, Object> map = new HashMap<>();
         Integer value = Integer.valueOf(httpServletRequest.getParameter("id"));
-        String s = interfaceService.runOneInterface(value);
-        return s;
+        try {
+            Response  response = interfaceService.runOneInterface(value);
+            map.put("code",response.code());
+            map.put("response",response.body().string());
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),map,RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.INTERFACE_DEL_FAIL.getCode(),"",RHttpStatusEnum.INTERFACE_DEL_FAIL.getMessage());
+        }
+
     }
 
 
@@ -116,7 +125,7 @@ public class InterfaceController {
         try {
             SoatHeaders soatHeaders = new SoatHeaders();
             soatHeaders.setKey("User-Agent");
-            soatHeaders.setValue("SoatRuntime/7.28.0");
+            soatHeaders.setValue("SoatRuntime/1.1.0");
             List<SoatHeaders> list = new ArrayList<>();
             list.add(soatHeaders);
             return new R(RHttpStatusEnum.SUCCESS.getCode(),list,RHttpStatusEnum.SUCCESS.getMessage());

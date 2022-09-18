@@ -60,9 +60,8 @@ public class SoatInterfaceMapperImpl implements SoatInterfaceMapper {
     @Override
     public void updateOneInterface(SoatInterface soatInterface) {
         Query query = new Query();
-//        query.addCriteria(Criteria.where("id").is(soatInterface.getId()));
-//        Update update=new Update();
-        System.out.println("soatInterface");
+        query.addCriteria(Criteria.where("id").is(soatInterface.getId()));
+        Update update=new Update();
         System.out.println(soatInterface);
 
     }

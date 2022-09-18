@@ -8,14 +8,12 @@ import com.tool.soat.mongo.SoatInterfaceMapper;
 import com.tool.soat.mongo.SoatProjectMapper;
 import com.tool.soat.service.InterfaceService;
 import okhttp3.Response;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,12 +64,14 @@ public class InterfaceServiceImpl implements InterfaceService {
     }
 
     @Override
-    public String runOneInterface(Integer id) throws IOException {
+    public Response runOneInterface(Integer id) throws IOException {
         logger.info("进入同步执行方法");
         SoatInterface soatInterface = soatInterfaceMapper.queryOneInterface(id);
-        logger.info("请求对象"+soatInterface);
+        Response asyn = null;
+        String fullUrl = soatInterface.getProcotol()+"://"+soatInterface.getPath();
         if (soatInterface.getMethod() .equals("GET")){
-            Response asyn = OkHttpClientManager.getInstance().getAsyn(soatInterface.getPath(), soatInterface.getParams(), soatInterface.getHeaders());
+            asyn = OkHttpClientManager.getInstance().getsyn(fullUrl, soatInterface.getParams(), soatInterface.getHeaders());
+            logger.info("isSuccessful"+asyn.isSuccessful());
         }else if (soatInterface.getMethod().equals("POST")){
             System.out.println("This is POST Method");
         }else if(soatInterface.getMethod().equals("UPDATE")){
@@ -79,7 +79,7 @@ public class InterfaceServiceImpl implements InterfaceService {
         }else {
             System.out.println("This is DELETE METHOD");
         }
-        return "";
+        return asyn;
     }
 
     @Override
