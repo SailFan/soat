@@ -12,5 +12,5 @@ public interface SoatInterfaceMapper {
     List<SoatInterface> queryAllInterface(String creater, Integer currentPage, Integer pageSize,Integer projectId);
     SoatInterface queryOneInterface(Integer id);
     void delSoatInterface(Integer id);
-    void updateOneInterface(SoatInterface soatInterface);
+    void updateOneInterfaceRunStatus(Integer id,Boolean run);
 }

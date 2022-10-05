@@ -58,11 +58,11 @@ public class SoatInterfaceMapperImpl implements SoatInterfaceMapper {
     }
 
     @Override
-    public void updateOneInterface(SoatInterface soatInterface) {
+    public void updateOneInterfaceRunStatus(Integer id,Boolean run) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("id").is(soatInterface.getId()));
-        Update update=new Update();
-        System.out.println(soatInterface);
+        query.addCriteria(Criteria.where("_id").is(id));
+        Update update=new Update().set("run",run);
+        mongoTemplate.updateFirst(query,update,SoatInterface.class);
 
     }
 }

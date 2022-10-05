@@ -11,8 +11,9 @@ import java.util.Map;
 public interface InterfaceService {
     public void addInterfacce(Map<String,Object> map,String nickname,Integer projectId);
     public List<SoatInterface> getInterface(Integer currentPage, Integer pageSize, String creater,Integer projectId);
-    public Response runOneInterface(Integer id) throws IOException;
+    public Response runOneInterface(Integer id,Integer projectId) throws IOException;
     public SoatInterface getOneSoatInterface(Integer id);
     public void delOneSoatInterface(Integer id);
-    public void UpdateInterfacce(Map<String,Object> map,String nickname,Integer projectId);
+    public void UpdateInterface(Integer id,Boolean run);
+    public Response directlyRunINterface(Map<String,Object> map) throws IOException;
 }

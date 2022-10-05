@@ -10,4 +10,5 @@ public interface SoatProjectMapper{
     List<SoatProject> queryProject(String creater,Integer currentPage, Integer pageSize);
     List<SoatProject> queryProjectAdmin(Integer currentPage, Integer pageSize);
     void delOneProject(Integer uid,Integer id);
+    SoatProject getOneSoatProject(Integer projectId);
 }

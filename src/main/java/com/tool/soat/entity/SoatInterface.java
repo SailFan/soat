@@ -28,6 +28,7 @@ public class SoatInterface{
     private String name;
     private Boolean status;
     private String path;
+    private String domain;
     private String procotol;
     private String method;
     private List<SoatParams> params;

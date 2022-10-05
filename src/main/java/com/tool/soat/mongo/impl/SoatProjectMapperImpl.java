@@ -1,5 +1,6 @@
 package com.tool.soat.mongo.impl;
 
+import com.tool.soat.entity.SoatInterface;
 import com.tool.soat.mongo.SoatProjectMapper;
 import com.tool.soat.entity.SoatProject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,4 +56,12 @@ public class SoatProjectMapperImpl implements SoatProjectMapper {
 //        Query.query(Criteria)
     }
 
+    @Override
+    public SoatProject getOneSoatProject(Integer projectId) {
+        Criteria where = new Criteria();
+        where.and("_id").is(projectId);
+        Query query = new Query(where);
+        SoatProject mongoTemplateOne = mongoTemplate.findOne(query, SoatProject.class);
+        return mongoTemplateOne;
+    }
 }
