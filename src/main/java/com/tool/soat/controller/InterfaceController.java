@@ -50,6 +50,7 @@ public class InterfaceController {
     @PostMapping("/addInterface")
     public R addInterface(@RequestBody Map<String,Object> map, HttpServletRequest httpServletRequest) {
         try {
+            logger.info("ma11p"+map);
             Integer projectId = Integer.valueOf((String) map.get("projectId"));
             Map<String, Object> base = (Map<String, Object>) map.get("baseData");
             String email = SoatJWTUtil.getEmail(httpServletRequest.getHeader("Authorization"));

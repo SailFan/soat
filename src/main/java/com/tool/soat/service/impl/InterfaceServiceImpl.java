@@ -79,7 +79,7 @@ public class InterfaceServiceImpl implements InterfaceService {
                 soatInterfaceMapper.updateOneInterfaceRunStatus(id,false);
             }
         }else if (soatInterface.getMethod().equals("POST")){
-            System.out.println("This is POST Method");
+                logger.info("请求的参数为post"+soatInterface);
         }else if(soatInterface.getMethod().equals("UPDATE")){
             System.out.println("This is UPDATE Method");
         }else {
@@ -128,7 +128,7 @@ public class InterfaceServiceImpl implements InterfaceService {
         if (base.get("interfaceMethod") .equals("GET")){
             asyn = OkHttpClientManager.getInstance().getsyn(fullUrl,paramList,headerList);
         }else if (base.get("interfaceMethod").equals("POST")){
-            System.out.println("This is POST Method");
+            System.out.println("This is POST Method"+map);
         }else if(base.get("interfaceMethod").equals("UPDATE")){
             System.out.println("This is UPDATE Method");
         }else {
