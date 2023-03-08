@@ -31,29 +31,29 @@ public class InterfaceServiceImpl implements InterfaceService {
     SoatInterfaceMapper soatInterfaceMapper;
 
 
-
+    /**
+     * 新增interface 接口
+     * @param map
+     * @param nickname
+     * @param projectId
+     */
     @Override
     public void addInterfacce(Map<String, Object> map, String nickname,Integer projectId) {
         SoatInterface anInterface = new SoatInterface();
         Map<String, Object> base = (Map<String, Object>) map.get("baseData");
-        SoatProject soatProject = soatProjectMapper.getOneSoatProject(projectId);
-        try  {
-            Integer id = Integer.valueOf((String) base.get("id"));
-            anInterface.setId(id);
-        }catch (Exception e){
-            logger.info("此处为用户编辑,异常无需处理");
-        }finally {
-            anInterface.setMethod((String) base.get("interfaceMethod"));
-            anInterface.setProcotol((String) base.get("interfaceProtocol"));
-            anInterface.setName((String) base.get("interfaceName"));
-            anInterface.setPath((String) base.get("interfacePath"));
-            anInterface.setProjectId(projectId);
-            anInterface.setAuthor(nickname);
-            anInterface.setRun(false);
-            anInterface.setParams((List<SoatParams>) map.get("params"));
-            anInterface.setHeaders((List<SoatHeaders>) map.get("headers"));
-            soatInterfaceMapper.addOneInterface(anInterface);
-        }
+        anInterface.setMethod((String) base.get("interfaceMethod"));
+        anInterface.setProcotol((String) base.get("interfaceProtocol"));
+        anInterface.setName((String) base.get("interfaceName"));
+        anInterface.setPath((String) base.get("interfacePath"));
+        anInterface.setProjectId(projectId);
+        anInterface.setAuthor(nickname);
+        anInterface.setRun(false);
+        logger.info("(List<SoatParams>) map.get(\"params\")"+(List<SoatParams>) map.get("params"));
+        anInterface.setParams((List<SoatParams>) map.get("params"));
+        anInterface.setBody(JSON.toJSONString(map.get("body")));
+        anInterface.setBodyType((String) map.get("activeName"));
+        anInterface.setHeaders((List<SoatHeaders>) map.get("headers"));
+        soatInterfaceMapper.addOneInterface(anInterface);
     }
 
 
@@ -68,24 +68,34 @@ public class InterfaceServiceImpl implements InterfaceService {
         logger.info("进入同步执行方法");
         SoatInterface soatInterface = soatInterfaceMapper.queryOneInterface(id);
         SoatProject soatProject = soatProjectMapper.getOneSoatProject(projectId);
-        Response asyn = null;
+        Response syn = null;
         String fullUrl = soatInterface.getProcotol()+"://"+soatProject.getBasePath()+soatInterface.getPath();
         if (soatInterface.getMethod() .equals("GET")){
-            asyn = OkHttpClientManager.getInstance().getsyn(fullUrl, soatInterface.getParams(), soatInterface.getHeaders());
-            logger.info("isSuccessful"+asyn.isSuccessful());
-            if(asyn.isSuccessful()){
-                soatInterfaceMapper.updateOneInterfaceRunStatus(id,true);
-            }else {
-                soatInterfaceMapper.updateOneInterfaceRunStatus(id,false);
-            }
+            syn = OkHttpClientManager.getInstance().getsyn(fullUrl, soatInterface.getParams(), soatInterface.getHeaders());
         }else if (soatInterface.getMethod().equals("POST")){
-                logger.info("请求的参数为post"+soatInterface);
-        }else if(soatInterface.getMethod().equals("UPDATE")){
+            if (soatInterface.getBodyType().equals("raw")){
+                logger.info("执行post方法，参数类型为json");
+                logger.info("postJson同步方法收到的url为"+fullUrl);
+                logger.info("postJson同步方法收到的为"+soatInterface.getBody());
+                syn = OkHttpClientManager.getInstance().postAsynWithJson(fullUrl, soatInterface.getBody());
+            }else if(soatInterface.getBodyType().equals("none")){
+                logger.info("执行post方法，参数类型为none");
+                logger.info("postNone同步方法收到的url为"+fullUrl);
+                syn = OkHttpClientManager.getInstance().postSynWithNone(fullUrl);
+            } else if (soatInterface.getBodyType().equals("x-xxx-form-urlencoded") ){
+                logger.info("执行post方法，参数类型为none");
+            } else if (soatInterface.getBodyType().equals("form-data")){
+                logger.info("执行post方法，参数类型为none");
+            }else {
+                logger.info("暂不支持当前参数类型");
+            }
+
+        }else if(soatInterface.getMethod().equals("PUT")){
             System.out.println("This is UPDATE Method");
         }else {
             System.out.println("This is DELETE METHOD");
         }
-        return asyn;
+        return syn;
     }
 
     @Override
@@ -100,16 +110,6 @@ public class InterfaceServiceImpl implements InterfaceService {
 
     @Override
     public void UpdateInterface(Integer id,Boolean run) {
-//        SoatInterface anInterface = new SoatInterface();
-//        Map<String, Object> base = (Map<String, Object>) map.get("baseData");
-//        anInterface.setMethod((String) base.get("interfaceMethod"));
-//        anInterface.setProcotol((String) base.get("interfaceProtocol"));
-//        anInterface.setName((String) base.get("interfaceName"));
-//        anInterface.setPath((String) base.get("interfacePath"));
-//        anInterface.setProjectId(projectId);
-//        anInterface.setParams((List<SoatParams>) map.get("params"));
-//        anInterface.setHeaders((List<SoatHeaders>) map.get("headers"));
-//        anInterface.setEditer(nickname);
         soatInterfaceMapper.updateOneInterfaceRunStatus(id,run);
     }
 
@@ -136,4 +136,10 @@ public class InterfaceServiceImpl implements InterfaceService {
         }
         return asyn;
     }
+
+    @Override
+    public void savaInterface(Integer id,Map<String, Object> map) {
+        soatInterfaceMapper.updateOneInterface(id,map);
+    }
+
 }

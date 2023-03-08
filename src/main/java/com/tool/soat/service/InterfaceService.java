@@ -16,4 +16,5 @@ public interface InterfaceService {
     public void delOneSoatInterface(Integer id);
     public void UpdateInterface(Integer id,Boolean run);
     public Response directlyRunINterface(Map<String,Object> map) throws IOException;
+    void savaInterface(Integer id,Map<String, Object> map);
 }

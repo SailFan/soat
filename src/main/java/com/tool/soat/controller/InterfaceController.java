@@ -1,6 +1,4 @@
 package com.tool.soat.controller;
-
-import com.alibaba.fastjson.JSONObject;
 import com.tool.soat.common.util.SoatJWTUtil;
 import com.tool.soat.common.vo.R;
 import com.tool.soat.common.vo.RHttpStatusEnum;
@@ -19,6 +17,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,18 +49,28 @@ public class InterfaceController {
     @PostMapping("/addInterface")
     public R addInterface(@RequestBody Map<String,Object> map, HttpServletRequest httpServletRequest) {
         try {
-            logger.info("ma11p"+map);
+            logger.info("新增或者编辑接口参数为"+map);
             Integer projectId = Integer.valueOf((String) map.get("projectId"));
             Map<String, Object> base = (Map<String, Object>) map.get("baseData");
             String email = SoatJWTUtil.getEmail(httpServletRequest.getHeader("Authorization"));
             SoatUsers users = authService.queryEmail(email);
-            interfaceService.addInterfacce(map,users.getNickname(),projectId);
+            if (base.get("id") == null) {
+                logger.info("ID为空，当前执行新增操作。参数为"+map);
+                interfaceService.addInterfacce(map,users.getNickname(),projectId);
+            }else {
+                logger.info("编辑操作ID为"+base.get("id"));
+                interfaceService.savaInterface(Integer.valueOf((String) base.get("id")),map);
+            }
+
+
             return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
+            e.printStackTrace();
             return new R(RHttpStatusEnum.ADD_INTERFACE_FAIL_CODE.getCode(),"",RHttpStatusEnum.ADD_INTERFACE_FAIL_CODE.getMessage());
         }
 
     }
+//    {interfaceName=1111, interfaceProtocol=http, interfacePath=/get, interfaceMethod=GET}
 
     @GetMapping("/getAllInterface")
     public R getAllInterface(HttpServletRequest httpServletRequest) {
@@ -88,12 +97,20 @@ public class InterfaceController {
         Integer value = Integer.valueOf(httpServletRequest.getParameter("id"));
         Integer projectId = Integer.valueOf(httpServletRequest.getParameter("projectId"));
         try {
-            Response  response = interfaceService.runOneInterface(value,projectId);
+            Response response = interfaceService.runOneInterface(value,projectId);
             map.put("code",response.code());
             map.put("response",response.body().string());
+            //判断上一次接口运行情况，具体断言后续补充
+            if(response.isSuccessful()==false){
+                interfaceService.UpdateInterface(value,false);
+            }else {
+                interfaceService.UpdateInterface(value,true);
+            }
+
             return new R(RHttpStatusEnum.SUCCESS.getCode(),map,RHttpStatusEnum.SUCCESS.getMessage());
-        }catch (Exception e){
-            return new R(RHttpStatusEnum.RUN_ONE_INTERFACE_FAIL.getCode(),"",RHttpStatusEnum.RUN_ONE_INTERFACE_FAIL.getMessage());
+        }catch (UnknownHostException e){
+            map.put("response","当前地址有错误，请检查");
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),map,RHttpStatusEnum.SUCCESS.getMessage());
         }
 
     }
@@ -116,7 +133,7 @@ public class InterfaceController {
     @RequestMapping(value = "/getOneInterface", method = {RequestMethod.GET})
     public R getOneInterface(HttpServletRequest httpServletRequest) {
         String id = httpServletRequest.getParameter("id");
-        Integer value = Integer.valueOf(id);
+        Integer value = Integer.valueOf((String) id);
         try {
             SoatInterface soatInterface = interfaceService.getOneSoatInterface(value);
             return new R(RHttpStatusEnum.SUCCESS.getCode(),soatInterface,RHttpStatusEnum.SUCCESS.getMessage());
@@ -162,6 +179,19 @@ public class InterfaceController {
             Response response = interfaceService.directlyRunINterface(map);
             hashMap.put("message",response.body().string());
             return new R(RHttpStatusEnum.SUCCESS.getCode(),hashMap,RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.RUN_DETAIL_INTERFACE_FAIL.getCode(),"",RHttpStatusEnum.RUN_DETAIL_INTERFACE_FAIL.getMessage());
+        }
+
+    }
+
+    //更新方法，看样子是可以不要这个方法的，废弃
+    @RequestMapping(value = "/saveInterface", method = {RequestMethod.POST})
+    public R saveInterface( @RequestBody Map<String,Object> map,HttpServletRequest httpServletRequest) throws IOException {
+        logger.info("saveInterface" + map);
+//        interfaceService.savaInterface();
+        try {
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
             return new R(RHttpStatusEnum.RUN_DETAIL_INTERFACE_FAIL.getCode(),"",RHttpStatusEnum.RUN_DETAIL_INTERFACE_FAIL.getMessage());
         }

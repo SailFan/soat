@@ -47,7 +47,7 @@ public class OkHttpClientManager {
      * @return
      * @throws IOException
      */
-    private Response _getAsyn(String url,Headers headers) throws IOException {
+    private Response _getSyn(String url,Headers headers) throws IOException {
         if (url == "" || url == null) {
             return null;
         }
@@ -67,7 +67,7 @@ public class OkHttpClientManager {
      * @return
      * @throws IOException
      */
-    private Response _postAsyn(String url, String json) throws IOException {
+    private Response _postSyn(String url, String json) throws IOException {
         RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), json.toString());
         Request request = new Request.Builder().url(url).post(body).build();
         Call call = okHttpClient.newCall(request);
@@ -131,8 +131,14 @@ public class OkHttpClientManager {
      */
 
     public Response postAsynWithJson(String url, String json) throws IOException {
-        return getInstance()._postAsyn(url, json);
+        return getInstance()._postSyn(url, json);
     }
+
+
+    public Response postSynWithNone(String url) throws IOException {
+        return getInstance()._postSynNone(url);
+    }
+
 
 
     /**
@@ -164,12 +170,11 @@ public class OkHttpClientManager {
         logger.info("执行同步GET方法，Service传来的url为 "+ url, "Service传来的params为" + params,"Service传来的list为"+list);
         String endUrl = generateUrl(url, params);
         Headers headers = setHeaders(list);
-        return getInstance()._getAsyn(endUrl,headers);
+        return getInstance()._getSyn(endUrl,headers);
     }
 
 
     /**
-     *
      * post formdata 对外暴露的方法
      * @param url
      * @param map
@@ -214,5 +219,62 @@ public class OkHttpClientManager {
         return headers;
     }
 
+    /**
+     * 同步的put方法，后续在完善
+     * @param url
+     * @param json
+     * @return
+     * @throws IOException
+     */
+    private Response _putSyn(String url, String json) throws IOException {
+        RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), json.toString());
+        Request request = new Request.Builder().url(url).post(body).build();
+        Call call = okHttpClient.newCall(request);
+        Response response = call.execute();
+        return response;
+    }
+
+
+    /**
+     * 同步的postNone方法，后续在完善
+     * @param url
+     * @return
+     * @throws IOException
+     */
+    private Response _postSynNone(String url) throws IOException {
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = RequestBody.create(mediaType, "");
+        Request request = new Request.Builder()
+                .url(url)
+                .method("POST", body)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        Response response = call.execute();
+        return response;
+    }
+
+
 
 }
+
+
+//    OkHttpClient client = new OkHttpClient().newBuilder()
+//            .build();
+//    MediaType mediaType = MediaType.parse("application/json");
+//    RequestBody body = RequestBody.create(mediaType, "{   \n    \"id\":3,\n    \"name\":\"经销00商\",\n    \"updater\":\"11111\",\n    \"baseUrl\":\"http://www.baidu.com\"\n}");
+//    Request request = new Request.Builder()
+//            .url("http://127.0.0.1:8082/testInterface/postInterface")
+//            .method("POST", body)
+//            .addHeader("Content-Type", "application/json")
+//            .build();
+//    Response response = client.newCall(request).execute();
+
+//    OkHttpClient client = new OkHttpClient().newBuilder()
+//            .build();
+//    MediaType mediaType = MediaType.parse("text/plain");
+//    RequestBody body = RequestBody.create(mediaType, "");
+//    Request request = new Request.Builder()
+//            .url("http://127.0.0.1:8082/testInterface/postInterface")
+//            .method("POST", body)
+//            .build();
+//    Response response = client.newCall(request).execute();

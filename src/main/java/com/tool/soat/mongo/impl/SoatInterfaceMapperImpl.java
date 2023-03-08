@@ -1,8 +1,7 @@
 package com.tool.soat.mongo.impl;
+import com.alibaba.fastjson.JSON;
 import com.tool.soat.entity.SoatInterface;
-import com.tool.soat.entity.SoatProject;
 import com.tool.soat.mongo.SoatInterfaceMapper;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Component
@@ -64,5 +64,22 @@ public class SoatInterfaceMapperImpl implements SoatInterfaceMapper {
         Update update=new Update().set("run",run);
         mongoTemplate.updateFirst(query,update,SoatInterface.class);
 
+    }
+
+    @Override
+    public void updateOneInterface(Integer id, Map<String, Object> map) {
+        Query query = new Query();
+        Update update=new Update();
+        query.addCriteria(Criteria.where("_id").is(id));
+        Map<String, Object> base = (Map<String, Object>) map.get("baseData");
+        update.set("method", base.get("interfaceMethod"));
+        update.set("procotol",base.get("interfaceProtocol"));
+        update.set("name", base.get("interfaceName"));
+        update.set("path", base.get("interfacePath"));
+        update.set("params",map.get("params"));
+        update.set("body",JSON.toJSONString(map.get("body")));
+        update.set("bodyType", map.get("activeName"));
+        update.set("headers",map.get("headers"));
+        mongoTemplate.upsert(query, update, SoatInterface.class);
     }
 }

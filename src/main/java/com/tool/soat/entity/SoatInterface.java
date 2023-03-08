@@ -35,7 +35,9 @@ public class SoatInterface{
     private Boolean run;
     private List<SoatHeaders> headers;
     private Integer setId;
-    private String request_type;
+    private String postType;
+    private String bodyType;
+    private String body;
     private String author;
     private String editer;
     private Integer projectId;

@@ -28,4 +28,12 @@ public class TestInterFaceController {
         logger.info("收到的请求体"+body);
         return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
     }
+
+    @RequestMapping(value = "/getInterface",method = RequestMethod.GET)
+    public R getInterface(@RequestHeader Map<String, String> headers, @RequestParam Map<String, String> params,@RequestBody Map<String,String> body){
+        logger.info("收到的get请求参数为"+params);
+        logger.info("收到的接口请求头为"+headers);
+        logger.info("收到的请求体"+body);
+        return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
+    }
 }
