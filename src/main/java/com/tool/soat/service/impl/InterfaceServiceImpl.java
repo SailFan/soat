@@ -85,7 +85,8 @@ public class InterfaceServiceImpl implements InterfaceService {
             } else if (soatInterface.getBodyType().equals("x-xxx-form-urlencoded") ){
                 logger.info("执行post方法，参数类型为none");
             } else if (soatInterface.getBodyType().equals("form-data")){
-                logger.info("执行post方法，参数类型为none");
+                logger.info("执行post方法，参数类型为form-data");
+//                OkHttpClientManager.getInstance().postSynWithForm(url,)
             }else {
                 logger.info("暂不支持当前参数类型");
             }

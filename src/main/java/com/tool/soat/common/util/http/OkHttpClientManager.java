@@ -84,17 +84,17 @@ public class OkHttpClientManager {
      * @throws IOException
      */
     private Response _postAsynWithFormdata(String url, HashMap<String, Object> map) throws IOException {
-        MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
-        for (String key : map.keySet()){
-            body.addFormDataPart(key,(String) map.get(key));
-        }
-
-        Request requst = new Request.Builder()
+        MediaType mediaType = MediaType.parse("text/plain");
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+         for (String key : map.keySet()){
+            builder.addFormDataPart(key,(String) map.get(key));
+         }
+        MultipartBody build = builder.build();
+        Request request = new Request.Builder()
                 .url(url)
-                .post(body.build())
+                .method("POST", build)
                 .build();
-        Call call = okHttpClient.newCall(requst);
-        Response response = call.execute();
+        Response response = okHttpClient.newCall(request).execute();
         return response;
     }
 
@@ -139,6 +139,9 @@ public class OkHttpClientManager {
         return getInstance()._postSynNone(url);
     }
 
+    public Response postSynWithForm(String url,HashMap<String, Object> map) throws IOException {
+        return getInstance()._postAsynWithFormdata(url,map);
+    }
 
 
     /**
@@ -257,24 +260,5 @@ public class OkHttpClientManager {
 
 }
 
+//
 
-//    OkHttpClient client = new OkHttpClient().newBuilder()
-//            .build();
-//    MediaType mediaType = MediaType.parse("application/json");
-//    RequestBody body = RequestBody.create(mediaType, "{   \n    \"id\":3,\n    \"name\":\"经销00商\",\n    \"updater\":\"11111\",\n    \"baseUrl\":\"http://www.baidu.com\"\n}");
-//    Request request = new Request.Builder()
-//            .url("http://127.0.0.1:8082/testInterface/postInterface")
-//            .method("POST", body)
-//            .addHeader("Content-Type", "application/json")
-//            .build();
-//    Response response = client.newCall(request).execute();
-
-//    OkHttpClient client = new OkHttpClient().newBuilder()
-//            .build();
-//    MediaType mediaType = MediaType.parse("text/plain");
-//    RequestBody body = RequestBody.create(mediaType, "");
-//    Request request = new Request.Builder()
-//            .url("http://127.0.0.1:8082/testInterface/postInterface")
-//            .method("POST", body)
-//            .build();
-//    Response response = client.newCall(request).execute();
