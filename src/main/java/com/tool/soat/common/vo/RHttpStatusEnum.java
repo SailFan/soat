@@ -57,6 +57,7 @@ public enum RHttpStatusEnum {
     UPDATE_ONE_INTERFACE_FAIL(40041,"更新当前接口失败"),
     GET_DEFAULT_HEADER_FAIL(40042,"获取接口默认的请求头失败"),
     RUN_ONE_INTERFACE_FAIL(40043,"运行接口失败"),
+    DOCUMENT_OPERATION(40045,"文档操作失败"),
     RUN_DETAIL_INTERFACE_FAIL(40044,"运行接口失败"),
     SERVER_ERROR(40033,"服务器错误");
     Integer code;
