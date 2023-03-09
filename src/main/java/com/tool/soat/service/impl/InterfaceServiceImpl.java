@@ -50,6 +50,8 @@ public class InterfaceServiceImpl implements InterfaceService {
         anInterface.setRun(false);
         logger.info("(List<SoatParams>) map.get(\"params\")"+(List<SoatParams>) map.get("params"));
         anInterface.setParams((List<SoatParams>) map.get("params"));
+        anInterface.setPostforms((List<SoatParams>) map.get("extraParams"));
+        anInterface.setUforms((List<SoatParams>) map.get("extraFormList"));
         anInterface.setBody(JSON.toJSONString(map.get("body")));
         anInterface.setBodyType((String) map.get("activeName"));
         anInterface.setHeaders((List<SoatHeaders>) map.get("headers"));

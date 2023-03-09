@@ -32,6 +32,8 @@ public class SoatInterface{
     private String procotol;
     private String method;
     private List<SoatParams> params;
+    private List<SoatParams> postforms;
+    private List<SoatParams> uforms;
     private Boolean run;
     private List<SoatHeaders> headers;
     private Integer setId;
