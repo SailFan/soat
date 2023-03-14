@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +92,29 @@ public class ProjectController {
             Integer uid = Integer.parseInt( httpServletRequest.getParameter("query"));
             Integer id = Integer.parseInt(httpServletRequest.getParameter("id"));
             return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.QUERY_PROJECT_ERROR.getCode(),"",RHttpStatusEnum.QUERY_PROJECT_ERROR.getMessage());
+        }
+    }
+
+
+
+
+    @RequestMapping(value = "/setOneProject", method = RequestMethod.POST)
+    public R setOneProject(@RequestBody Map<String, Object> map) throws ParseException {
+//        try{
+            projectService.setOneProject(map);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
+//        }catch (Exception e){
+//            return new R(RHttpStatusEnum.QUERY_PROJECT_ERROR.getCode(),"",RHttpStatusEnum.QUERY_PROJECT_ERROR.getMessage());
+//        }
+    }
+
+    @RequestMapping(value = "/queryOneProject", method = RequestMethod.GET)
+    public R queryOneProject(HttpServletRequest httpServletRequest){
+        try{
+            SoatProject project = projectService.queryOneProject(Integer.parseInt(httpServletRequest.getParameter("id")));
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),project,RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
             return new R(RHttpStatusEnum.QUERY_PROJECT_ERROR.getCode(),"",RHttpStatusEnum.QUERY_PROJECT_ERROR.getMessage());
         }

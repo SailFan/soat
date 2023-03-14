@@ -1,5 +1,6 @@
 package com.tool.soat.mongo.impl;
 
+import com.mongodb.client.result.UpdateResult;
 import com.tool.soat.entity.SoatInterface;
 import com.tool.soat.mongo.SoatProjectMapper;
 import com.tool.soat.entity.SoatProject;
@@ -11,9 +12,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 @Component
@@ -64,4 +69,18 @@ public class SoatProjectMapperImpl implements SoatProjectMapper {
         SoatProject mongoTemplateOne = mongoTemplate.findOne(query, SoatProject.class);
         return mongoTemplateOne;
     }
+
+    @Override
+    public void updateOneProject(Integer id, String editProjectName, String cron, Date start, Date end) {
+        Query query = new Query();
+        Update update=new Update();
+        query.addCriteria(Criteria.where("_id").is(id));
+        update.set("projectName", editProjectName);
+        update.set("cron", cron);
+        update.set("startTime", start);
+        update.set("endTime", end);
+        UpdateResult upsert = mongoTemplate.upsert(query, update, SoatProject.class);
+    }
+
+
 }

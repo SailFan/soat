@@ -1,7 +1,5 @@
 package com.tool.soat.mongo.impl;
-import com.alibaba.fastjson.JSON;
 import com.tool.soat.entity.SoatInterface;
-import com.tool.soat.entity.SoatParams;
 import com.tool.soat.mongo.SoatInterfaceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -47,6 +45,7 @@ public class SoatInterfaceMapperImpl implements SoatInterfaceMapper {
         where.and("id").is(id);
         Query query = new Query(where);
         SoatInterface mongoTemplateOne = mongoTemplate.findOne(query, SoatInterface.class);
+        System.out.println("mongoTemplateOne"+mongoTemplateOne);
         return mongoTemplateOne;
 
     }
@@ -78,11 +77,12 @@ public class SoatInterfaceMapperImpl implements SoatInterfaceMapper {
         update.set("name", base.get("interfaceName"));
         update.set("path", base.get("interfacePath"));
         update.set("params",map.get("params"));
-        update.set("body",JSON.toJSONString(map.get("body")));
+        update.set("body",(map.get("body")));
         update.set("bodyType", map.get("activeName"));
         update.set("headers",map.get("headers"));
         update.set("extraParams", map.get("extraParams"));
         update.set("extraFormList",map.get("extraFormList"));
+        update.set("uforms",map.get("urlencoded"));
         mongoTemplate.upsert(query, update, SoatInterface.class);
     }
 }

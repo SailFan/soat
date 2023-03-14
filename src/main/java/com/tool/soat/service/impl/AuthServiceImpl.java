@@ -1,19 +1,19 @@
 package com.tool.soat.service.impl;
 
 import com.tool.soat.dao.SoatUsersMapper;
-import com.tool.soat.entity.SoatRoles;
+
 import com.tool.soat.entity.SoatUsers;
 import com.tool.soat.service.AuthService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
+
 
 import javax.annotation.Resource;
-import java.io.UnsupportedEncodingException;
+
 import java.util.List;
-import java.util.Map;
+
 
 /**
  * @Description:

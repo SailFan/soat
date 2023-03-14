@@ -1,8 +1,7 @@
 package com.tool.soat.mongo;
 
-
 import com.tool.soat.entity.SoatProject;
-
+import java.util.Date;
 import java.util.List;
 
 public interface SoatProjectMapper{
@@ -11,4 +10,5 @@ public interface SoatProjectMapper{
     List<SoatProject> queryProjectAdmin(Integer currentPage, Integer pageSize);
     void delOneProject(Integer uid,Integer id);
     SoatProject getOneSoatProject(Integer projectId);
+    void updateOneProject(Integer id, String editProjectName, String cron, Date start, Date end);
 }

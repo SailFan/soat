@@ -2,10 +2,7 @@ package com.tool.soat.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.tool.soat.common.util.http.OkHttpClientManager;
-import com.tool.soat.entity.SoatHeaders;
-import com.tool.soat.entity.SoatInterface;
-import com.tool.soat.entity.SoatParams;
-import com.tool.soat.entity.SoatProject;
+import com.tool.soat.entity.*;
 import com.tool.soat.mongo.SoatInterfaceMapper;
 import com.tool.soat.mongo.SoatProjectMapper;
 import com.tool.soat.service.InterfaceService;
@@ -48,10 +45,9 @@ public class InterfaceServiceImpl implements InterfaceService {
         anInterface.setProjectId(projectId);
         anInterface.setAuthor(nickname);
         anInterface.setRun(false);
-        logger.info("(List<SoatParams>) map.get(\"params\")"+(List<SoatParams>) map.get("params"));
         anInterface.setParams((List<SoatParams>) map.get("params"));
-        anInterface.setPostforms((List<SoatParams>) map.get("extraParams"));
-        anInterface.setUforms((List<SoatParams>) map.get("extraFormList"));
+        anInterface.setExtraParams((List<SoatFormParams>) map.get("extraParams"));
+        anInterface.setUforms((List<SoatXXXParams>) map.get("urlencoded"));
         anInterface.setBody(JSON.toJSONString(map.get("body")));
         anInterface.setBodyType((String) map.get("activeName"));
         anInterface.setHeaders((List<SoatHeaders>) map.get("headers"));
