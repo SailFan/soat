@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * @Description:
- * @Author: Sail
+ * @Author: 凡子
  * @CreateTime: 2022/6/19 23:39
  * @File: ShiroConfig
  * @Software: IntelliJIDEA

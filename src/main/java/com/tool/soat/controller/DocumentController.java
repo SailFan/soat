@@ -20,7 +20,7 @@ import java.util.Map;
 
 /**
  * @Description: 文档操作view层
- * @Author: Sail
+ * @Author: 凡子
  * @CreateTime: 2023/3/8 14:23
  * @File: Document
  * @Software: IntelliJIDEA
@@ -52,6 +52,21 @@ public class DocumentController {
             return new R(RHttpStatusEnum.DOCUMENT_OPERATION.getCode(),"",RHttpStatusEnum.DOCUMENT_OPERATION.getMessage());
         }
     }
+
+    @RequestMapping(value = "/delOneDocument", method = {RequestMethod.GET})
+    public R delOneDocument(HttpServletRequest httpServletRequest) {
+        String id = httpServletRequest.getParameter("id");
+        Integer value = Integer.valueOf(id);
+        try {
+            documentService.delOneSoatDocument(value);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.INTERFACE_DEL_FAIL.getCode(),"",RHttpStatusEnum.INTERFACE_DEL_FAIL.getMessage());
+        }
+
+    }
+
+
 
 
 

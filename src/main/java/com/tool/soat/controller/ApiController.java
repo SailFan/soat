@@ -3,7 +3,6 @@ package com.tool.soat.controller;
 import com.tool.soat.common.vo.R;
 import com.tool.soat.common.vo.RHttpStatusEnum;
 import com.tool.soat.service.ChartService;
-import com.tool.soat.service.InterfaceService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,14 +12,14 @@ import java.util.Map;
 /**
  * @Description:
  * @Author: 凡子
- * @CreateTime: 2021/8/4 11:13 下午
- * @File: IndexController
+ * @CreateTime: 2023/3/14 17:22下午
+ * @File: ApiController
  * @Software: IntelliJIDEA
  */
 
 @RestController
 @RequestMapping("/chart")
-public class ChartController {
+public class ApiController {
 
     @Resource
     ChartService chartService;

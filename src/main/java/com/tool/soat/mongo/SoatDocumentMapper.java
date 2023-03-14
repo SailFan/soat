@@ -9,5 +9,6 @@ import java.util.List;
 public interface SoatDocumentMapper {
     List<SoatDocument> queryAllDocument(String creater, Integer currentPage, Integer pageSize);
     void addOneDocument(SoatDocument soatDocument);
+    void delOneDocument(Integer id);
 
 }

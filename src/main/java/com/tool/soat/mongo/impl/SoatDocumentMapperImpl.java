@@ -37,4 +37,11 @@ public class SoatDocumentMapperImpl implements SoatDocumentMapper {
     public void addOneDocument(SoatDocument soatDocument) {
         mongoTemplate.save(soatDocument);
     }
+
+    @Override
+    public void delOneDocument(Integer id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(id));
+        mongoTemplate.remove(query,SoatDocument.class);
+    }
 }

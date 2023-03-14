@@ -4,7 +4,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 
 /**
  * @Description:
- * @Author: Sail
+ * @Author: 凡子
  * @CreateTime: 2022/6/19 13:10
  * @File: JWTToken
  * @Software: IntelliJIDEA

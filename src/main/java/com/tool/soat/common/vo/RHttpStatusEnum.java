@@ -2,7 +2,7 @@ package com.tool.soat.common.vo;
 
 /**
  * @Description:
- * @Author: Sail
+ * @Author: 凡子
  * @CreateTime: 2021/8/2 11:57 下午
  * @File: RConstants
  * @Software: IntelliJIDEA

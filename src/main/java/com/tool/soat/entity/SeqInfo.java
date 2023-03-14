@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 
 /**
  * @Description:
- * @Author: Sail
+ * @Author: 凡子
  * @CreateTime: 2022/8/23 22:49
  * @File: SeqInfo
  * @Software: IntelliJIDEA

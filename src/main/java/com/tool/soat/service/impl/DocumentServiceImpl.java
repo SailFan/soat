@@ -31,11 +31,16 @@ public class DocumentServiceImpl implements DocumentService {
     public void addDocument(Map<java.lang.String, java.lang.String> map, java.lang.String creater) {
         SoatDocument document = new SoatDocument();
         document.setDocumentName(map.get("documentName"));
-        document.setDocumentName(map.get("documentAbstract"));
+        document.setDocumentAbstract(map.get("documentAbstract"));
         document.setCreater(creater);
         document.setIsShow(true);
         document.setUpdateTime(new Date());
         document.setValue(map.get("value"));
         soatDocumentMapper.addOneDocument(document);
+    }
+
+    @Override
+    public void delOneSoatDocument(Integer id) {
+        soatDocumentMapper.delOneDocument(id);
     }
 }
