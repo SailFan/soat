@@ -82,4 +82,22 @@ public class DocumentController {
         }
 
     }
+
+    @RequestMapping(value = "/getOneDocument", method = {RequestMethod.GET})
+    public R getOneDocument(HttpServletRequest httpServletRequest) {
+        String id = httpServletRequest.getParameter("id");
+        Integer value = Integer.valueOf(id);
+        try {
+            documentService.getOneSoatDocument(value);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (Exception e){
+            return new R(RHttpStatusEnum.INTERFACE_DEL_FAIL.getCode(),"",RHttpStatusEnum.INTERFACE_DEL_FAIL.getMessage());
+        }
+
+    }
+
+
+
+
+
 }

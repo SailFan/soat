@@ -43,4 +43,10 @@ public class DocumentServiceImpl implements DocumentService {
     public void delOneSoatDocument(Integer id) {
         soatDocumentMapper.delOneDocument(id);
     }
+
+    @Override
+    public SoatDocument getOneSoatDocument(Integer id) {
+        soatDocumentMapper.getOneDocument(id);
+        return null;
+    }
 }

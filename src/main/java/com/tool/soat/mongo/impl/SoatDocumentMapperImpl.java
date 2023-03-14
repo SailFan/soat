@@ -44,4 +44,13 @@ public class SoatDocumentMapperImpl implements SoatDocumentMapper {
         query.addCriteria(Criteria.where("id").is(id));
         mongoTemplate.remove(query,SoatDocument.class);
     }
+
+    @Override
+    public SoatDocument getOneDocument(Integer id) {
+        Criteria where = new Criteria();
+        where.and("id").is(id);
+        Query query = new Query(where);
+        SoatDocument mongoTemplateOne = mongoTemplate.findOne(query, SoatDocument.class);
+        return mongoTemplateOne;
+    }
 }

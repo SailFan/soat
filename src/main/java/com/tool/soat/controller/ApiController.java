@@ -3,10 +3,11 @@ package com.tool.soat.controller;
 import com.tool.soat.common.vo.R;
 import com.tool.soat.common.vo.RHttpStatusEnum;
 import com.tool.soat.service.ChartService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -18,17 +19,19 @@ import java.util.Map;
  */
 
 @RestController
-@RequestMapping("/chart")
+@RequestMapping("/api")
 public class ApiController {
 
-    @Resource
-    ChartService chartService;
 
-    @RequestMapping("/overview")
-    public R overview(){
+
+    @PostMapping(value = "/uploadimg")
+    @ResponseBody
+    public R uploadFile(@RequestParam("file") MultipartFile file){
         try {
-            Map<String, Integer> map = chartService.homeOverview();
-            return new R(RHttpStatusEnum.SUCCESS.getCode(),map,RHttpStatusEnum.SUCCESS.getMessage());
+            System.out.println("file");
+            System.out.println(file);
+            System.out.println("file");
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
             return new R(RHttpStatusEnum.SERVER_ERROR.getCode(),"",RHttpStatusEnum.SERVER_ERROR.getMessage());
         }
