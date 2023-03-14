@@ -85,4 +85,13 @@ public class SoatInterfaceMapperImpl implements SoatInterfaceMapper {
         update.set("uforms",map.get("urlencoded"));
         mongoTemplate.upsert(query, update, SoatInterface.class);
     }
+
+    @Override
+    public long queryCount() {
+        Query query = new Query();
+        long count = mongoTemplate.count(query, SoatInterface.class);
+        return count;
+    }
+
+
 }

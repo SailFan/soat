@@ -11,4 +11,6 @@ public interface SoatProjectMapper{
     void delOneProject(Integer uid,Integer id);
     SoatProject getOneSoatProject(Integer projectId);
     void updateOneProject(Integer id, String editProjectName, String cron, Date start, Date end);
+    long queryCount();
+    long queryRunCount();
 }

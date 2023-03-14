@@ -1,6 +1,7 @@
 package com.tool.soat.mongo.impl;
 
 import com.tool.soat.entity.SoatDocument;
+import com.tool.soat.entity.SoatInterface;
 import com.tool.soat.entity.SoatProject;
 import com.tool.soat.mongo.SoatDocumentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,10 @@ public class SoatDocumentMapperImpl implements SoatDocumentMapper {
         Pageable pageable = PageRequest.of(currentPage-1,pageSize);
         List<SoatDocument> pageList = mongoTemplate.find(query.with(pageable).with(Sort.by(new Sort.Order(Sort.Direction.DESC,"upTime"))), SoatDocument.class);
         return pageList;
+    }
+
+    @Override
+    public void addOneDocument(SoatDocument soatDocument) {
+        mongoTemplate.save(soatDocument);
     }
 }

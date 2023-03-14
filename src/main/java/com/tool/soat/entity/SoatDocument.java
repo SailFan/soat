@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-import java.util.List;
+
 
 @Data
 @ToString
@@ -21,7 +21,10 @@ public class SoatDocument {
     @Id
     private int id=0;
     private String documentName;
+    private String documentAbstract;
     private String creater;
     private Boolean isShow;
+    private String value;
     private Date updateTime;
+
 }

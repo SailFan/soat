@@ -1,11 +1,9 @@
 package com.tool.soat.mongo.impl;
 
 import com.mongodb.client.result.UpdateResult;
-import com.tool.soat.entity.SoatInterface;
 import com.tool.soat.mongo.SoatProjectMapper;
 import com.tool.soat.entity.SoatProject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,10 +13,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 
 @Component
@@ -80,6 +76,21 @@ public class SoatProjectMapperImpl implements SoatProjectMapper {
         update.set("startTime", start);
         update.set("endTime", end);
         UpdateResult upsert = mongoTemplate.upsert(query, update, SoatProject.class);
+    }
+
+    @Override
+    public long queryCount() {
+        Query query = new Query();
+        long count = mongoTemplate.count(query, SoatProject.class);
+        return count;
+    }
+
+    @Override
+    public long queryRunCount() {
+        Criteria where = new Criteria();
+        where.and("run").is(true);
+        Query query = new Query(where);
+        return mongoTemplate.count(query, SoatProject.class);
     }
 
 

@@ -2,7 +2,6 @@ package com.tool.soat.mongo;
 
 
 import com.tool.soat.entity.SoatInterface;
-import org.bson.types.ObjectId;
 
 import java.util.List;
 import java.util.Map;
@@ -15,4 +14,5 @@ public interface SoatInterfaceMapper {
     void delSoatInterface(Integer id);
     void updateOneInterfaceRunStatus(Integer id,Boolean run);
     void updateOneInterface(Integer id, Map<String, Object> map);
+     long queryCount();
 }
