@@ -1,5 +1,6 @@
 package com.tool.soat.mongo.impl;
 
+import com.mongodb.client.result.UpdateResult;
 import com.tool.soat.entity.SoatDocument;
 import com.tool.soat.entity.SoatInterface;
 import com.tool.soat.entity.SoatProject;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -52,5 +54,16 @@ public class SoatDocumentMapperImpl implements SoatDocumentMapper {
         Query query = new Query(where);
         SoatDocument mongoTemplateOne = mongoTemplate.findOne(query, SoatDocument.class);
         return mongoTemplateOne;
+    }
+
+    @Override
+    public void editDocument(Integer id, String documentName, String documentAbstract, String value) {
+        Query query = new Query();
+        Update update=new Update();
+        query.addCriteria(Criteria.where("_id").is(id));
+        update.set("documentName", documentName);
+        update.set("documentAbstract", documentAbstract);
+        update.set("value", value);
+        mongoTemplate.upsert(query, update, SoatDocument.class);
     }
 }

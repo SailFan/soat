@@ -88,15 +88,24 @@ public class DocumentController {
         String id = httpServletRequest.getParameter("id");
         Integer value = Integer.valueOf(id);
         try {
-            documentService.getOneSoatDocument(value);
-            return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
+            SoatDocument soatDocument = documentService.getOneSoatDocument(value);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),soatDocument,RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
             return new R(RHttpStatusEnum.INTERFACE_DEL_FAIL.getCode(),"",RHttpStatusEnum.INTERFACE_DEL_FAIL.getMessage());
         }
 
     }
 
+    @RequestMapping(value = "/editDocument", method = {RequestMethod.POST})
+    public R editDocument(@RequestBody Map<String,Object> map) {
+//        try {
+            documentService.editDocument(map);
+            return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
+//        }catch (Exception e){
+//            return new R(RHttpStatusEnum.DOCUMENT_OPERATION.getCode(),"",RHttpStatusEnum.DOCUMENT_OPERATION.getMessage());
+//        }
 
+    }
 
 
 

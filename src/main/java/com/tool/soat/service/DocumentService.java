@@ -11,5 +11,5 @@ public interface DocumentService {
     void addDocument(Map<String,String> map, String creater);
     void delOneSoatDocument(Integer id);
     SoatDocument getOneSoatDocument(Integer id);
-
+    void editDocument(Map<String, Object> map);
 }

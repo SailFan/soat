@@ -1,4 +1,5 @@
 package com.tool.soat.mongo.impl;
+import com.alibaba.druid.util.StringUtils;
 import com.tool.soat.entity.SoatInterface;
 import com.tool.soat.mongo.SoatInterfaceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,15 +30,21 @@ public class SoatInterfaceMapperImpl implements SoatInterfaceMapper {
     }
 
     @Override
-    public List<SoatInterface> queryAllInterface(String creater, Integer currentPage, Integer pageSize,Integer projectId){
+    public Map<String, Object> queryAllInterface(String creater, Integer currentPage, Integer pageSize,Integer projectId,String name){
         Criteria where = new Criteria();
         where.and("author").is(creater);
         where.and("projectId").is(projectId);
         Query query = new Query(where);
         long count = mongoTemplate.count(query, SoatInterface.class);
         Pageable pageable = PageRequest.of(currentPage-1,pageSize);
-        List<SoatInterface> pageList = mongoTemplate.find(query.with(pageable).with(Sort.by(new Sort.Order(Sort.Direction.DESC,"upTime"))), SoatInterface.class);
-        return pageList;
+        if(!name.trim().equals("")){
+            where.and("name").is(name.trim());
+        }
+        List<SoatInterface> pageList = mongoTemplate.find(query.with(pageable).with(Sort.by(new Sort.Order(Sort.Direction.DESC,"upDate"))), SoatInterface.class);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("total", count);
+        map.put("anInterface", pageList);
+        return map;
     }
 
     @Override

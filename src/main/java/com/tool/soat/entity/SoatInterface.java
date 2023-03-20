@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class SoatInterface{
     private String bodyType;
     private String body;
     private String author;
+    private Date upDate;
     private String editer;
     private Integer projectId;
 

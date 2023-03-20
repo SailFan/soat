@@ -11,5 +11,6 @@ public interface SoatDocumentMapper {
     void addOneDocument(SoatDocument soatDocument);
     void delOneDocument(Integer id);
     SoatDocument getOneDocument(Integer id);
+    void editDocument(Integer id, String documentName,String documentAbstract,String value);
 
 }

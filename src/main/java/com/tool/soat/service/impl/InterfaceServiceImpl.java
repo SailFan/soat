@@ -7,14 +7,14 @@ import com.tool.soat.mongo.SoatInterfaceMapper;
 import com.tool.soat.mongo.SoatProjectMapper;
 import com.tool.soat.service.InterfaceService;
 import okhttp3.Response;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -26,6 +26,7 @@ public class InterfaceServiceImpl implements InterfaceService {
 
     @Autowired
     SoatInterfaceMapper soatInterfaceMapper;
+
 
 
     /**
@@ -44,6 +45,7 @@ public class InterfaceServiceImpl implements InterfaceService {
         anInterface.setPath((String) base.get("interfacePath"));
         anInterface.setProjectId(projectId);
         anInterface.setAuthor(nickname);
+        anInterface.setUpDate(new Date());
         anInterface.setRun(false);
         anInterface.setParams((List<SoatParams>) map.get("params"));
         anInterface.setExtraParams((List<SoatFormParams>) map.get("extraParams"));
@@ -56,9 +58,9 @@ public class InterfaceServiceImpl implements InterfaceService {
 
 
     @Override
-    public List<SoatInterface> getInterface(Integer currentPage, Integer pageSize, String creater,Integer projectId) {
-        List<SoatInterface> soatInterfaces = soatInterfaceMapper.queryAllInterface(creater, currentPage, pageSize,projectId);
-        return soatInterfaces;
+    public Map<String, Object> getInterface(Integer currentPage, Integer pageSize, String creater,Integer projectId,String name) {
+        Map<String, Object> map = soatInterfaceMapper.queryAllInterface(creater, currentPage, pageSize, projectId, name);
+        return map;
     }
 
     @Override
@@ -81,12 +83,32 @@ public class InterfaceServiceImpl implements InterfaceService {
                 logger.info("postNone同步方法收到的url为"+fullUrl);
                 syn = OkHttpClientManager.getInstance().postSynWithNone(fullUrl);
             } else if (soatInterface.getBodyType().equals("x-xxx-form-urlencoded") ){
-                logger.info("执行post方法，参数类型为none");
+                logger.info("执行post方法，参数类型为"+ "x-xxx-form-urlencoded");
+                StringBuffer stringBuffer = new StringBuffer();
+                String content = "";
+                for (SoatXXXParams soatXXXParams: soatInterface.getUforms()) {
+                    content = StringUtils.join(soatXXXParams.getKey(),"=", soatXXXParams.getValue(),"&");
+                    stringBuffer.append(content);
+                }
+                stringBuffer.deleteCharAt(stringBuffer.length()-1);
+                syn = OkHttpClientManager.getInstance().postAsynX_WWW_Form_Urlencoded(fullUrl,content);
+                logger.info ("x-xxx-form-urlencoded执行返回结果为"+syn);
             } else if (soatInterface.getBodyType().equals("form-data")){
                 logger.info("执行post方法，参数类型为form-data");
-//                OkHttpClientManager.getInstance().postSynWithForm(url,)
+                logger.info("执行post方法，参数类型为form-data,参数为"+ soatInterface.getExtraParams());
+                logger.info("执行post方法，参数类型为form-data，url为"+fullUrl);
+                HashMap<String, Object> map = new HashMap<>();
+                if (soatInterface.getExtraParams().size()!=0){
+                    for(SoatFormParams list: soatInterface.getExtraParams()){
+                        map.put(list.getKey(),list.getValue());
+                    }
+                    syn = OkHttpClientManager.getInstance().postSynWithForm(fullUrl, map);
+                }else {
+                    syn = OkHttpClientManager.getInstance().postSynWithForm(fullUrl, null);
+                }
+
             }else {
-                logger.info("暂不支持当前参数类型");
+                logger.info("暂时不支持");
             }
 
         }else if(soatInterface.getMethod().equals("PUT")){

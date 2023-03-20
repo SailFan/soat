@@ -1,11 +1,11 @@
 package com.tool.soat.service.impl;
 
-import com.sun.org.apache.xpath.internal.operations.String;
 import com.tool.soat.entity.SoatDocument;
 import com.tool.soat.mongo.SoatDocumentMapper;
 import com.tool.soat.mongo.SoatProjectMapper;
 import com.tool.soat.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -46,7 +46,16 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public SoatDocument getOneSoatDocument(Integer id) {
-        soatDocumentMapper.getOneDocument(id);
-        return null;
+        SoatDocument document = soatDocumentMapper.getOneDocument(id);
+        return document;
+    }
+
+    @Override
+    public void editDocument(Map<String, Object> map) {
+        Integer id =Integer.valueOf((String) map.get("id"));
+        String documentName = (String) map.get("documentName");
+        String documentAbstract  = (String) map.get("documentAbstract");
+        String value = (String) map.get("value");
+        soatDocumentMapper.editDocument(id,documentName,documentAbstract,value);
     }
 }

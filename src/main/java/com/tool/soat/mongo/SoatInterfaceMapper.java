@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface SoatInterfaceMapper {
     void addOneInterface(SoatInterface soatInterface);
-    List<SoatInterface> queryAllInterface(String creater, Integer currentPage, Integer pageSize,Integer projectId);
+    Map<String, Object> queryAllInterface(String creater, Integer currentPage, Integer pageSize,Integer projectId,String name);
     SoatInterface queryOneInterface(Integer id);
     void delSoatInterface(Integer id);
     void updateOneInterfaceRunStatus(Integer id,Boolean run);

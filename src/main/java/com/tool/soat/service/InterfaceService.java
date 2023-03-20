@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface InterfaceService {
     void addInterfacce(Map<String,Object> map,String nickname,Integer projectId);
-    List<SoatInterface> getInterface(Integer currentPage, Integer pageSize, String creater,Integer projectId);
+    Map<String, Object> getInterface(Integer currentPage, Integer pageSize, String creater,Integer projectId,String name);
     Response runOneInterface(Integer id,Integer projectId) throws IOException;
     SoatInterface getOneSoatInterface(Integer id);
     void delOneSoatInterface(Integer id);

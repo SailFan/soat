@@ -36,4 +36,19 @@ public class TestInterFaceController {
         logger.info("收到的请求体"+body);
         return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
     }
+
+
+    @RequestMapping(value = "/postformdataInterface",method = RequestMethod.POST)
+    public R postformdataInterface(@RequestParam("id") String id,
+                                   @RequestParam("name") Integer name){
+        logger.info("收到的get请求参数为"+id);
+        logger.info("收到的接口请求头为"+name);
+        return new R(RHttpStatusEnum.SUCCESS.getCode(),"",RHttpStatusEnum.SUCCESS.getMessage());
+    }
+
+    @RequestMapping(value = "/xxxInterface",method = RequestMethod.POST)
+    public R xxxInterface(HttpServletRequest httpServletRequest){
+        logger.info("收到的接口Map"+httpServletRequest.getParameter("id"));
+        return new R(RHttpStatusEnum.SUCCESS.getCode(),"xixi",RHttpStatusEnum.SUCCESS.getMessage());
+    }
 }

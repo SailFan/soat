@@ -40,8 +40,7 @@ public class InterfaceController {
     @Resource
     InterfaceService interfaceService;
 
-    @Resource
-    ProjectService projectService;
+
 
     @Resource
     AuthService authService;
@@ -70,21 +69,20 @@ public class InterfaceController {
         }
 
     }
-//    {interfaceName=1111, interfaceProtocol=http, interfacePath=/get, interfaceMethod=GET}
+
 
     @GetMapping("/getAllInterface")
     public R getAllInterface(HttpServletRequest httpServletRequest) {
         try {
         String email = SoatJWTUtil.getEmail(httpServletRequest.getHeader("Authorization"));
+        String name = httpServletRequest.getParameter("query");
         SoatUsers users = authService.queryEmail(email);
         Integer pageSize = new Integer(httpServletRequest.getParameter("pageSize"));
         Integer currentPage = new Integer(httpServletRequest.getParameter("currentPage"));
         Integer projectId = new Integer(httpServletRequest.getParameter("projectId"));
-        List<SoatInterface> anInterface = interfaceService.getInterface(currentPage, pageSize, users.getNickname(),projectId);
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("total", anInterface.size());
-        map.put("anInterface", anInterface);
-        return new R(RHttpStatusEnum.SUCCESS.getCode(),map,RHttpStatusEnum.SUCCESS.getMessage());
+        Map<String, Object> anInterface = interfaceService.getInterface(currentPage, pageSize, users.getNickname(), projectId, name);
+        logger.info("查询所有接口，返回的结果为"+anInterface);
+        return new R(RHttpStatusEnum.SUCCESS.getCode(),anInterface,RHttpStatusEnum.SUCCESS.getMessage());
         }catch (Exception e){
             return new R(RHttpStatusEnum.INTERFACE_LIST_FAIL.getCode(),"",RHttpStatusEnum.INTERFACE_LIST_FAIL.getMessage());
         }
@@ -106,12 +104,16 @@ public class InterfaceController {
             }else {
                 interfaceService.UpdateInterface(value,true);
             }
-
+            logger.info("运行接口返回的response为"+response);
             return new R(RHttpStatusEnum.SUCCESS.getCode(),map,RHttpStatusEnum.SUCCESS.getMessage());
         }catch (UnknownHostException e){
             map.put("response","当前地址有错误，请检查");
             return new R(RHttpStatusEnum.SUCCESS.getCode(),map,RHttpStatusEnum.SUCCESS.getMessage());
+        }catch (IllegalStateException e){
+            map.put("response","Multipart body must have at least one part");
+        return new R(RHttpStatusEnum.SUCCESS.getCode(),map,RHttpStatusEnum.SUCCESS.getMessage());
         }
+
 
     }
 

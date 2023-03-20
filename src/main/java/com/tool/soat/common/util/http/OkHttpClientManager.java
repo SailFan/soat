@@ -86,9 +86,11 @@ public class OkHttpClientManager {
     private Response _postAsynWithFormdata(String url, HashMap<String, Object> map) throws IOException {
         MediaType mediaType = MediaType.parse("text/plain");
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-         for (String key : map.keySet()){
-            builder.addFormDataPart(key,(String) map.get(key));
-         }
+        if (map!=null){
+            for (String key : map.keySet()){
+                builder.addFormDataPart(key,(String) map.get(key));
+            }
+        }
         MultipartBody build = builder.build();
         Request request = new Request.Builder()
                 .url(url)
@@ -99,25 +101,6 @@ public class OkHttpClientManager {
     }
 
 
-    /***
-     * X_WWW_Form_Urlencoded格式私有post方法，同步方法
-     * @param url
-     * @param content
-     * @return
-     * @throws IOException
-     */
-    private Response _postAsynX_WWW_Form_Urlencoded(String url, String content) throws IOException {
-
-        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        RequestBody body = RequestBody.create(mediaType, content);
-        Request request = new Request.Builder()
-                .url(url)
-                .method("POST", body)
-                .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .build();
-        Response response = okHttpClient.newCall(request).execute();
-        return response;
-    }
 
 
 
@@ -153,9 +136,17 @@ public class OkHttpClientManager {
      * @throws IOException
      */
 
-    public Response postAsynX_WWW_Form_Urlencoded(String url, HashMap<String,Object> map) throws IOException {
-        String content = "key1=value2&key2=value2&key3=value3";
-        return getInstance()._postAsynX_WWW_Form_Urlencoded(url, content);
+    public Response postAsynX_WWW_Form_Urlencoded(String url, String content) throws IOException {
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        RequestBody body = RequestBody.create(mediaType, content);
+        Request request = new Request.Builder()
+                .url(url)
+                .method("POST", body)
+                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                .build();
+        Call call = okHttpClient.newCall(request);
+        Response response = call.execute();
+        return response;
     }
 
 
@@ -177,17 +168,6 @@ public class OkHttpClientManager {
     }
 
 
-    /**
-     * post formdata 对外暴露的方法
-     * @param url
-     * @param map
-     * @return
-     * @throws IOException
-     */
-
-    public Response postAsynWithFormdata(String url,LinkedHashMap<String,Object> map) throws IOException {
-        return getInstance()._postAsynWithFormdata(url,map);
-    }
 
 
     /**
@@ -260,5 +240,4 @@ public class OkHttpClientManager {
 
 }
 
-//
 
